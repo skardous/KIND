@@ -1,0 +1,28 @@
+.date_template {
+    display: none;
+}
+
+a:hover {
+	cursor: pointer;
+}
+
+
+
+.delIcon {
+	height: 15px;    
+    width: 15px;
+	float: left;
+    margin: 3px 8px 0 0;
+    background: url("../images/recycle_bin.png");
+    cursor: pointer;
+}
+
+.styleDates {
+	width: 15%;
+	text-align: center;
+	
+	}
+	
+.hidden {
+    display: none;
+}

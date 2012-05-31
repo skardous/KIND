@@ -1,0 +1,78 @@
+@(events: List[Evenement])
+
+@import helper._
+
+@main("Creer un evenement") {
+    
+    <h1>@events.size() evenement(s)</h1>
+    
+  
+    <ul>
+        @for(e <- events) {
+            <li>
+                @e.titre &nbsp;&nbsp; <br/>par:       
+                @e.createur &nbsp;&nbsp; <br/>
+                <i>@e.descriptif</i>&nbsp;<br/><br/>
+                <div class="styleDates" >
+                Dates propos&eacute;es: <br/>
+                
+                <input type="hidden" id="hiddenDates@e.id" value="@e.dates">
+                <input type="hidden" id="hiddenHeures@e.id" value="@e.heures">
+                <input type="hidden" id="identifiants" value="@e.id">
+                <img id="image" src="@routes.Assets.at("images/calendar.png")"/>
+                @*<ul  name id="@e.id">@e.dates</ul>  *@
+                Dates : <ul id="datesHeures@e.id"></ul> <br/>
+                </div>         
+                
+                Participants:<br/>
+                @if(e.participants.size > 0) {
+	                <ul>
+	                @e.participants.map { personne =>
+	                    <li><i class="icon-user"></i>&nbsp;@personne.nom</li>
+	                }
+	            	</ul>
+            	} 
+            	@if(e.participants == null) {
+            		@e.createur
+            		}
+                
+                 <!-- @** <input type="submit" action="@routes.Application.edit(e.id)" value="Editer evenement">   *@  -->
+                 <a href="@routes.Application.edit(e.id)">Editer evenement</a>         	
+                
+                
+                @form(routes.Application.deleteEvent(e.id)) {
+                    <input type="submit" value="Supprimer evenement">
+                }
+            </li>
+        }
+    </ul>
+    
+    <script type="text/javascript" charset="utf-8">
+    	$(function() {
+    		var nbElem = "@events.size";
+    		for (i=1; i<=nbElem; i++) {    		
+	    	 	var datesArray = ($("#hiddenDates"+i+"").attr("value")).split(',');
+	    	 	var heuresArray = ($("#hiddenHeures"+i+"").attr("value")).split(',');
+	    	 	for (val in datesArray) {
+				 current = new Date(datesArray[val]);
+				 currentStr = current.toLocaleString();
+				 $("#datesHeures"+i+"").append("<li>"+currentStr.substring(0,currentStr.length-8)+" Horaires: "+heuresArray[val]+"</li>");
+				}
+			}
+			
+			var txt2="";
+//pour chaque textarea, on déclenche une fonction qui parcours l'objet textearea
+$('#identifiants').each(function(index, element){
+//on stocke les éléments récupéré dans notre chaine de caractères
+txt2+="["+index+"]="+$(element).val()+"\n";
+});
+//on affiche le résultat sous forme d'alerte
+alert(txt2);
+    	 	
+    	 	
+    		//$("#datesHeures").html("<li>"++"</li>");
+    		
+    	});
+    
+    </script>
+}

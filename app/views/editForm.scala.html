@@ -1,0 +1,150 @@
+@(id: Long, eventForm: Form[Evenement], event: Evenement)
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) } 
+
+@partiField(field: Field, className: String = "part") = {
+	@input(field, '_label -> "Participants", '_class -> className) { (id, name, value, _) =>
+	<input type="text" name="@name" value="@value"> 
+	<a class="removeParti btn danger">Remove</a>
+	}
+}
+
+@main("Editer un evenement") {
+
+	<h1>Participants pour: @event.getTitre</h1><br/>
+
+	@form(routes.Application.update(id), 'id -> "form") {
+			Titre de l'&eacute;venement : <b>@event.getTitre</b> <br/>
+			Cr&eacute;ateur : <b>@event.getCreateur</b> <br/>
+			Description : <i>@event.getDescriptif</i> <br/>			
+	}
+
+<div id="Participants">
+
+@for(participant <- event.participants) {
+	<div class="control-group">
+		@form(routes.Application.updatePersonne(id), 'id->"formPersonne") {
+			<input id="nom" type="text" value="@participant.getNom()" name="nom" readonly="readonly">
+		
+			<a id="@participant.getId()" class="editPersonne btn"><i class="icon-pencil"></i></a>
+			<a id="@participant.getId()" class="deletePersonne btn btn-danger"><i class="icon-trash"></i></a>
+		}
+	</div>
+}
+
+</div>
+Ajouter :		  
+<input id="champ" type="text" value="">
+
+<script type="text/javascript" charset="utf-8">
+
+$('.deletePersonne').live('click', function(e) {
+    $(this).parents('.formPersonne').remove()
+    renumber();
+   
+    deletePersonne($(this).attr('id'));
+})
+
+$('.editPersonne').live('click', function(e) {
+    if($(this).html() == "<i class=\"icon-pencil\"></i>")  {
+      $(this).html("OK");
+      $(this).attr("class", "editPersonne btn btn-success");
+      $(this).siblings("input").removeAttr("readonly");
+    } else {
+      $(this).html("<i class=\"icon-pencil\"></i>");
+      $(this).attr("class", "editPersonne btn");
+      $(this).siblings("input").attr("readonly", "readonly");
+      renumber();      
+      editPersonne($(this).attr('id'), $(this).siblings("input").attr("value"));
+    }
+  
+})
+
+
+$("#champ").focusout(function(){
+    var vide = "";
+    var nom = $(this).attr("value");
+    if (vide != nom.trim()) {      
+		addPersonne($("#champ").attr('value'));	
+		alert("Ajout\351: "+$("#champ").attr('value'));
+	}
+})
+
+function editPersonne(personneId, personneNom)
+{
+  $.ajax({
+		type: "POST",
+		url: "@routes.Application.updatePersonne(id)",
+		data: '{"id" : "' + personneId + '", "nom" : "' + personneNom + '"}',
+		contentType: "application/json",
+		success : function(data) {
+		  alert("Participant edit\351");
+		}
+  });
+}
+
+function deletePersonne(persId)
+{
+  $.ajax({
+		type: "POST",
+		url: "@routes.Application.deleteParticipant(id)",
+		data: '{"id" : "' + persId + '"}',
+		contentType: "application/json",
+		success : function(data) {
+		  alert("Participant supprim\351");
+		}
+  });
+}
+
+function addPersonne(nomParticipant)
+{	
+	$.ajax({
+		type: "POST",
+		url: "@routes.Application.addParticipant(id)",
+		data: '{"nom" : "' + nomParticipant + '"}',
+		contentType: "application/json",
+		success : function(data) {
+		  var template = $('#Participants');
+		  template.append("<div class=\"formPersonne\">"+
+				  "<form id=\"formPersonne\">"+
+				  "<input id=\"nom\" type=\"text\" value=\""+nomParticipant+"\" name=\"nom\" readonly=\"readonly\">&nbsp;"+
+				  "<a id=\"\" class=\"editPersonne btn\"><i class=\"icon-pencil\"></i></a>&nbsp;"+
+				  "<a id=\"\" class=\"deletePersonne btn btn-danger\"><i class=\"icon-trash\"></i></a>"+				  
+				  "</form>"+
+				  "</div>")
+		  $('#champ').attr('value', '')
+		}               
+	});
+}
+
+
+$('#form').submit(function() {
+	$('.hidden').remove()
+
+})
+
+// -- renumber fields
+
+// Rename fields to have a coherent payload like:
+//
+// informations[0].label
+// informations[0].email
+// informations[0].phones[0]
+// informations[0].phones[1]
+// ...
+//
+// This is probably not the easiest way to do it. A jQuery plugin would help.
+
+var renumber = function() {
+	$('.participants').each(function(i) {
+		$('input', this).each(function() {
+			$(this).attr('name', $(this).attr('name').replace(/participants\[.+?\]/g, 'participants[' + i + ']'))
+		})                
+	})
+}
+
+</script>
+
+}
