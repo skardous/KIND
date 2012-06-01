@@ -23,40 +23,6 @@
         @textarea(eventForm("descriptif"), 'rows->6)
         @inputText(eventForm("createur"))
         @inputText(eventForm("mail"))
-
-      
-        <label class="control-label">Date</label> <div class="controls" id="date"></div> 
-        
-       
-		<select class="test" id="99" name="teste">
-			<option>test</option>
-			<option>test2</option>
-		</select>
-		
-   		<ul class="controls" id="altField"> </ul>
-   		
-   		
-		
-		
-   		
-   		<!-- @** @input(field, '_label -> "Dates selectionnees", '_class -> className) { (id, name, value, _) =>
-        	<input type="hidden" name="@name" value="@value">         	
-    	}*@-->
-    	
-    	@input(eventForm("dates"), '_label -> "") { (id, name, value, args) =>
-		    <input type="hidden" name="@name" id="myDates" @toHtmlArgs(args)>
-		}
-		
-		@input(eventForm("heures"), '_label -> "") { (id, name, value, args) =>
-		    <input type="hidden" name="@name" id="myHours" @toHtmlArgs(args)>
-		}
-		
-
-		<!--  @inputText(eventForm("hdebut"), '_label -> "Debut") h 
-		@inputText(eventForm("mdebut"), '_label -> "")	      
-        
-        @inputText(eventForm("hfin")) h 
-        @inputText(eventForm("mfin"))-->
         
         <input type="submit" value="Create">
         

@@ -53,6 +53,10 @@ public class Evenement extends Model {
 	@Valid
 	@ManyToMany
 	public List<Personne> participants = new ArrayList<Personne>();
+	
+	@Valid
+	@ManyToMany
+	public List<Jour> jours = new ArrayList<Jour>();
 
 	// @Formats.DateTime(pattern="MM/dd/yyyy")
 	// public Date date;
@@ -94,6 +98,13 @@ public class Evenement extends Model {
 		evt.update(id);
 		Ebean.saveManyToManyAssociations(evt, "participants");
 	}
+	
+	public static void addJour(Evenement evt, Long id, String date) {
+		evt.jours.add(new Jour(date));
+		evt.jours.get(evt.jours.size() - 1).save();
+		evt.update(id);
+		Ebean.saveManyToManyAssociations(evt, "jours");
+	}
 
 	public static void updateElement(Evenement evt, Long id) {
 
@@ -130,6 +141,26 @@ public class Evenement extends Model {
 	public static void delete(Long id) {
 		findEvt.ref(id).delete();
 
+	}
+
+	public static void updateDate(Long idevt, String date, String debut,
+			String fin) {
+		Evenement e = Evenement.findEvt.ref(idevt);
+		for (Jour j : e.jours) {
+			if (j.date.equals(date)) {
+				j.horaires.add(new Horaire(debut, fin));
+				for (Horaire h : j.horaires) {
+					h.save();
+				}
+				j.saveManyToManyAssociations("horaires");
+			}
+			j.save();
+		}
+				
+		e.update(idevt);
+		
+		e.saveManyToManyAssociations("jours");
+		
 	}
 
 }

@@ -15,11 +15,11 @@
 
 	<h1>Participants pour: @event.getTitre</h1><br/>
 
-	@form(routes.Application.update(id), 'id -> "form") {
+	
 			Titre de l'&eacute;venement : <b>@event.getTitre</b> <br/>
 			Cr&eacute;ateur : <b>@event.getCreateur</b> <br/>
 			Description : <i>@event.getDescriptif</i> <br/>			
-	}
+	
 
 <div id="Participants">
 
@@ -41,7 +41,7 @@ Ajouter :
 <script type="text/javascript" charset="utf-8">
 
 $('.deletePersonne').live('click', function(e) {
-    $(this).parents('.formPersonne').remove()
+    $(this).parents('#formPersonne').remove()
     renumber();
    
     deletePersonne($(this).attr('id'));

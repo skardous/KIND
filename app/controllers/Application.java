@@ -43,10 +43,20 @@ public class Application extends Controller {
 					filledForm));
 		} else {
 			Evenement.create(filledForm.get());
-			return redirect(routes.Application.events());
+			System.out.println(filledForm.get().id);
+			return redirect(routes.Application.dateSelection(filledForm.get().id));
 		}
 	}
 
+	
+	public static Result dateSelection(Long id) {
+		Form<Evenement> evenementForm = form(Evenement.class).fill(
+				Evenement.findEvt.byId(id));
+		Evenement created = evenementForm.get();
+		return ok(dateselection.render(id, evenementForm, created));
+	}
+	
+	
 	// action d'affichage du formulaire d'edition d'evt
 	public static Result edit(Long id) {
 		Form<Evenement> evenementForm = form(Evenement.class).fill(
@@ -91,6 +101,30 @@ public class Application extends Controller {
 		Evenement.addPersonne(evenement, id, name);
 		return redirect(routes.Application.eventlist());
 
+	}
+	
+	@BodyParser.Of(BodyParser.Json.class)
+	public static Result addDate(Long id) {
+		JsonNode json = request().body().asJson();
+		String date = json.findPath("date").getTextValue();
+
+		Evenement evenement = Evenement.findEvt.byId(id);
+		System.out.println("titre: " + evenement.titre);
+		Evenement.addJour(evenement, id, date);
+		return redirect(routes.Application.eventlist());
+
+	}
+	
+	@BodyParser.Of(BodyParser.Json.class)
+	public static Result dateChanged(Long idevt) {
+		JsonNode json = request().body().asJson();
+		String date = json.findPath("date").getTextValue();
+		String debut = json.findPath("debut").getTextValue();
+		String fin = json.findPath("fin").getTextValue();
+		
+
+		Evenement.updateDate(idevt, date, debut, fin);
+		return redirect(routes.Application.eventlist());
 	}
 
 	public static Result deleteEvent(Long id) {

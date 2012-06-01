@@ -1,0 +1,105 @@
+@(id: Long, eventForm: Form[Evenement], event: Evenement)
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) } 
+
+@dateField(field: Field, className: String = "date") = {
+    @input(field, '_label -> "Dates selectionnees", '_class -> className) { (id, name, value, _) =>
+        <input type="text" name="@name" value="@value"> 
+        <a class="removeDate btn danger">Remove</a>
+    }
+}
+
+@main("Creer un evenement") {
+    
+    <h2>Selectionner les dates/horaires:</h2>
+    
+    @form(action = routes.Application.newEvent(), args = 'class -> "form-horizontal") {         
+
+      <div class="control-group"><label class="control-label">TITRE:&nbsp;</label> @event.getTitre </div>  <br>  
+      
+        <label class="control-label">Date</label> <div class="controls" id="date"></div> 
+               	
+		
+   		<ul class="controls" id="altField"> </ul> 
+
+    	montruc: <br><br>
+    	<ul class="areload">
+           
+       </ul>  			
+   		
+   		
+    	
+    	@input(eventForm("dates"), '_label -> "") { (id, name, value, args) =>
+		    <input type="hidden" name="@name" id="myDates" @toHtmlArgs(args)>
+		}
+		
+		@input(eventForm("heures"), '_label -> "") { (id, name, value, args) =>
+		    <input type="hidden" name="@name" id="myHours" @toHtmlArgs(args)>
+		}
+				
+        
+        <input type="submit" value="Create">
+        
+    }
+    
+	<script type="text/javascript" charset="utf-8">
+	$(function(){
+		$( "#date" ).multiDatesPicker();
+		
+		$("#date").multiDatesPicker({
+	   		onSelect: function(dateText) {
+	   		  	$(".areload").html("");
+	   			$(".areload").html(
+	   			    "@for(jour <- event.jours) {"+
+        	   "<li>@jour.date &nbsp;"+
+           		"</li>}"
+	   			    );
+	   			$.ajax({
+					type: "POST",
+					url: "@routes.Application.addDate(id)",
+					data: '{"date" : "' + dateText + '"}',
+					contentType: "application/json",
+					success : function(data) {
+					  afficheDates();
+					}               
+				});		
+	    	}
+		}); 
+	});
+
+
+	$('#hrDeb, #minDeb, #hrFin, #minFin').live('change', function(e) {
+		/* var string = $(this).parent().children('#hrDeb').val()+"h"+$(this).parent().children('#minDeb').val()+" - "+
+		$(this).parent().children('#hrFin').val()+"h"+$(this).parent().children('#minFin').val();
+		var rang = $(this).siblings("a").attr('id');	
+		heuresList[rang] = string;	
+		$("#myHours").attr('value', heuresList);*/
+	  
+	  //alert($(this).parent().attr("id"));
+	  var debut = $(this).parent().children('#hrDeb').val()+"h"+$(this).parent().children('#minDeb').val();
+	    var fin = $(this).parent().children('#hrFin').val()+"h"+$(this).parent().children('#minFin').val();
+	   var date = $(this).parent().attr("id");
+	  
+	    	$.ajax({
+				type: "POST",
+				url: "@routes.Application.dateChanged(id)",
+				data: '{"date" : "' + date + '",'+ 
+				  		'"debut" : "' + debut + '",'+
+				  		'"fin" : "' + fin + '"}',
+				contentType: "application/json",
+				success : function(data) {
+					  alert("ok");
+				}               
+			});
+		
+		
+		
+			
+	});
+
+	</script>
+    
+    
+}

@@ -27,7 +27,7 @@ function afficheDates() {
 	
 	$("#altField").html("");
 	for (val in datesList) {
-		$("#altField").append("<li>"+ 
+		$("#altField").append("<li id=\""+datesList[val]+"\">"+ 
 		"<a class=\"linkDate\" id=\""+val+"\" name=\""+datesList[val]+"\">"+
 		"<i class=\"icon-trash\"></i>&nbsp;"+
 		"</a>"+datesList[val]+
@@ -36,7 +36,8 @@ function afficheDates() {
 		"<select id=\"minDeb\">"+optionsMinutes+"</select>"+
 		" Fin :<select id=\"hrFin\">"+optionsHeures+"</select>"+
 		"h"+
-		"<select id=\"minFin\">"+optionsMinutes+"</select>");
+		"<select id=\"minFin\">"+optionsMinutes+"</select></li>");
+		
 		$("#myDates").attr('value', datesList);
 		
 	}	
@@ -48,19 +49,8 @@ $('.linkDate').live('click', function(e) {
    afficheDates(); //actualise la liste en dessous du datepicker
 });
 
-$('#hrDeb, #minDeb, #hrFin, #minFin').live('change', function(e) {
-	var string = $(this).parent().children('#hrDeb').val()+"h"+$(this).parent().children('#minDeb').val()+" - "+
-	$(this).parent().children('#hrFin').val()+"h"+$(this).parent().children('#minFin').val();
-	var rang = $(this).siblings("a").attr('id');
-	
-	
-	heuresList[rang] = string;
-	
-	alert(heuresList);
-	$("#myHours").attr('value', heuresList);
-	
-		
-});
+
+
 
 
 function prettifyDates(id){	
@@ -80,17 +70,7 @@ function prettifyDates(id){
 }
 
 
-$(function(){
-	$( "#date" ).multiDatesPicker();
-	
-	$("#date").multiDatesPicker({
-   		onSelect: function(dateText) {
-			afficheDates()
-    }
-}); 
 
-
-});
 
 
 
