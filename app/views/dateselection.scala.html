@@ -45,6 +45,26 @@
     }
     
 	<script type="text/javascript" charset="utf-8">
+
+		var optionsHeures = "";
+		var optionsMinutes = "";
+		var heuresList = new Array();
+		for (i=0;i<24;i++) {
+			if (i < 10) {
+				optionsHeures = optionsHeures+"<option value=\""+"0"+i+"\">"+"0"+i+"</option>";
+			} else {
+				optionsHeures = optionsHeures+"<option value=\""+i+"\">"+i+"</option>";
+			}
+		}
+		
+		for (j=0;j<60;j+=15) {
+			if (j < 10) {
+				optionsMinutes = optionsMinutes+"<option value=\""+"0"+j+"\">"+"0"+j+"</option>";
+			} else {
+				optionsMinutes = optionsMinutes+"<option value=\""+j+"\">"+j+"</option>";
+			}
+		}
+
 	$(function(){
 		$( "#date" ).multiDatesPicker();
 		
@@ -62,13 +82,28 @@
 					data: '{"date" : "' + dateText + '"}',
 					contentType: "application/json",
 					success : function(data) {
-					  afficheDates();
+					  ajouterDate(dateText);
 					}               
 				});		
 	    	}
 		}); 
 	});
-
+	
+	function ajouterDate(dateText) {
+			$("#altField").append("<li id=\""+dateText+"\">"+ 
+		"<a class=\"linkDate\" name=\""+dateText+"\">"+
+		"<i class=\"icon-trash\"></i>&nbsp;"+
+		"</a>"+dateText+
+		" &nbsp; <br>&nbsp; Debut :<select id=\"hrDeb\">"+optionsHeures+"</select>"+
+		"h"+
+		"<select id=\"minDeb\">"+optionsMinutes+"</select>"+
+		" Fin :<select id=\"hrFin\">"+optionsHeures+"</select>"+
+		"h"+
+		"<select id=\"minFin\">"+optionsMinutes+"</select>"+
+		"<a class=\"linkPlus\" >"+
+		"<i class=\"icon-plus\"></i></a>"+
+		"</li>");
+	}	
 
 	$('#hrDeb, #minDeb, #hrFin, #minFin').live('change', function(e) {
 		/* var string = $(this).parent().children('#hrDeb').val()+"h"+$(this).parent().children('#minDeb').val()+" - "+
@@ -90,7 +125,7 @@
 				  		'"fin" : "' + fin + '"}',
 				contentType: "application/json",
 				success : function(data) {
-					  alert("ok");
+					  
 				}               
 			});
 		
