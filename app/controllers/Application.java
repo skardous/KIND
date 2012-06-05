@@ -105,8 +105,10 @@ public class Application extends Controller {
 
 		Evenement evenement = Evenement.findEvt.byId(id);
 		System.out.println("titre: " + evenement.titre);
-		Evenement.addPersonne(evenement, id, name);
-		return redirect(routes.Application.eventlist());
+		Long retId = Evenement.addPersonne(evenement, id, name);
+		ObjectNode result = Json.newObject();
+		result.put("idPersonne",""+retId+"");
+		return ok(result);
 
 	}
 	
@@ -186,5 +188,21 @@ public class Application extends Controller {
 
 		Evenement.removeParticipant(idevt, idparti);
 		return redirect(routes.Application.eventlist());
+	}
+	
+	@BodyParser.Of(BodyParser.Json.class)
+	public static Result checkBox(Long id) {
+		JsonNode json = request().body().asJson();
+		String horaire = json.findPath("idhoraire").getTextValue();
+		Long idhoraire = Long.valueOf(horaire);
+		String personne = json.findPath("idpersonne").getTextValue();
+		Long idpersonne = Long.valueOf(personne);
+
+		Evenement evenement = Evenement.findEvt.byId(id);
+		System.out.println("titre: " + evenement.titre);
+		Personne.addChoix(idpersonne, idhoraire);
+		
+		return ok();
+
 	}
 }

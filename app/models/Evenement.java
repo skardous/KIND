@@ -2,6 +2,7 @@ package models;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
@@ -96,11 +97,14 @@ public class Evenement extends Model {
 		evt.save();
 	}
 
-	public static void addPersonne(Evenement evt, Long id, String name) {
-		evt.participants.add(new Personne(name));
-		evt.participants.get(evt.participants.size() - 1).save();
+	public static Long addPersonne(Evenement evt, Long id, String name) {
+		Personne p = new Personne(name);
+		evt.participants.add(p);
+		p.save();
+		
 		evt.update(id);
 		Ebean.saveManyToManyAssociations(evt, "participants");
+		return p.getId();
 	}
 	
 	public static void addJour(Evenement evt, Long id, String date) {
@@ -168,21 +172,31 @@ public class Evenement extends Model {
 
 	public static void delete(Long id) {
 		Evenement e = findEvt.ref(id);
+		
+		List<Jour> tempJour = new ArrayList<Jour>();
+		List<Horaire> tempHoraire = new ArrayList<Horaire>();
+		List<Personne> tempPersonne = new ArrayList<Personne>();
+		
+		//e.jours.clear();
+		
+		//e.saveManyToManyAssociations("jours");
 		for (Jour j : e.jours) {
-			for (Horaire h : j.horaires) {
-				j.horaires.remove(h);
-				h.save();
-				h.delete();
-				
-			}
-			j.saveManyToManyAssociations("horaires");
-			e.jours.remove(j);
-			j.save();
-			j.delete();
-			
+			tempJour.add(j);			
+		}	
+		for (Jour jr : tempJour) {
+			e.jours.remove(jr);			
+			e.saveManyToManyAssociations("jours");			
 		}
 		
-		e.saveManyToManyAssociations("jours");
+		for (Personne p : e.participants) {
+			tempPersonne.add(p);			
+		}	
+		for (Personne p : tempPersonne) {
+			e.participants.remove(p);			
+			e.saveManyToManyAssociations("participants");
+			p.delete();
+		}
+		
 		e.delete();
 
 	}

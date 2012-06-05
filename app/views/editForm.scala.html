@@ -21,18 +21,37 @@
 			Description : <i>@event.getDescriptif</i> <br/>			
 	
 
-<div id="Participants">
 
+
+<table cellspacing="5" cellpadding="5">
+<tbody>
+<tr class="titres"><td></td>
+@for(jour <- event.jours) {  
+            @for(horaire <- jour.horaires) {
+              <td><p><b>@jour.date</b><br> @horaire.debut - @horaire.fin</p></td>
+            }            	                
+}	</tr>
+              
+<div id="Participants">
 @for(participant <- event.participants) {
-	<div class="control-group">
+	<tr id="@participant.getId()"><td class="infoPersonne">
 		@form(routes.Application.updatePersonne(id), 'id->"formPersonne") {
 			<input id="nom" type="text" value="@participant.getNom()" name="nom" readonly="readonly">
 		
 			<a id="@participant.getId()" class="editPersonne btn"><i class="icon-pencil"></i></a>
 			<a id="@participant.getId()" class="deletePersonne btn btn-danger"><i class="icon-trash"></i></a>
-		}
-	</div>
+		}</td>
+		
+		@for(jour <- event.jours) {  
+            @for(horaire <- jour.horaires) {
+              <td><input id="@horaire.id" type="checkbox" value="@horaire.debut - @horaire.fin" /></td>
+            }            	                
+        }		
+		
+	</tr>
 }
+</tbody>
+</table>
 
 </div>
 Ajouter :		  
@@ -61,6 +80,28 @@ $('.editPersonne').live('click', function(e) {
     }
   
 })
+
+$('input[type="checkbox"]').live('click', function(e) { 
+   //alert("aha");
+   var idhoraire = $(this).attr('id');
+   var idParticipant = $(this).parent().parent().attr('id');
+  
+   if ($(this).is(':checked')){
+	   $(this).parent().css("background-color", "#66CC99")//vert	
+	   $.ajax({
+			type: "POST",
+			url: "@routes.Application.checkBox(id)",
+			data: '{"idhoraire" : "' + idhoraire + '", "idpersonne" : "' + idParticipant + '"}',
+			contentType: "application/json",
+			success : function(data) {
+			  alert("Participant edit\351");
+			}
+	   });
+   } else {
+	   $(this).parent().css("background-color", "#A0A0A0")
+   }
+});
+
 
 
 $("#champ").focusout(function(){
@@ -105,19 +146,25 @@ function addPersonne(nomParticipant)
 		url: "@routes.Application.addParticipant(id)",
 		data: '{"nom" : "' + nomParticipant + '"}',
 		contentType: "application/json",
-		success : function(data) {
-		  var template = $('#Participants');
-		  template.append("<div class=\"formPersonne\">"+
+		success : function(data) {		  
+		  $("tbody").append("<tr><td class=\"infoPersonne\"><div class=\"formPersonne\">"+
 				  "<form id=\"formPersonne\">"+
 				  "<input id=\"nom\" type=\"text\" value=\""+nomParticipant+"\" name=\"nom\" readonly=\"readonly\">&nbsp;"+
-				  "<a id=\"\" class=\"editPersonne btn\"><i class=\"icon-pencil\"></i></a>&nbsp;"+
-				  "<a id=\"\" class=\"deletePersonne btn btn-danger\"><i class=\"icon-trash\"></i></a>"+				  
-				  "</form>"+
-				  "</div>")
+				  "<a id=\""+data.idPersonne+"\" class=\"editPersonne btn\"><i class=\"icon-pencil\"></i></a>&nbsp;"+
+				  "<a id=\""+data.idPersonne+"\" class=\"deletePersonne btn btn-danger\"><i class=\"icon-trash\"></i></a>"+				  
+				 "</form></td>"+
+				  "@for(jour <- event.jours) {"+  
+                	"@for(horaire <- jour.horaires) {"+
+                	" <td><input id=\"@horaire.id\" type=\"checkbox\" value=\"@horaire.debut - @horaire.fin\" /></td>"+
+                	"}"+                	                
+                "}" +
+				"</tr></div>")
 		  $('#champ').attr('value', '')
 		}               
 	});
 }
+
+
 
 
 $('#form').submit(function() {

@@ -48,4 +48,9 @@ public class Personne extends Model {
 		findPers.ref(id).delete();
 	}
 
+	public static void addChoix(Long idpersonne, Long idhoraire) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

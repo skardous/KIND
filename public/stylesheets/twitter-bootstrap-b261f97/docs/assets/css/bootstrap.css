@@ -729,9 +729,7 @@ pre code {
   overflow-y: scroll;
 }
 
-form {
-  margin: 0 0 18px;
-}
+
 
 fieldset {
   padding: 0;
@@ -785,8 +783,7 @@ textarea,
   display: inline-block;
   width: 210px;
   height: 18px;
-  padding: 4px;
-  margin-bottom: 9px;
+  padding: 4px;  
   font-size: 13px;
   line-height: 18px;
   color: #555555;
@@ -1507,8 +1504,7 @@ legend + .control-group {
 table {
   max-width: 100%;
   background-color: transparent;
-  border-collapse: collapse;
-  border-spacing: 0;
+  
 }
 
 .table {

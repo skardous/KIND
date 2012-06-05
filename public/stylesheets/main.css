@@ -26,3 +26,14 @@ a:hover {
 .hidden {
     display: none;
 }
+
+td {
+	color: white;
+	text-align: center;	
+	background-color: #A0A0A0;
+	}
+
+#formPersonne {
+	padding-bottom: -6px;
+	}
+	
