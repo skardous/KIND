@@ -16,7 +16,12 @@ GET     /events/:id/delete       		controllers.Application.deleteEvent(id: Long)
 
 GET    /events/:id/dateSelection       controllers.Application.dateSelection(id: Long)
 POST   /events/:id/addDate             controllers.Application.addDate(id:Long)
+POST   /events/:id/removeDate             controllers.Application.removeDate(id:Long)
 POST   /events/:id/datechanged             controllers.Application.dateChanged(id:Long)
+
+GET    /events/:id/heureSelection       controllers.Application.heureSelection(id: Long)
+POST   /events/:id/newHoraire             controllers.Application.newHoraire(id:Long)
+POST   /events/:id/deleteHoraire             controllers.Application.deleteHoraire(id:Long)
 
 # Edit existing event
 GET     /eventsEdit/:id          		controllers.Application.edit(id:Long)

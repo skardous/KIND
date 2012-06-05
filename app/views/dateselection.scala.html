@@ -4,32 +4,18 @@
 
 @implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) } 
 
-@dateField(field: Field, className: String = "date") = {
-    @input(field, '_label -> "Dates selectionnees", '_class -> className) { (id, name, value, _) =>
-        <input type="text" name="@name" value="@value"> 
-        <a class="removeDate btn danger">Remove</a>
-    }
-}
 
 @main("Creer un evenement") {
     
     <h2>Selectionner les dates/horaires:</h2>
     
-    @form(action = routes.Application.newEvent(), args = 'class -> "form-horizontal") {         
+           
 
       <div class="control-group"><label class="control-label">TITRE:&nbsp;</label> @event.getTitre </div>  <br>  
       
         <label class="control-label">Date</label> <div class="controls" id="date"></div> 
-               	
 		
    		<ul class="controls" id="altField"> </ul> 
-
-    	montruc: <br><br>
-    	<ul class="areload">
-           
-       </ul>  			
-   		
-   		
     	
     	@input(eventForm("dates"), '_label -> "") { (id, name, value, args) =>
 		    <input type="hidden" name="@name" id="myDates" @toHtmlArgs(args)>
@@ -40,36 +26,31 @@
 		}
 				
         
-        <input type="submit" value="Create">
+        <a href="@routes.Application.heureSelection(event.getId)" class="btn btn-primary">Continuer</a>
         
-    }
+    
     
 	<script type="text/javascript" charset="utf-8">
 
 		var optionsHeures = "";
 		var optionsMinutes = "";
-		var heuresList = new Array();
-		for (i=0;i<24;i++) {
-			if (i < 10) {
-				optionsHeures = optionsHeures+"<option value=\""+"0"+i+"\">"+"0"+i+"</option>";
-			} else {
-				optionsHeures = optionsHeures+"<option value=\""+i+"\">"+i+"</option>";
-			}
-		}
-		
-		for (j=0;j<60;j+=15) {
-			if (j < 10) {
-				optionsMinutes = optionsMinutes+"<option value=\""+"0"+j+"\">"+"0"+j+"</option>";
-			} else {
-				optionsMinutes = optionsMinutes+"<option value=\""+j+"\">"+j+"</option>";
-			}
-		}
+		var heuresList = new Array(); 
+	
 
-	$(function(){
+	$(function(){  
+		
 		$( "#date" ).multiDatesPicker();
 		
 		$("#date").multiDatesPicker({
 	   		onSelect: function(dateText) {
+	   		    var selectionType = $.inArray(dateText, $( "#date" ).multiDatesPicker('getDates'));
+	   		    if (selectionType == -1) {
+	   		      var str = dateText.replace("/", "");
+	   		      str = str.replace("/", "");
+	   		      	   		      
+	   		      $("#"+str).remove();
+	   		    }
+	   		
 	   		  	$(".areload").html("");
 	   			$(".areload").html(
 	   			    "@for(jour <- event.jours) {"+
@@ -82,7 +63,9 @@
 					data: '{"date" : "' + dateText + '"}',
 					contentType: "application/json",
 					success : function(data) {
-					  ajouterDate(dateText);
+					  if (selectionType != -1) {					
+						  ajouterDate(dateText);
+					  }
 					}               
 				});		
 	    	}
@@ -90,49 +73,32 @@
 	});
 	
 	function ajouterDate(dateText) {
-			$("#altField").append("<li id=\""+dateText+"\">"+ 
+	  var str = dateText.replace("/", "");
+	  str = str.replace("/", "");
+			$("#altField").append("<li id=\""+str+"\">"+ 
 		"<a class=\"linkDate\" name=\""+dateText+"\">"+
 		"<i class=\"icon-trash\"></i>&nbsp;"+
-		"</a>"+dateText+
-		" &nbsp; <br>&nbsp; Debut :<select id=\"hrDeb\">"+optionsHeures+"</select>"+
-		"h"+
-		"<select id=\"minDeb\">"+optionsMinutes+"</select>"+
-		" Fin :<select id=\"hrFin\">"+optionsHeures+"</select>"+
-		"h"+
-		"<select id=\"minFin\">"+optionsMinutes+"</select>"+
-		"<a class=\"linkPlus\" >"+
-		"<i class=\"icon-plus\"></i></a>"+
+		"</a>"+dateText+		
 		"</li>");
 	}	
 
-	$('#hrDeb, #minDeb, #hrFin, #minFin').live('change', function(e) {
-		/* var string = $(this).parent().children('#hrDeb').val()+"h"+$(this).parent().children('#minDeb').val()+" - "+
-		$(this).parent().children('#hrFin').val()+"h"+$(this).parent().children('#minFin').val();
-		var rang = $(this).siblings("a").attr('id');	
-		heuresList[rang] = string;	
-		$("#myHours").attr('value', heuresList);*/
-	  
-	  //alert($(this).parent().attr("id"));
-	  var debut = $(this).parent().children('#hrDeb').val()+"h"+$(this).parent().children('#minDeb').val();
-	    var fin = $(this).parent().children('#hrFin').val()+"h"+$(this).parent().children('#minFin').val();
-	   var date = $(this).parent().attr("id");
-	  
-	    	$.ajax({
-				type: "POST",
-				url: "@routes.Application.dateChanged(id)",
-				data: '{"date" : "' + date + '",'+ 
-				  		'"debut" : "' + debut + '",'+
-				  		'"fin" : "' + fin + '"}',
-				contentType: "application/json",
-				success : function(data) {
-					  
-				}               
-			});
-		
-		
-		
-			
+	$('.linkDate').live('click', function(e) {	  
+	   $("#date").multiDatesPicker('removeDates', $(this).attr("name")); //enleve la date dans l'affichage du datepicker
+	   $(this).parent().remove();
+	   /*SUPPRESSION DE DATE*/
+	   
+	   $.ajax({
+			type: "POST",
+			url: "@routes.Application.removeDate(id)",
+			data: '{"date" : "' + $(this).attr("name") + '"}',
+			contentType: "application/json",
+			success : function(data) {
+			  
+			}               
+		});	
+	   
 	});
+
 
 	</script>
     

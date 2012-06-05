@@ -1,6 +1,6 @@
 // @SOURCE:C:/tutoPlay/doodle/conf/routes
-// @HASH:c75f104f1a5b3cd52d0a87a6e418e9b12650d9bf
-// @DATE:Fri Jun 01 13:28:56 CEST 2012
+// @HASH:fc0c03afda0a8e204df80f6ec320755d690e378c
+// @DATE:Mon Jun 04 14:59:53 CEST 2012
 
 import play.core._
 import play.core.Router._
@@ -47,29 +47,45 @@ val controllers_Application_addDate7 = Route("POST", PathPattern(List(StaticPart
                     
 
 // @LINE:19
-val controllers_Application_dateChanged8 = Route("POST", PathPattern(List(StaticPart("/events/"),DynamicPart("id", """[^/]+"""),StaticPart("/datechanged"))))
+val controllers_Application_removeDate8 = Route("POST", PathPattern(List(StaticPart("/events/"),DynamicPart("id", """[^/]+"""),StaticPart("/removeDate"))))
+                    
+
+// @LINE:20
+val controllers_Application_dateChanged9 = Route("POST", PathPattern(List(StaticPart("/events/"),DynamicPart("id", """[^/]+"""),StaticPart("/datechanged"))))
                     
 
 // @LINE:22
-val controllers_Application_edit9 = Route("GET", PathPattern(List(StaticPart("/eventsEdit/"),DynamicPart("id", """[^/]+"""))))
+val controllers_Application_heureSelection10 = Route("GET", PathPattern(List(StaticPart("/events/"),DynamicPart("id", """[^/]+"""),StaticPart("/heureSelection"))))
                     
 
 // @LINE:23
-val controllers_Application_update10 = Route("POST", PathPattern(List(StaticPart("/eventsEdit/"),DynamicPart("id", """[^/]+"""))))
+val controllers_Application_newHoraire11 = Route("POST", PathPattern(List(StaticPart("/events/"),DynamicPart("id", """[^/]+"""),StaticPart("/newHoraire"))))
                     
 
-// @LINE:25
-val controllers_Application_updatePersonne11 = Route("POST", PathPattern(List(StaticPart("/eventsEdit/"),DynamicPart("id", """[^/]+"""),StaticPart("/updatePersonne"))))
+// @LINE:24
+val controllers_Application_deleteHoraire12 = Route("POST", PathPattern(List(StaticPart("/events/"),DynamicPart("id", """[^/]+"""),StaticPart("/deleteHoraire"))))
                     
 
 // @LINE:27
-val controllers_Application_addParticipant12 = Route("POST", PathPattern(List(StaticPart("/eventsEdit/"),DynamicPart("id", """[^/]+"""),StaticPart("/addParticip"))))
+val controllers_Application_edit13 = Route("GET", PathPattern(List(StaticPart("/eventsEdit/"),DynamicPart("id", """[^/]+"""))))
                     
 
 // @LINE:28
-val controllers_Application_deleteParticipant13 = Route("POST", PathPattern(List(StaticPart("/eventsEdit/"),DynamicPart("id", """[^/]+"""),StaticPart("/delParticip"))))
+val controllers_Application_update14 = Route("POST", PathPattern(List(StaticPart("/eventsEdit/"),DynamicPart("id", """[^/]+"""))))
                     
-def documentation = List(("""GET""","""/assets/$file<.+>""","""controllers.Assets.at(path:String = "/public", file:String)"""),("""GET""","""/""","""controllers.Application.index()"""),("""GET""","""/events""","""controllers.Application.events()"""),("""GET""","""/eventlist""","""controllers.Application.eventlist()"""),("""POST""","""/events""","""controllers.Application.newEvent()"""),("""GET""","""/events/$id<[^/]+>/delete""","""controllers.Application.deleteEvent(id:Long)"""),("""GET""","""/events/$id<[^/]+>/dateSelection""","""controllers.Application.dateSelection(id:Long)"""),("""POST""","""/events/$id<[^/]+>/addDate""","""controllers.Application.addDate(id:Long)"""),("""POST""","""/events/$id<[^/]+>/datechanged""","""controllers.Application.dateChanged(id:Long)"""),("""GET""","""/eventsEdit/$id<[^/]+>""","""controllers.Application.edit(id:Long)"""),("""POST""","""/eventsEdit/$id<[^/]+>""","""controllers.Application.update(id:Long)"""),("""POST""","""/eventsEdit/$id<[^/]+>/updatePersonne""","""controllers.Application.updatePersonne(id:Long)"""),("""POST""","""/eventsEdit/$id<[^/]+>/addParticip""","""controllers.Application.addParticipant(id:Long)"""),("""POST""","""/eventsEdit/$id<[^/]+>/delParticip""","""controllers.Application.deleteParticipant(id:Long)"""))
+
+// @LINE:30
+val controllers_Application_updatePersonne15 = Route("POST", PathPattern(List(StaticPart("/eventsEdit/"),DynamicPart("id", """[^/]+"""),StaticPart("/updatePersonne"))))
+                    
+
+// @LINE:32
+val controllers_Application_addParticipant16 = Route("POST", PathPattern(List(StaticPart("/eventsEdit/"),DynamicPart("id", """[^/]+"""),StaticPart("/addParticip"))))
+                    
+
+// @LINE:33
+val controllers_Application_deleteParticipant17 = Route("POST", PathPattern(List(StaticPart("/eventsEdit/"),DynamicPart("id", """[^/]+"""),StaticPart("/delParticip"))))
+                    
+def documentation = List(("""GET""","""/assets/$file<.+>""","""controllers.Assets.at(path:String = "/public", file:String)"""),("""GET""","""/""","""controllers.Application.index()"""),("""GET""","""/events""","""controllers.Application.events()"""),("""GET""","""/eventlist""","""controllers.Application.eventlist()"""),("""POST""","""/events""","""controllers.Application.newEvent()"""),("""GET""","""/events/$id<[^/]+>/delete""","""controllers.Application.deleteEvent(id:Long)"""),("""GET""","""/events/$id<[^/]+>/dateSelection""","""controllers.Application.dateSelection(id:Long)"""),("""POST""","""/events/$id<[^/]+>/addDate""","""controllers.Application.addDate(id:Long)"""),("""POST""","""/events/$id<[^/]+>/removeDate""","""controllers.Application.removeDate(id:Long)"""),("""POST""","""/events/$id<[^/]+>/datechanged""","""controllers.Application.dateChanged(id:Long)"""),("""GET""","""/events/$id<[^/]+>/heureSelection""","""controllers.Application.heureSelection(id:Long)"""),("""POST""","""/events/$id<[^/]+>/newHoraire""","""controllers.Application.newHoraire(id:Long)"""),("""POST""","""/events/$id<[^/]+>/deleteHoraire""","""controllers.Application.deleteHoraire(id:Long)"""),("""GET""","""/eventsEdit/$id<[^/]+>""","""controllers.Application.edit(id:Long)"""),("""POST""","""/eventsEdit/$id<[^/]+>""","""controllers.Application.update(id:Long)"""),("""POST""","""/eventsEdit/$id<[^/]+>/updatePersonne""","""controllers.Application.updatePersonne(id:Long)"""),("""POST""","""/eventsEdit/$id<[^/]+>/addParticip""","""controllers.Application.addParticipant(id:Long)"""),("""POST""","""/eventsEdit/$id<[^/]+>/delParticip""","""controllers.Application.deleteParticipant(id:Long)"""))
              
     
 def routes:PartialFunction[RequestHeader,Handler] = {        
@@ -139,7 +155,15 @@ case controllers_Application_addDate7(params) => {
                     
 
 // @LINE:19
-case controllers_Application_dateChanged8(params) => {
+case controllers_Application_removeDate8(params) => {
+   call(params.fromPath[Long]("id", None)) { (id) =>
+        invokeHandler(_root_.controllers.Application.removeDate(id), HandlerDef(this, "controllers.Application", "removeDate", Seq(classOf[Long])))
+   }
+}
+                    
+
+// @LINE:20
+case controllers_Application_dateChanged9(params) => {
    call(params.fromPath[Long]("id", None)) { (id) =>
         invokeHandler(_root_.controllers.Application.dateChanged(id), HandlerDef(this, "controllers.Application", "dateChanged", Seq(classOf[Long])))
    }
@@ -147,39 +171,63 @@ case controllers_Application_dateChanged8(params) => {
                     
 
 // @LINE:22
-case controllers_Application_edit9(params) => {
+case controllers_Application_heureSelection10(params) => {
+   call(params.fromPath[Long]("id", None)) { (id) =>
+        invokeHandler(_root_.controllers.Application.heureSelection(id), HandlerDef(this, "controllers.Application", "heureSelection", Seq(classOf[Long])))
+   }
+}
+                    
+
+// @LINE:23
+case controllers_Application_newHoraire11(params) => {
+   call(params.fromPath[Long]("id", None)) { (id) =>
+        invokeHandler(_root_.controllers.Application.newHoraire(id), HandlerDef(this, "controllers.Application", "newHoraire", Seq(classOf[Long])))
+   }
+}
+                    
+
+// @LINE:24
+case controllers_Application_deleteHoraire12(params) => {
+   call(params.fromPath[Long]("id", None)) { (id) =>
+        invokeHandler(_root_.controllers.Application.deleteHoraire(id), HandlerDef(this, "controllers.Application", "deleteHoraire", Seq(classOf[Long])))
+   }
+}
+                    
+
+// @LINE:27
+case controllers_Application_edit13(params) => {
    call(params.fromPath[Long]("id", None)) { (id) =>
         invokeHandler(_root_.controllers.Application.edit(id), HandlerDef(this, "controllers.Application", "edit", Seq(classOf[Long])))
    }
 }
                     
 
-// @LINE:23
-case controllers_Application_update10(params) => {
+// @LINE:28
+case controllers_Application_update14(params) => {
    call(params.fromPath[Long]("id", None)) { (id) =>
         invokeHandler(_root_.controllers.Application.update(id), HandlerDef(this, "controllers.Application", "update", Seq(classOf[Long])))
    }
 }
                     
 
-// @LINE:25
-case controllers_Application_updatePersonne11(params) => {
+// @LINE:30
+case controllers_Application_updatePersonne15(params) => {
    call(params.fromPath[Long]("id", None)) { (id) =>
         invokeHandler(_root_.controllers.Application.updatePersonne(id), HandlerDef(this, "controllers.Application", "updatePersonne", Seq(classOf[Long])))
    }
 }
                     
 
-// @LINE:27
-case controllers_Application_addParticipant12(params) => {
+// @LINE:32
+case controllers_Application_addParticipant16(params) => {
    call(params.fromPath[Long]("id", None)) { (id) =>
         invokeHandler(_root_.controllers.Application.addParticipant(id), HandlerDef(this, "controllers.Application", "addParticipant", Seq(classOf[Long])))
    }
 }
                     
 
-// @LINE:28
-case controllers_Application_deleteParticipant13(params) => {
+// @LINE:33
+case controllers_Application_deleteParticipant17(params) => {
    call(params.fromPath[Long]("id", None)) { (id) =>
         invokeHandler(_root_.controllers.Application.deleteParticipant(id), HandlerDef(this, "controllers.Application", "deleteParticipant", Seq(classOf[Long])))
    }

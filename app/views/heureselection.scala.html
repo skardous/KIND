@@ -1,0 +1,133 @@
+@(id: Long, eventForm: Form[Evenement], event: Evenement)
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) } 
+
+
+
+@main("Creer un evenement") {
+    
+    <h2>Selectionner les dates/horaires:</h2>
+    
+    @for(jour <- event.jours) {
+		<div class="control-group" id="@jour.getId">
+		  @form(routes.Application.updatePersonne(id), 'id->"formJour") {
+			  @jour.getDate()
+			 
+			<a class="linkPlus btn btn-success" >
+			<i class="icon-plus"></i></a>
+		
+			  
+		  }
+		</div>
+		}
+    
+    <a class="btn btn-primary" href="@routes.Application.eventlist()">Terminé</a>
+	
+    
+	<script type="text/javascript" charset="utf-8">
+
+	var optionsHeuresDebut = "";
+    var optionsHeuresFin = "";
+	var optionsMinutes = "";
+	var heuresList = new Array();
+
+		
+
+    $('.linkPlus').live('click', function(e) {		
+		var idJour = $(this).parent().parent().attr('id');
+		var button= $(this);
+		$.ajax({
+			type: "POST",
+			url: "@routes.Application.newHoraire(id)",
+			data: '{"jour" : "' + idJour + '"}',
+			contentType: "application/json",
+			success : function(data) {
+			    button.parent().append("<div id=\""+data.idHoraire+"\"><br>&nbsp; Debut :<select id=\"hrDeb\">"+optionsHeuresDebut+"</select>"+
+					"h"+
+					"<select id=\"minDeb\">"+optionsMinutes+"</select>"+
+					" Fin :<select id=\"hrFin\">"+optionsHeuresFin+"</select>"+
+					"h"+
+					"<select id=\"minFin\">"+optionsMinutes+"</select>"+
+					"&nbsp;<a class=\"linkMinus btn btn-danger\" >"+
+					"<i class=\"icon-minus\"></i></a></div>"
+				);
+			}               
+		});
+    });
+
+
+    $('.linkMinus').live('click', function(e) {
+         
+         var idHeure = $(this).parent().attr('id');
+         var idJour = $(this).parent().parent().parent().attr('id');
+         var button= $(this);
+        $.ajax({
+			type: "POST",
+			url: "@routes.Application.deleteHoraire(id)",
+			data: '{"jour" : "' + idJour + '", "horaire" : "' + idHeure + '"}',
+			contentType: "application/json",
+			success : function(data) {
+			    button.parent().remove();
+			}               
+		});	
+	});	
+
+
+	$(function(){	   
+	  for (i=0;i<24;i++) {
+			if (i < 10) {
+				if (i != 8) {
+					optionsHeuresDebut = optionsHeuresDebut+"<option value=\""+"0"+i+"\">"+"0"+i+"</option>";
+				} else {
+				    optionsHeuresDebut = optionsHeuresDebut+"<option selected value=\""+"0"+i+"\">"+"0"+i+"</option>";
+				}
+				
+				optionsHeuresFin = optionsHeuresFin+"<option value=\""+"0"+i+"\">"+"0"+i+"</option>";
+				
+				
+			} else {
+				optionsHeuresDebut = optionsHeuresDebut+"<option value=\""+i+"\">"+i+"</option>";
+				
+				if (i != 17) {
+					optionsHeuresFin = optionsHeuresFin+"<option value=\""+i+"\">"+i+"</option>";
+				} else {
+				    optionsHeuresFin = optionsHeuresFin+"<option selected value=\""+i+"\">"+i+"</option>";
+				}
+			}
+		}
+		
+		for (j=0;j<60;j+=15) {
+			if (j < 10) {
+				optionsMinutes = optionsMinutes+"<option value=\""+"0"+j+"\">"+"0"+j+"</option>";
+			} else {
+				optionsMinutes = optionsMinutes+"<option value=\""+j+"\">"+j+"</option>";
+			}
+		}
+		
+	});
+	
+
+	$('#hrDeb, #minDeb, #hrFin, #minFin').live('change', function(e) {
+	  var debut = $(this).parent().children('#hrDeb').val()+"h"+$(this).parent().children('#minDeb').val();
+	    var fin = $(this).parent().children('#hrFin').val()+"h"+$(this).parent().children('#minFin').val();
+	   var idhoraire = $(this).parent().attr("id");
+	  
+	    	$.ajax({
+				type: "POST",
+				url: "@routes.Application.dateChanged(id)",
+				data: '{"idhoraire" : "' + idhoraire + '",'+ 
+				  		'"debut" : "' + debut + '",'+
+				  		'"fin" : "' + fin + '"}',
+				contentType: "application/json",
+				success : function(data) {
+					
+				}               
+			});		
+	});
+
+	</script>
+    
+    
+}

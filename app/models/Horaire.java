@@ -22,8 +22,32 @@ public class Horaire extends Model {
 
 	public String debut;
 	
+	public String getDebut() {
+		return debut;
+	}
+
+
+
+	public void setDebut(String debut) {
+		this.debut = debut;
+	}
+
+
+
 	public String fin;
 		
+
+	public String getFin() {
+		return fin;
+	}
+
+
+
+	public void setFin(String fin) {
+		this.fin = fin;
+	}
+
+
 
 	public static Finder<Long, Horaire> findHoraire = new Finder(Long.class,
 			Horaire.class);

@@ -5,12 +5,7 @@
 
 @implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) }
 
-@dateField(field: Field, className: String = "date") = {
-    @input(field, '_label -> "Dates selectionnees", '_class -> className) { (id, name, value, _) =>
-        <input type="text" name="@name" value="@value"> 
-        <a class="removeDate btn danger">Remove</a>
-    }
-}
+
 
 @main("Creer un evenement") {
     

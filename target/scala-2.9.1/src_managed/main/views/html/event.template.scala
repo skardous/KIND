@@ -29,36 +29,29 @@ object event extends BaseScalaTemplate[play.api.templates.Html,Format[play.api.t
 
 import helper._
 
-def /*8.2*/dateField/*8.11*/(field: Field, className: String = "date"):play.api.templates.Html = {_display_(
-
-Seq[Any](format.raw/*8.57*/("""
-    """),_display_(Seq[Any](/*9.6*/input(field, '_label -> "Dates selectionnees", '_class -> className)/*9.74*/ { (id, name, value, _) =>_display_(Seq[Any](format.raw/*9.100*/("""
-        <input type="text" name=""""),_display_(Seq[Any](/*10.35*/name)),format.raw/*10.39*/("""" value=""""),_display_(Seq[Any](/*10.49*/value)),format.raw/*10.54*/(""""> 
-        <a class="removeDate btn danger">Remove</a>
-    """)))})),format.raw/*12.6*/("""
-""")))};implicit def /*6.2*/implicitFieldConstructor/*6.26*/ = {{ FieldConstructor(twitterBootstrapInput.f) }};
+implicit def /*6.2*/implicitFieldConstructor/*6.26*/ = {{ FieldConstructor(twitterBootstrapInput.f) }};
 Seq[Any](format.raw/*1.55*/("""
 
 """),format.raw/*5.1*/("""
 """),format.raw/*6.75*/("""
 
-"""),format.raw/*13.2*/("""
 
-"""),_display_(Seq[Any](/*15.2*/main("Creer un evenement")/*15.28*/ {_display_(Seq[Any](format.raw/*15.30*/("""
+
+"""),_display_(Seq[Any](/*10.2*/main("Creer un evenement")/*10.28*/ {_display_(Seq[Any](format.raw/*10.30*/("""
     
     <h2>Cr&eacute;er un evenement</h2>
     
-    """),_display_(Seq[Any](/*19.6*/form(action = routes.Application.newEvent(), args = 'class -> "form-horizontal")/*19.86*/ {_display_(Seq[Any](format.raw/*19.88*/("""
+    """),_display_(Seq[Any](/*14.6*/form(action = routes.Application.newEvent(), args = 'class -> "form-horizontal")/*14.86*/ {_display_(Seq[Any](format.raw/*14.88*/("""
         
-        """),_display_(Seq[Any](/*21.10*/inputText(eventForm("titre")))),format.raw/*21.39*/("""         
-        """),_display_(Seq[Any](/*22.10*/inputText(eventForm("lieu")))),format.raw/*22.38*/(""" 
-        """),_display_(Seq[Any](/*23.10*/textarea(eventForm("descriptif"), 'rows->6))),format.raw/*23.53*/("""
-        """),_display_(Seq[Any](/*24.10*/inputText(eventForm("createur")))),format.raw/*24.42*/("""
-        """),_display_(Seq[Any](/*25.10*/inputText(eventForm("mail")))),format.raw/*25.38*/("""
+        """),_display_(Seq[Any](/*16.10*/inputText(eventForm("titre")))),format.raw/*16.39*/("""         
+        """),_display_(Seq[Any](/*17.10*/inputText(eventForm("lieu")))),format.raw/*17.38*/(""" 
+        """),_display_(Seq[Any](/*18.10*/textarea(eventForm("descriptif"), 'rows->6))),format.raw/*18.53*/("""
+        """),_display_(Seq[Any](/*19.10*/inputText(eventForm("createur")))),format.raw/*19.42*/("""
+        """),_display_(Seq[Any](/*20.10*/inputText(eventForm("mail")))),format.raw/*20.38*/("""
         
         <input type="submit" value="Create">
         
-    """)))})),format.raw/*29.6*/("""
+    """)))})),format.raw/*24.6*/("""
     
     
     
@@ -74,11 +67,11 @@ Seq[Any](format.raw/*1.55*/("""
 }
                 /*
                     -- GENERATED --
-                    DATE: Fri Jun 01 10:35:21 CEST 2012
+                    DATE: Mon Jun 04 15:48:37 CEST 2012
                     SOURCE: C:/tutoPlay/doodle/app/views/event.scala.html
-                    HASH: 3484869a146054c5a4c31e47d429a2c5c8f1d841
-                    MATRIX: 780->1|943->185|960->194|1069->240|1109->246|1185->314|1249->340|1320->375|1346->379|1392->389|1419->394|1511->455|1544->109|1576->133|1655->54|1683->107|1711->182|1740->457|1778->460|1813->486|1853->488|1943->543|2032->623|2072->625|2127->644|2178->673|2233->692|2283->720|2330->731|2395->774|2441->784|2495->816|2541->826|2591->854|2691->923
-                    LINES: 27->1|32->8|32->8|34->8|35->9|35->9|35->9|36->10|36->10|36->10|36->10|38->12|39->6|39->6|40->1|42->5|43->6|45->13|47->15|47->15|47->15|51->19|51->19|51->19|53->21|53->21|54->22|54->22|55->23|55->23|56->24|56->24|57->25|57->25|61->29
+                    HASH: 5e83c4b806da55b98b003f57aced0ae344e70dd8
+                    MATRIX: 780->1|952->109|984->133|1063->54|1091->107|1119->182|1159->187|1194->213|1234->215|1324->270|1413->350|1453->352|1508->371|1559->400|1614->419|1664->447|1711->458|1776->501|1822->511|1876->543|1922->553|1972->581|2072->650
+                    LINES: 27->1|32->6|32->6|33->1|35->5|36->6|40->10|40->10|40->10|44->14|44->14|44->14|46->16|46->16|47->17|47->17|48->18|48->18|49->19|49->19|50->20|50->20|54->24
                     -- GENERATED --
                 */
             

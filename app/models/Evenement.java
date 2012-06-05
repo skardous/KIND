@@ -22,6 +22,10 @@ public class Evenement extends Model {
 	@Id
 	public Long id;
 
+	public Long getId() {
+		return id;
+	}
+
 	@Required
 	public String titre;
 
@@ -100,8 +104,21 @@ public class Evenement extends Model {
 	}
 	
 	public static void addJour(Evenement evt, Long id, String date) {
-		evt.jours.add(new Jour(date));
-		evt.jours.get(evt.jours.size() - 1).save();
+		Boolean exists = false;
+		if (evt.jours != null) {
+			for (Jour j : evt.jours) {
+				if (j.getDate().equals(date)) {	
+					evt.jours.remove(Jour.findJour.ref(j.getId()));
+					evt.saveManyToManyAssociations("jours");
+					exists = true;
+					break;
+				}			
+			}
+		}
+		if (!exists) {
+			evt.jours.add(new Jour(date));
+			evt.jours.get(evt.jours.size() - 1).save();
+		}
 		evt.update(id);
 		Ebean.saveManyToManyAssociations(evt, "jours");
 	}
@@ -115,6 +132,17 @@ public class Evenement extends Model {
 		}
 		evt.update(id);
 		Ebean.saveManyToManyAssociations(evt, "participants");
+	}
+	
+	public static void removeJour(Long eventId, String date) {
+		Evenement evt = Evenement.findEvt.ref(eventId);
+		for (Jour j : evt.jours) {
+			if (j.getDate().equals(date)) {	
+				evt.jours.remove(Jour.findJour.ref(j.getId()));
+				evt.saveManyToManyAssociations("jours");				
+				break;
+			}			
+		}
 	}
 
 	public static void removeParticipant(Long eventId, Long participId) {
@@ -139,28 +167,59 @@ public class Evenement extends Model {
 	}
 
 	public static void delete(Long id) {
-		findEvt.ref(id).delete();
+		Evenement e = findEvt.ref(id);
+		for (Jour j : e.jours) {
+			for (Horaire h : j.horaires) {
+				j.horaires.remove(h);
+				h.save();
+				h.delete();
+				
+			}
+			j.saveManyToManyAssociations("horaires");
+			e.jours.remove(j);
+			j.save();
+			j.delete();
+			
+		}
+		
+		e.saveManyToManyAssociations("jours");
+		e.delete();
 
 	}
 
-	public static void updateDate(Long idevt, String date, String debut,
+	public static void updateDate(Long idhoraire, String debut,
 			String fin) {
-		Evenement e = Evenement.findEvt.ref(idevt);
-		for (Jour j : e.jours) {
-			if (j.date.equals(date)) {
-				j.horaires.add(new Horaire(debut, fin));
-				for (Horaire h : j.horaires) {
-					h.save();
-				}
-				j.saveManyToManyAssociations("horaires");
-			}
-			j.save();
-		}
+		
+		Horaire h = Horaire.findHoraire.ref(idhoraire);
 				
-		e.update(idevt);
+		h.setDebut(debut);
+		h.setFin(fin);
+		h.update(idhoraire);
 		
-		e.saveManyToManyAssociations("jours");
 		
+	}
+
+	public static Long newHoraire(Long idEvt, Long jour) {
+		Jour j = Jour.findJour.ref(jour);
+		Horaire hr = new Horaire ("08h00","17h00");
+		
+		j.horaires.add(hr);
+		hr.save();		
+		j.saveManyToManyAssociations("horaires");
+		
+		return hr.getId();		
+	}
+
+	public static void deleteHoraire(Long idjour, Long idhoraire) {
+		Jour j = Jour.findJour.ref(idjour);
+		
+		for (Horaire h : j.horaires) {
+			if (h.getId().equals(idhoraire)) {	
+				j.horaires.remove(Horaire.findHoraire.ref(idhoraire));
+				j.saveManyToManyAssociations("horaires");				
+				break;
+			}			
+		}
 	}
 
 }
