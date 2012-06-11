@@ -2,6 +2,21 @@ package controllers;
 
 import org.codehaus.jackson.node.ObjectNode;
 
+
+import java.util.Properties;
+
+import javax.mail.Authenticator;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Message;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.InternetAddress;
+import javax.mail.Transport;
+
+import javax.mail.internet.AddressException;
+import javax.mail.NoSuchProviderException;
+import javax.mail.MessagingException;
+
 import models.*;
 import play.*;
 import play.data.*;
@@ -23,6 +38,59 @@ import views.html.*;
 public class Application extends Controller {
 
 	static Form<Evenement> eventForm = form(Evenement.class);
+
+	@BodyParser.Of(BodyParser.Json.class)
+	public static Result sendMail(Long idevt) {		
+
+		JsonNode json = request().body().asJson();
+		String mails = json.findPath("mailslist").getTextValue();	
+		
+		Evenement e = Evenement.findEvt.ref(idevt);
+		Properties		props	    = new Properties();
+		props.put("mail.transport.protocol", "smtp");
+		props.put("mail.smtp.host", "flaubert");
+		props.put("mail.smtp.port", "25");
+		props.put("mail.smtp.auth", "true");
+
+		final String username = "simon.kardous";
+		final String password = "chu76";
+
+
+		System.out.println(password);
+
+		Authenticator authenticator = new Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		};
+
+		Transport transport = null;		
+
+		try {
+			Session session = Session.getInstance(props, authenticator);
+			MimeMessage message = new MimeMessage(session);
+			message.setFrom(new InternetAddress("doodle@chu-rouen.fr"));
+			message.setRecipients(Message.RecipientType.TO,
+					InternetAddress.parse(mails));
+			message.setSubject("Invitation a "+e.getTitre());
+			message.setText("Lien d'invitation,"
+					+ "\n\n http://localhost:9000/eventsEdit/"+idevt);
+			transport = session.getTransport();
+			transport.connect(username, password);
+			transport.sendMessage(message, message.getAllRecipients());
+		} catch (MessagingException ex) {
+			throw new RuntimeException(ex);
+
+		} finally {
+			if (transport != null) try { transport.close(); } catch (MessagingException logOrIgnore) {}
+		}
+
+
+
+		System.out.println("message envoyé");
+		return ok(views.html.eventlist.render(Evenement.all()));
+
+	}
 
 	public static Result index() {
 		return ok(views.html.index.render());
@@ -48,22 +116,22 @@ public class Application extends Controller {
 		}
 	}
 
-	
+
 	public static Result dateSelection(Long id) {
 		Form<Evenement> evenementForm = form(Evenement.class).fill(
 				Evenement.findEvt.byId(id));
 		Evenement created = evenementForm.get();
 		return ok(dateselection.render(id, evenementForm, created));
 	}
-	
+
 	public static Result heureSelection(Long id) {
 		Form<Evenement> evenementForm = form(Evenement.class).fill(
 				Evenement.findEvt.byId(id));
 		Evenement created = evenementForm.get();
 		return ok(heureselection.render(id, evenementForm, created));
 	}
-	
-	
+
+
 	// action d'affichage du formulaire d'edition d'evt
 	public static Result edit(Long id) {
 		Form<Evenement> evenementForm = form(Evenement.class).fill(
@@ -93,7 +161,7 @@ public class Application extends Controller {
 		String idStr = json.findPath("id").getTextValue();
 		Long idpers = Long.valueOf(idStr);
 		String newNomParticipant = json.findPath("nom").getTextValue();
-		
+
 		Evenement.updateParticipant(evtId, idpers, newNomParticipant);		
 		return redirect(routes.Application.eventlist());
 	}
@@ -111,20 +179,20 @@ public class Application extends Controller {
 		return ok(result);
 
 	}
-	
+
 	@BodyParser.Of(BodyParser.Json.class)
 	public static Result newHoraire(Long id) {
 		JsonNode json = request().body().asJson();
 		String jour = json.findPath("jour").getTextValue();	
 		Long idjour = Long.valueOf(jour);
-		
+
 		Long horaireid = Evenement.newHoraire(id, idjour);
 		ObjectNode result = Json.newObject();
 		result.put("idHoraire",""+horaireid+"");
 		return ok(result);
 
 	}
-	
+
 	@BodyParser.Of(BodyParser.Json.class)
 	public static Result deleteHoraire(Long id) {
 		JsonNode json = request().body().asJson();
@@ -132,13 +200,13 @@ public class Application extends Controller {
 		Long idjour = Long.valueOf(jour);
 		String horaire = json.findPath("horaire").getTextValue();	
 		Long idhoraire = Long.valueOf(horaire);
-		
+
 		Evenement.deleteHoraire(idjour, idhoraire);
-		
+
 		return redirect(routes.Application.eventlist());
 
 	}
-	
+
 	@BodyParser.Of(BodyParser.Json.class)
 	public static Result addDate(Long id) {
 		JsonNode json = request().body().asJson();
@@ -150,7 +218,7 @@ public class Application extends Controller {
 		return redirect(routes.Application.eventlist());
 
 	}
-	
+
 	@BodyParser.Of(BodyParser.Json.class)
 	public static Result removeDate(Long id) {
 		JsonNode json = request().body().asJson();
@@ -162,7 +230,7 @@ public class Application extends Controller {
 		return redirect(routes.Application.eventlist());
 
 	}
-	
+
 	@BodyParser.Of(BodyParser.Json.class)
 	public static Result dateChanged(Long idevt) {
 		JsonNode json = request().body().asJson();
@@ -189,9 +257,9 @@ public class Application extends Controller {
 		Evenement.removeParticipant(idevt, idparti);
 		return redirect(routes.Application.eventlist());
 	}
-	
+
 	@BodyParser.Of(BodyParser.Json.class)
-	public static Result checkBox(Long id) {
+	public static Result checkBoxHoraire(Long id) {
 		JsonNode json = request().body().asJson();
 		String horaire = json.findPath("idhoraire").getTextValue();
 		Long idhoraire = Long.valueOf(horaire);
@@ -200,8 +268,24 @@ public class Application extends Controller {
 
 		Evenement evenement = Evenement.findEvt.byId(id);
 		System.out.println("titre: " + evenement.titre);
-		Personne.addChoix(idpersonne, idhoraire);
-		
+		Personne.addChoixHoraire(idpersonne, idhoraire);
+
+		return ok();
+
+	}
+
+	@BodyParser.Of(BodyParser.Json.class)
+	public static Result checkBoxJour(Long id) {
+		JsonNode json = request().body().asJson();
+		String jour = json.findPath("idjour").getTextValue();
+		Long idjour = Long.valueOf(jour);
+		String personne = json.findPath("idpersonne").getTextValue();
+		Long idpersonne = Long.valueOf(personne);
+
+		Evenement evenement = Evenement.findEvt.byId(id);
+		System.out.println("titre: " + evenement.titre);
+		Personne.addChoixJour(idpersonne, idjour);
+
 		return ok();
 
 	}

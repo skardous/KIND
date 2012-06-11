@@ -867,7 +867,8 @@ input[type="file"] {
 select {  
   display: inline-block;  
   padding: 4px;
-  margin-bottom: 9px; 
+  margin-top: 3px;
+  margin-bottom: 3px; 
   color: #555555;
   background-color: #ffffff;
   border: 1px solid #cccccc;
@@ -897,8 +898,7 @@ input[type="hidden"] {
 
 .radio,
 .checkbox {
-  min-height: 18px;
-  padding-left: 18px;
+  min-height: 18px;  
 }
 
 .radio input[type="radio"],
@@ -2574,8 +2574,7 @@ button.close {
   *line-height: 20px;
   color: #333333;
   text-align: center;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
-  vertical-align: top;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);  
   cursor: pointer;
   background-color: #f5f5f5;
   *background-color: #e6e6e6;

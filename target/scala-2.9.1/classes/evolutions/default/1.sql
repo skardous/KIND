@@ -52,6 +52,18 @@ create table jour_horaire (
   horaire_id                     bigint not null,
   constraint pk_jour_horaire primary key (jour_id, horaire_id))
 ;
+
+create table personne_horaire (
+  personne_id                    bigint not null,
+  horaire_id                     bigint not null,
+  constraint pk_personne_horaire primary key (personne_id, horaire_id))
+;
+
+create table personne_jour (
+  personne_id                    bigint not null,
+  jour_id                        bigint not null,
+  constraint pk_personne_jour primary key (personne_id, jour_id))
+;
 create sequence evenement_seq;
 
 create sequence horaire_seq;
@@ -75,6 +87,14 @@ alter table jour_horaire add constraint fk_jour_horaire_jour_01 foreign key (jou
 
 alter table jour_horaire add constraint fk_jour_horaire_horaire_02 foreign key (horaire_id) references horaire (id) on delete restrict on update restrict;
 
+alter table personne_horaire add constraint fk_personne_horaire_personne_01 foreign key (personne_id) references personne (id) on delete restrict on update restrict;
+
+alter table personne_horaire add constraint fk_personne_horaire_horaire_02 foreign key (horaire_id) references horaire (id) on delete restrict on update restrict;
+
+alter table personne_jour add constraint fk_personne_jour_personne_01 foreign key (personne_id) references personne (id) on delete restrict on update restrict;
+
+alter table personne_jour add constraint fk_personne_jour_jour_02 foreign key (jour_id) references jour (id) on delete restrict on update restrict;
+
 # --- !Downs
 
 SET REFERENTIAL_INTEGRITY FALSE;
@@ -92,6 +112,10 @@ drop table if exists jour;
 drop table if exists jour_horaire;
 
 drop table if exists personne;
+
+drop table if exists personne_horaire;
+
+drop table if exists personne_jour;
 
 SET REFERENTIAL_INTEGRITY TRUE;
 

@@ -5,9 +5,9 @@
 @implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) } 
 
 
-@main("Creer un evenement") {
+@main("Selectionner les jours") {
     
-    <h2>Selectionner les dates/horaires:</h2>
+    <h2>Selectionner les jours:</h2>
     
            
 
@@ -42,9 +42,13 @@
 		$( "#date" ).multiDatesPicker();
 		
 		$("#date").multiDatesPicker({
-	   		onSelect: function(dateText) {
-	   		    var selectionType = $.inArray(dateText, $( "#date" ).multiDatesPicker('getDates'));
-	   		    if (selectionType == -1) {
+	   		onSelect: function(date) {
+	   		    var selectionType = $.inArray(date, $( "#date" ).multiDatesPicker('getDates'));
+	   		    var d = new Date(date);
+	   		    
+	   		    //var d = date.substring(1, 8);
+	   		    var dateText = d.toLocaleDateString();
+	   		    if (selectionType == -1) { // suppression de la date dans la liste
 	   		      var str = dateText.replace("/", "");
 	   		      str = str.replace("/", "");
 	   		      	   		      
@@ -54,8 +58,8 @@
 	   		  	$(".areload").html("");
 	   			$(".areload").html(
 	   			    "@for(jour <- event.jours) {"+
-        	   "<li>@jour.date &nbsp;"+
-           		"</li>}"
+	        	   		"<li>@jour.date &nbsp;"+
+	           		"</li>}"
 	   			    );
 	   			$.ajax({
 					type: "POST",
@@ -73,8 +77,8 @@
 	});
 	
 	function ajouterDate(dateText) {
-	  var str = dateText.replace("/", "");
-	  str = str.replace("/", "");
+	  var str = dateText.replace("/", "");//efface le premier slash de la date
+	  str = str.replace("/", "");//efface le premier slash de la date
 			$("#altField").append("<li id=\""+str+"\">"+ 
 		"<a class=\"linkDate\" name=\""+dateText+"\">"+
 		"<i class=\"icon-trash\"></i>&nbsp;"+

@@ -34,9 +34,9 @@ Seq[Any](format.raw/*1.58*/("""
 """),format.raw/*5.80*/(""" 
 
 
-"""),_display_(Seq[Any](/*8.2*/main("Creer un evenement")/*8.28*/ {_display_(Seq[Any](format.raw/*8.30*/("""
+"""),_display_(Seq[Any](/*8.2*/main("Selectionner les jours")/*8.32*/ {_display_(Seq[Any](format.raw/*8.34*/("""
     
-    <h2>Selectionner les dates/horaires:</h2>
+    <h2>Selectionner les jours:</h2>
     
            
 
@@ -71,62 +71,66 @@ Seq[Any](format.raw/*1.58*/("""
 		$( "#date" ).multiDatesPicker();
 		
 		$("#date").multiDatesPicker("""),format.raw("""{"""),format.raw/*44.32*/("""
-	   		onSelect: function(dateText) """),format.raw("""{"""),format.raw/*45.37*/("""
-	   		    var selectionType = $.inArray(dateText, $( "#date" ).multiDatesPicker('getDates'));
-	   		    if (selectionType == -1) """),format.raw("""{"""),format.raw/*47.37*/("""
+	   		onSelect: function(date) """),format.raw("""{"""),format.raw/*45.33*/("""
+	   		    var selectionType = $.inArray(date, $( "#date" ).multiDatesPicker('getDates'));
+	   		    var d = new Date(date);
+	   		    
+	   		    //var d = date.substring(1, 8);
+	   		    var dateText = d.toLocaleDateString();
+	   		    if (selectionType == -1) """),format.raw("""{"""),format.raw/*51.37*/(""" // suppression de la date dans la liste
 	   		      var str = dateText.replace("/", "");
 	   		      str = str.replace("/", "");
 	   		      	   		      
 	   		      $("#"+str).remove();
-	   		    """),format.raw("""}"""),format.raw/*52.12*/("""
+	   		    """),format.raw("""}"""),format.raw/*56.12*/("""
 	   		
 	   		  	$(".areload").html("");
 	   			$(".areload").html(
-	   			    """"),_display_(Seq[Any](/*56.14*/for(jour <- event.jours) yield /*56.38*/ {_display_(Seq[Any](format.raw/*56.40*/(""""+
-        	   "<li>"""),_display_(Seq[Any](/*57.19*/jour/*57.23*/.date)),format.raw/*57.28*/(""" &nbsp;"+
-           		"</li>""")))})),format.raw/*58.21*/(""""
+	   			    """"),_display_(Seq[Any](/*60.14*/for(jour <- event.jours) yield /*60.38*/ {_display_(Seq[Any](format.raw/*60.40*/(""""+
+	        	   		"<li>"""),_display_(Seq[Any](/*61.22*/jour/*61.26*/.date)),format.raw/*61.31*/(""" &nbsp;"+
+	           		"</li>""")))})),format.raw/*62.22*/(""""
 	   			    );
-	   			$.ajax("""),format.raw("""{"""),format.raw/*60.16*/("""
+	   			$.ajax("""),format.raw("""{"""),format.raw/*64.16*/("""
 					type: "POST",
-					url: """"),_display_(Seq[Any](/*62.13*/routes/*62.19*/.Application.addDate(id))),format.raw/*62.43*/("""",
-					data: '"""),format.raw("""{"""),format.raw/*63.14*/(""""date" : "' + dateText + '""""),format.raw("""}"""),format.raw/*63.42*/("""',
+					url: """"),_display_(Seq[Any](/*66.13*/routes/*66.19*/.Application.addDate(id))),format.raw/*66.43*/("""",
+					data: '"""),format.raw("""{"""),format.raw/*67.14*/(""""date" : "' + dateText + '""""),format.raw("""}"""),format.raw/*67.42*/("""',
 					contentType: "application/json",
-					success : function(data) """),format.raw("""{"""),format.raw/*65.32*/("""
-					  if (selectionType != -1) """),format.raw("""{"""),format.raw/*66.34*/("""					
+					success : function(data) """),format.raw("""{"""),format.raw/*69.32*/("""
+					  if (selectionType != -1) """),format.raw("""{"""),format.raw/*70.34*/("""					
 						  ajouterDate(dateText);
-					  """),format.raw("""}"""),format.raw/*68.9*/("""
-					"""),format.raw("""}"""),format.raw/*69.7*/("""               
-				"""),format.raw("""}"""),format.raw/*70.6*/(""");		
-	    	"""),format.raw("""}"""),format.raw/*71.8*/("""
-		"""),format.raw("""}"""),format.raw/*72.4*/("""); 
-	"""),format.raw("""}"""),format.raw/*73.3*/(""");
+					  """),format.raw("""}"""),format.raw/*72.9*/("""
+					"""),format.raw("""}"""),format.raw/*73.7*/("""               
+				"""),format.raw("""}"""),format.raw/*74.6*/(""");		
+	    	"""),format.raw("""}"""),format.raw/*75.8*/("""
+		"""),format.raw("""}"""),format.raw/*76.4*/("""); 
+	"""),format.raw("""}"""),format.raw/*77.3*/(""");
 	
-	function ajouterDate(dateText) """),format.raw("""{"""),format.raw/*75.34*/("""
-	  var str = dateText.replace("/", "");
-	  str = str.replace("/", "");
+	function ajouterDate(dateText) """),format.raw("""{"""),format.raw/*79.34*/("""
+	  var str = dateText.replace("/", "");//efface le premier slash de la date
+	  str = str.replace("/", "");//efface le premier slash de la date
 			$("#altField").append("<li id=\""+str+"\">"+ 
 		"<a class=\"linkDate\" name=\""+dateText+"\">"+
 		"<i class=\"icon-trash\"></i>&nbsp;"+
 		"</a>"+dateText+		
 		"</li>");
-	"""),format.raw("""}"""),format.raw/*83.3*/("""	
+	"""),format.raw("""}"""),format.raw/*87.3*/("""	
 
-	$('.linkDate').live('click', function(e) """),format.raw("""{"""),format.raw/*85.44*/("""	  
+	$('.linkDate').live('click', function(e) """),format.raw("""{"""),format.raw/*89.44*/("""	  
 	   $("#date").multiDatesPicker('removeDates', $(this).attr("name")); //enleve la date dans l'affichage du datepicker
 	   $(this).parent().remove();
 	   /*SUPPRESSION DE DATE*/
 	   
-	   $.ajax("""),format.raw("""{"""),format.raw/*90.13*/("""
+	   $.ajax("""),format.raw("""{"""),format.raw/*94.13*/("""
 			type: "POST",
-			url: """"),_display_(Seq[Any](/*92.11*/routes/*92.17*/.Application.removeDate(id))),format.raw/*92.44*/("""",
-			data: '"""),format.raw("""{"""),format.raw/*93.12*/(""""date" : "' + $(this).attr("name") + '""""),format.raw("""}"""),format.raw/*93.52*/("""',
+			url: """"),_display_(Seq[Any](/*96.11*/routes/*96.17*/.Application.removeDate(id))),format.raw/*96.44*/("""",
+			data: '"""),format.raw("""{"""),format.raw/*97.12*/(""""date" : "' + $(this).attr("name") + '""""),format.raw("""}"""),format.raw/*97.52*/("""',
 			contentType: "application/json",
-			success : function(data) """),format.raw("""{"""),format.raw/*95.30*/("""
+			success : function(data) """),format.raw("""{"""),format.raw/*99.30*/("""
 			  
-			"""),format.raw("""}"""),format.raw/*97.5*/("""               
-		"""),format.raw("""}"""),format.raw/*98.4*/(""");	
+			"""),format.raw("""}"""),format.raw/*101.5*/("""               
+		"""),format.raw("""}"""),format.raw/*102.4*/(""");	
 	   
-	"""),format.raw("""}"""),format.raw/*100.3*/(""");
+	"""),format.raw("""}"""),format.raw/*104.3*/(""");
 
 
 	</script>
@@ -144,11 +148,11 @@ Seq[Any](format.raw/*1.58*/("""
 }
                 /*
                     -- GENERATED --
-                    DATE: Mon Jun 04 15:48:37 CEST 2012
+                    DATE: Mon Jun 11 14:12:17 CEST 2012
                     SOURCE: C:/tutoPlay/doodle/app/views/dateselection.scala.html
-                    HASH: f22d83f713f0281edd30dd623e0f3b17fac95d1a
-                    MATRIX: 787->1|928->78|960->102|1044->57|1072->76|1100->156|1139->161|1173->187|1212->189|1402->343|1416->348|1447->357|1658->533|1707->573|1774->602|1845->637|1871->641|1923->657|1961->673|1997->678|2039->685|2089->726|2156->755|2227->790|2253->794|2305->810|2343->826|2379->831|2448->864|2463->870|2525->910|2784->1122|2906->1197|2990->1234|3168->1365|3374->1524|3491->1605|3531->1629|3571->1631|3628->1652|3641->1656|3668->1661|3730->1691|3808->1722|3876->1754|3891->1760|3937->1784|4000->1800|4075->1828|4194->1900|4275->1934|4366->1979|4419->1986|4486->2007|4544->2019|4594->2023|4646->2029|4731->2067|5023->2313|5116->2359|5361->2557|5425->2585|5440->2591|5489->2618|5550->2632|5637->2672|5752->2740|5809->2751|5874->2770|5932->2781
-                    LINES: 27->1|30->5|30->5|31->1|33->4|34->5|37->8|37->8|37->8|43->14|43->14|43->14|49->20|49->20|49->20|50->21|50->21|50->21|50->21|51->22|53->24|53->24|53->24|54->25|54->25|54->25|54->25|55->26|58->29|58->29|58->29|69->40|73->44|74->45|76->47|81->52|85->56|85->56|85->56|86->57|86->57|86->57|87->58|89->60|91->62|91->62|91->62|92->63|92->63|94->65|95->66|97->68|98->69|99->70|100->71|101->72|102->73|104->75|112->83|114->85|119->90|121->92|121->92|121->92|122->93|122->93|124->95|126->97|127->98|129->100
+                    HASH: adaa37d35ec036959512acdcbee8dca3dba41e89
+                    MATRIX: 787->1|928->78|960->102|1044->57|1072->76|1100->156|1139->161|1177->191|1216->193|1397->338|1411->343|1442->352|1653->528|1702->568|1769->597|1840->632|1866->636|1918->652|1956->668|1992->673|2034->680|2084->721|2151->750|2222->785|2248->789|2300->805|2338->821|2374->826|2443->859|2458->865|2520->905|2779->1117|2901->1192|2981->1225|3291->1488|3537->1687|3654->1768|3694->1792|3734->1794|3794->1818|3807->1822|3834->1827|3897->1858|3975->1889|4043->1921|4058->1927|4104->1951|4167->1967|4242->1995|4361->2067|4442->2101|4533->2146|4586->2153|4653->2174|4711->2186|4761->2190|4813->2196|4898->2234|5262->2552|5355->2598|5600->2796|5664->2824|5679->2830|5728->2857|5789->2871|5876->2911|5991->2979|6049->2990|6115->3009|6173->3020
+                    LINES: 27->1|30->5|30->5|31->1|33->4|34->5|37->8|37->8|37->8|43->14|43->14|43->14|49->20|49->20|49->20|50->21|50->21|50->21|50->21|51->22|53->24|53->24|53->24|54->25|54->25|54->25|54->25|55->26|58->29|58->29|58->29|69->40|73->44|74->45|80->51|85->56|89->60|89->60|89->60|90->61|90->61|90->61|91->62|93->64|95->66|95->66|95->66|96->67|96->67|98->69|99->70|101->72|102->73|103->74|104->75|105->76|106->77|108->79|116->87|118->89|123->94|125->96|125->96|125->96|126->97|126->97|128->99|130->101|131->102|133->104
                     -- GENERATED --
                 */
             

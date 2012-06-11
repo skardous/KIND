@@ -33,7 +33,20 @@ td {
 	background-color: #A0A0A0;
 	}
 
-#formPersonne {
-	padding-bottom: -6px;
+
+	
+.selectDate {
+	padding: 6px;
+	border: 1px solid #CCCCCC;
+    border-radius: 10px 10px 10px 10px;
+    width: 25%;
 	}
+	
+.checkbox {
+	display: inline;
+	width: auto;
+	background-color: transparent;
+}	
+
+
 	

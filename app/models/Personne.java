@@ -7,6 +7,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.validation.Valid;
 
 import play.data.format.Formats;
 import play.db.ebean.Model;
@@ -37,6 +38,14 @@ public class Personne extends Model {
 		super();
 		this.nom = nom;
 	}
+	
+	@Valid
+	@ManyToMany
+	public List<Horaire> inscriptionsHoraires = new ArrayList<Horaire>();
+	
+	@Valid
+	@ManyToMany
+	public List<Jour> inscriptionsJours = new ArrayList<Jour>();
 
 	public static Finder<Long, Personne> findPers = new Finder(Long.class,
 			Personne.class);
@@ -48,8 +57,27 @@ public class Personne extends Model {
 		findPers.ref(id).delete();
 	}
 
-	public static void addChoix(Long idpersonne, Long idhoraire) {
-		// TODO Auto-generated method stub
+	public static void addChoixHoraire(Long idpersonne, Long idhoraire) {
+		Personne p = findPers.ref(idpersonne);
+		Horaire h = Horaire.findHoraire.ref(idhoraire);
+		if (p.inscriptionsHoraires.contains(h)) {
+			p.inscriptionsHoraires.remove(h);
+		} else {
+			p.inscriptionsHoraires.add(h);
+		}
+		p.saveManyToManyAssociations("inscriptionsHoraires");
+		
+	}
+	
+	public static void addChoixJour(Long idpersonne, Long idjour) {
+		Personne p = findPers.ref(idpersonne);
+		Jour j = Jour.findJour.ref(idjour);
+		if (p.inscriptionsJours.contains(j)) {
+			p.inscriptionsJours.remove(j);
+		} else {
+			p.inscriptionsJours.add(j);
+		}
+		p.saveManyToManyAssociations("inscriptionsJours");
 		
 	}
 

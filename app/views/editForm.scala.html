@@ -24,46 +24,182 @@
 
 
 <table cellspacing="5" cellpadding="5">
-<tbody>
-<tr class="titres"><td></td>
-@for(jour <- event.jours) {  
-            @for(horaire <- jour.horaires) {
-              <td><p><b>@jour.date</b><br> @horaire.debut - @horaire.fin</p></td>
-            }            	                
-}	</tr>
-              
-<div id="Participants">
-@for(participant <- event.participants) {
-	<tr id="@participant.getId()"><td class="infoPersonne">
-		@form(routes.Application.updatePersonne(id), 'id->"formPersonne") {
-			<input id="nom" type="text" value="@participant.getNom()" name="nom" readonly="readonly">
+	<tbody id="mainBody">
+		<tr class="titres" style="display:none"><td style="visibility:hidden"></td>
+			@for(jour <- event.jours) {  					  
+				<td id="@jour.id" class="jour" colspan="@jour.horaires.size()"><b>@jour.date</b></td>	                        	                
+			}
+		</tr>
+		<tr class="titres" style="display:none"><td style="visibility:hidden"></td>
+			@for(jour <- event.jours) {  
+			  @if(jour.horaires.size() == 0){
+			    <td class="jour"></td>
+			  }
+			     @for(horaire <- jour.horaires) {
+			    	 <td id="@horaire.id" day="@jour.date" class="horaire">@horaire.debut - @horaire.fin</td>
+			     }            	                
+			}
+		</tr>
+		              
 		
-			<a id="@participant.getId()" class="editPersonne btn"><i class="icon-pencil"></i></a>
-			<a id="@participant.getId()" class="deletePersonne btn btn-danger"><i class="icon-trash"></i></a>
-		}</td>
-		
-		@for(jour <- event.jours) {  
-            @for(horaire <- jour.horaires) {
-              <td><input id="@horaire.id" type="checkbox" value="@horaire.debut - @horaire.fin" /></td>
-            }            	                
-        }		
-		
+		@for(participant <- event.participants) {
+			<tr id="@participant.getId()"><td class="infoPersonne">
+				@form(routes.Application.updatePersonne(id), 'id->"formPersonne") {
+					<input id="nom" type="text" value="@participant.getNom()" name="nom" readonly="readonly">	
+				
+					<a id="@participant.getId()" class="editPersonne btn"> Editer<i class="icon-pencil"></i></a>
+					<a id="@participant.getId()" class="deletePersonne btn btn-danger"> Supprimer<i class="icon-trash"></i></a>
+				}</td>
+				
+				@for(jour <- event.jours) {
+				    @if(jour.horaires.size() == 0){
+				      @if(participant.inscriptionsJours.contains(jour)) {
+		                <td class="checktd"><input id="@jour.id" type="checkbox" checked class="jour checkbox" value="@jour.date" /></td>
+		              } else {
+		                 <td class="checktd"><input id="@jour.id" type="checkbox" class="jour checkbox" value="@jour.date" /></td>
+		              }
+				       
+				    }
+		            @for(horaire <- jour.horaires) {
+		              @if(participant.inscriptionsHoraires.contains(horaire)) {
+		                <td class="checktd"><input id="@horaire.id" type="checkbox" class="horaire checkbox"  checked value="@horaire.debut - @horaire.fin" /></td>
+		              } else {
+		                 <td class="checktd"><input id="@horaire.id" type="checkbox" class="horaire checkbox" value="@horaire.debut - @horaire.fin" /></td>
+		              }
+		            }            	                
+		        }				
+			</tr>
+		}
+	
+	<tr id="compte" class="titres" style="display:none">
+		<td id=""><b>Compte: </b></td>
+		@for(jour <- event.jours) {
+		    @if(jour.horaires.size() == 0){		     
+                <td id="@jour.id" class="jour">0</td>	       
+		    }
+            @for(horaire <- jour.horaires) {              
+                <td id="@horaire.id" class="horaire">0</td>              
+            }
+		}
 	</tr>
-}
-</tbody>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td> Date(s) populaire(s) :</td>
+			<td colspan="0" class="footer"></td>
+		</tr>
+	</tfoot>
+
+
+	
 </table>
 
-</div>
 Ajouter :		  
-<input id="champ" type="text" value="">
+<input id="champ" type="text" value=""><a id="ajouter" class="btn">Ajouter</a><br>
+
+<br>
+<h3>Inviter des copains</h3>
+
+<div class="selectDate">
+<textarea id="mailsArea" rows="4"></textarea>
+<a id="envoiLien" class="btn btn-info">Envoyer Lien</a>
+</div>
 
 <script type="text/javascript" charset="utf-8">
 
-$('.deletePersonne').live('click', function(e) {
-    $(this).parents('#formPersonne').remove()
-    renumber();
-   
+$(function(){ 
+	$('.checkbox').each(function (i) {
+	  	if ($(this).is(':checked')){
+	  		$(this).parent().css("background-color", "#66CC99");
+	  	}
+	});
+
+	$('.infoPersonne').each(function (i) {
+	  $('.titres').attr('style','');
+	});
+
+
+
+	$('input[type="checkbox"]').each(function(i) {
+	var iden = $(this).attr('id');
+
+	if ($(this).attr('class') == 'horaire checkbox') {
+		if ($(this).is(':checked')){
+	    	var increment = $('#compte').children('.horaire[id="'+iden+'"]');
+			increment.html(parseInt(increment.html())+1);
+		}
+	}
+	if ($(this).attr('class') == 'jour checkbox') {
+		if ($(this).is(':checked')){
+	    	var increment = $('#compte').children('.jour[id="'+iden+'"]');
+			increment.html(parseInt(increment.html())+1);
+		}
+	}
+	});
+
+	var max = 0;
+	$("#compte").children().each( function() {
+		$(this).css("background-color", "#A0A0A0") //gris
+		$('.titres').children().css("background-color","#A0A0A0");		
+		if ($(this).html() > max) {			
+			max = $(this).html();
+		}
+	})
+	$("#compte").children().each( function() {		
+		if ($(this).html() == max && $(this).html() != 0) {			
+			$(this).css("background-color", "black");
+			//alert("classe : "+$(this).attr("class")+" id : "+$(this).attr("id"));
+			$('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').css("background-color", "black");
+			if($(this).attr("class") == "horaire") {
+				var day = $('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').attr("day");				
+				$("td:contains('"+day+"')").css("background-color", "black");
+				
+			}
+		}
+	})
+  
+});
+
+
+$('#envoiLien').live('click', function(e) {
+  var mailsList = $("#mailsArea").val();
+  
+	$.ajax({
+		type: "POST",
+		url: "@routes.Application.sendMail(id)",
+		data: '{"mailslist" : "' + mailsList + '"}',
+		contentType: "application/json",
+		success : function(data) {
+		  alert("Mail(s) envoye(s) a "+mailsList);
+		}
+   });
+});
+	  
+	  
+$('.deletePersonne').live('click', function(e) {    
+    $(this).parent().parent().parent().remove();
+    renumber();   
     deletePersonne($(this).attr('id'));
+    if($('td[class="infoPersonne"]').html() == null) {
+    	$('.titres').attr('style','display:none');
+    }
+    $('#compte').children('td[id!=""]').each(function(i) {$(this).html("0")});
+    $('input[type="checkbox"]').each(function(i) {
+    var iden = $(this).attr('id');
+  
+    if ($(this).attr('class') == 'horaire') {
+    	if ($(this).is(':checked')){
+	    	var increment = $('#compte').children('.horaire[id="'+iden+'"]');
+			increment.html(parseInt(increment.html())+1);
+    	}
+    }
+    if ($(this).attr('class') == 'jour') {
+    	if ($(this).is(':checked')){
+	    	var increment = $('#compte').children('.jour[id="'+iden+'"]');
+			increment.html(parseInt(increment.html())+1);
+    	}
+    }
+  });
 })
 
 $('.editPersonne').live('click', function(e) {
@@ -81,37 +217,26 @@ $('.editPersonne').live('click', function(e) {
   
 })
 
-$('input[type="checkbox"]').live('click', function(e) { 
-   //alert("aha");
-   var idhoraire = $(this).attr('id');
-   var idParticipant = $(this).parent().parent().attr('id');
+
+
+
+
+$("#ajouter").live('click', function(e){
   
-   if ($(this).is(':checked')){
-	   $(this).parent().css("background-color", "#66CC99")//vert	
-	   $.ajax({
-			type: "POST",
-			url: "@routes.Application.checkBox(id)",
-			data: '{"idhoraire" : "' + idhoraire + '", "idpersonne" : "' + idParticipant + '"}',
-			contentType: "application/json",
-			success : function(data) {
-			  alert("Participant edit\351");
-			}
-	   });
-   } else {
-	   $(this).parent().css("background-color", "#A0A0A0")
-   }
+    envoiPersonne($("#champ"));
 });
 
 
 
-$("#champ").focusout(function(){
+
+function envoiPersonne(self)
+{
     var vide = "";
-    var nom = $(this).attr("value");
-    if (vide != nom.trim()) {      
-		addPersonne($("#champ").attr('value'));	
-		alert("Ajout\351: "+$("#champ").attr('value'));
+    var nom = self.attr("value");
+    if (vide != nom) {      
+		addPersonne($("#champ").attr('value'));			
 	}
-})
+}
 
 function editPersonne(personneId, personneNom)
 {
@@ -121,7 +246,7 @@ function editPersonne(personneId, personneNom)
 		data: '{"id" : "' + personneId + '", "nom" : "' + personneNom + '"}',
 		contentType: "application/json",
 		success : function(data) {
-		  alert("Participant edit\351");
+		  //alert("Participant edit\351");
 		}
   });
 }
@@ -134,7 +259,7 @@ function deletePersonne(persId)
 		data: '{"id" : "' + persId + '"}',
 		contentType: "application/json",
 		success : function(data) {
-		  alert("Participant supprim\351");
+		  //alert("Participant supprim\351");
 		}
   });
 }
@@ -147,50 +272,144 @@ function addPersonne(nomParticipant)
 		data: '{"nom" : "' + nomParticipant + '"}',
 		contentType: "application/json",
 		success : function(data) {		  
-		  $("tbody").append("<tr><td class=\"infoPersonne\"><div class=\"formPersonne\">"+
+		  $("#mainBody").append("<tr id=\""+data.idPersonne+"\"><td class=\"infoPersonne\">"+
 				  "<form id=\"formPersonne\">"+
 				  "<input id=\"nom\" type=\"text\" value=\""+nomParticipant+"\" name=\"nom\" readonly=\"readonly\">&nbsp;"+
-				  "<a id=\""+data.idPersonne+"\" class=\"editPersonne btn\"><i class=\"icon-pencil\"></i></a>&nbsp;"+
-				  "<a id=\""+data.idPersonne+"\" class=\"deletePersonne btn btn-danger\"><i class=\"icon-trash\"></i></a>"+				  
+				  "<a id=\""+data.idPersonne+"\" class=\"editPersonne btn\">Editer<i class=\"icon-pencil\"></i></a>&nbsp;"+
+				  "<a id=\""+data.idPersonne+"\" class=\"deletePersonne btn btn-danger\">Supprimer<i class=\"icon-trash\"></i></a>"+				  
 				 "</form></td>"+
 				  "@for(jour <- event.jours) {"+  
-                	"@for(horaire <- jour.horaires) {"+
-                	" <td><input id=\"@horaire.id\" type=\"checkbox\" value=\"@horaire.debut - @horaire.fin\" /></td>"+
-                	"}"+                	                
-                "}" +
-				"</tr></div>")
+				  	"@if(jour.horaires.size() == 0){<td class=\"checktd\"><input id=\"@jour.id\" type=\"checkbox\" class=\"jour checkbox\" value=\"@jour.date\" /></td>}"+
+	                	"@for(horaire <- jour.horaires) {"+	                		
+			                 "<td class=\"checktd\"><input id=\"@horaire.id\" type=\"checkbox\" class=\"horaire checkbox\" value=\"@horaire.debut - @horaire.fin\" /></td>"+			                
+	                	"}"+                	                
+                  "}" +
+				"</tr>")
 		  $('#champ').attr('value', '')
+		  $('.titres').attr('style','');
 		}               
 	});
 }
 
 
-
-
-$('#form').submit(function() {
-	$('.hidden').remove()
-
-})
-
-// -- renumber fields
-
-// Rename fields to have a coherent payload like:
-//
-// informations[0].label
-// informations[0].email
-// informations[0].phones[0]
-// informations[0].phones[1]
-// ...
-//
-// This is probably not the easiest way to do it. A jQuery plugin would help.
-
-var renumber = function() {
-	$('.participants').each(function(i) {
-		$('input', this).each(function() {
-			$(this).attr('name', $(this).attr('name').replace(/participants\[.+?\]/g, 'participants[' + i + ']'))
-		})                
+$('.checktd').live('click', function(e) {
+      
+	if ($(this).children().prop("checked") == false) {
+	  if (e.target.nodeName == "TD"){
+	  	$(this).children().prop("checked", true);
+	  }
+	  changeCheck($(this).children());
+	} else {
+	if (e.target.nodeName == "TD"){
+	  	$(this).children().prop("checked", false);
+	}        
+	changeCheck($(this).children());
+	}
+	var max = 0;
+	$("#compte").children().each( function() {
+		$(this).css("background-color", "#A0A0A0") //gris
+		$('.titres').children().css("background-color","#A0A0A0");
+		$('.footer').html("");
+		if ($(this).html() > max) {			
+			max = $(this).html();
+		}
 	})
+	$("#compte").children().each( function() {		
+		if ($(this).html() == max && $(this).html() != 0) {			
+			$(this).css("background-color", "black");
+			//alert("classe : "+$(this).attr("class")+" id : "+$(this).attr("id"));
+			$('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').css("background-color", "black");
+			if($(this).attr("class") == "horaire") {
+				var day = $('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').attr("day");				
+				$("td:contains('"+day+"')").css("background-color", "black");
+				$('.footer').append(day);
+			}
+		}
+	})
+
+
+
+});
+
+
+
+$(".checktd").hover(  
+  function () {  	
+    $(this).css("background-color", "lightgreen");
+    
+  },
+  function () {
+  	if ($(this).children().is(':checked')){	 
+    	$(this).css("background-color", "#66CC99");
+    } else {
+    	$(this).css("background-color", "#A0A0A0");
+    }
+
+  }
+);
+
+
+function changeCheck(box) {   
+   var idtime = box.attr('id');
+   var idParticipant = box.parent().parent().attr('id');   
+   
+   if (box.is(':checked')){	   		
+       		box.parent().css("background-color", "#66CC99")//vert
+	   		if (box.attr('class') == 'horaire checkbox') {
+	           var increment = $('#compte').children('.horaire[id="'+idtime+'"]');
+		   	   increment.html(parseInt(increment.html())+1);
+	       	   requeteAjaxHeure(idtime, idParticipant);
+		    }
+       		if (box.attr('class') == 'jour checkbox') {	
+    	   	   var increment = $('#compte').children('.jour[id="'+idtime+'"]');
+		   	   increment.html(parseInt(increment.html())+1);
+			   requeteAjaxJour(idtime, idParticipant);
+		   }
+   } else {
+     
+     box.parent().css("background-color", "#A0A0A0")//gris
+     if (box.attr('class') == 'horaire checkbox') {
+	     var increment = $('#compte').children('.horaire[id="'+idtime+'"]');
+	     increment.html(parseInt(increment.html())-1);
+	     requeteAjaxHeure(idtime, idParticipant);
+     }
+     if (box.attr('class') == 'jour checkbox') {
+        var increment = $('#compte').children('.jour[id="'+idtime+'"]');
+	    increment.html(parseInt(increment.html())-1);
+	    requeteAjaxJour(idtime, idParticipant);
+     }
+   }
+   
+   
 }
+
+function requeteAjaxJour(idtime, idParticipant)
+{
+  $.ajax({
+		type: "POST",
+		url: "@routes.Application.checkBoxJour(id)",
+		data: '{"idjour" : "' + idtime + '", "idpersonne" : "' + idParticipant + '"}',
+		contentType: "application/json",
+		success : function(data) {
+		  //alert("Jour edit\351");
+		}
+   });
+}
+
+function requeteAjaxHeure(idtime, idParticipant)
+{
+  $.ajax({
+		type: "POST",
+		url: "@routes.Application.checkBoxHoraire(id)",
+		data: '{"idhoraire" : "' + idtime + '", "idpersonne" : "' + idParticipant + '"}',
+		contentType: "application/json",
+		success : function(data) {
+		  //alert("Horaire edit\351");
+		}
+   });
+}
+
+
 
 </script>
 

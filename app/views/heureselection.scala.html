@@ -6,12 +6,12 @@
 
 
 
-@main("Creer un evenement") {
+@main("Selectionner les horaires") {
     
-    <h2>Selectionner les dates/horaires:</h2>
+    <h2>Selectionner les horaires:</h2>
     
     @for(jour <- event.jours) {
-		<div class="control-group" id="@jour.getId">
+		<div class="control-group selectDate" id="@jour.getId">
 		  @form(routes.Application.updatePersonne(id), 'id->"formJour") {
 			  @jour.getDate()
 			 
@@ -44,7 +44,7 @@
 			data: '{"jour" : "' + idJour + '"}',
 			contentType: "application/json",
 			success : function(data) {
-			    button.parent().append("<div id=\""+data.idHoraire+"\"><br>&nbsp; Debut :<select id=\"hrDeb\">"+optionsHeuresDebut+"</select>"+
+			    button.parent().append("<div id=\""+data.idHoraire+"\">&nbsp; Debut :<select id=\"hrDeb\">"+optionsHeuresDebut+"</select>"+
 					"h"+
 					"<select id=\"minDeb\">"+optionsMinutes+"</select>"+
 					" Fin :<select id=\"hrFin\">"+optionsHeuresFin+"</select>"+
