@@ -27,7 +27,7 @@ a:hover {
     display: none;
 }
 
-td {
+table.datesTable td {
 	color: white;
 	text-align: center;	
 	background-color: #A0A0A0;
@@ -48,5 +48,12 @@ td {
 	background-color: transparent;
 }	
 
+/*tr.noneditable input.checkbox {
+	display: none; 
+}*/
+
+form {
+	display:inline;
+}
 
 	

@@ -45,6 +45,7 @@ Seq[Any](format.raw/*1.32*/("""
 		<script type="text/javascript" src=""""),_display_(Seq[Any](/*16.40*/routes/*16.46*/.Assets.at("javascripts/jquery-ui-1.7.3.custom.min.js"))),format.raw/*16.101*/(""""></script>
 		<script type="text/javascript" src=""""),_display_(Seq[Any](/*17.40*/routes/*17.46*/.Assets.at("javascripts/jquery-ui.multidatespicker.js"))),format.raw/*17.101*/(""""></script>
 		<script type="text/javascript" src=""""),_display_(Seq[Any](/*18.40*/routes/*18.46*/.Assets.at("javascripts/eventForm.js"))),format.raw/*18.84*/(""""></script>
+    
     </head>
     
     
@@ -56,15 +57,15 @@ Seq[Any](format.raw/*1.32*/("""
     		<div class="navbar-inner">
  				 <div class="container">
    				    <ul class="nav">
-					<li><a href=""""),_display_(Seq[Any](/*30.20*/routes/*30.26*/.Application.events())),format.raw/*30.47*/("""">Creer un evenement</a></li>
-					 <li><a href=""""),_display_(Seq[Any](/*31.21*/routes/*31.27*/.Application.eventlist())),format.raw/*31.51*/("""">Liste des evenements</a></li>
+					<li><a href=""""),_display_(Seq[Any](/*31.20*/routes/*31.26*/.Application.events())),format.raw/*31.47*/("""">Creer un evenement</a></li>
+					 <li><a href=""""),_display_(Seq[Any](/*32.21*/routes/*32.27*/.Application.eventlist())),format.raw/*32.51*/("""">Liste des evenements</a></li>
 					 </ul>			  
 			 </div>
 	 	</div>	
   </div>
         
        
-        """),_display_(Seq[Any](/*38.10*/content)),format.raw/*38.17*/("""
+        """),_display_(Seq[Any](/*39.10*/content)),format.raw/*39.17*/("""
     </body>
 </html>
 """))}
@@ -79,11 +80,11 @@ Seq[Any](format.raw/*1.32*/("""
 }
                 /*
                     -- GENERATED --
-                    DATE: Mon Jun 04 09:16:09 CEST 2012
-                    SOURCE: C:/tutoPlay/doodle/app/views/main.scala.html
-                    HASH: 2e81b70381091108429ee4d8b0955de10976eded
-                    MATRIX: 759->1|899->31|927->67|1016->120|1043->125|1146->192|1161->198|1215->230|1292->271|1307->277|1395->342|1506->417|1521->423|1625->504|1718->561|1733->567|1789->601|1867->643|1882->649|1949->694|2036->745|2051->751|2129->806|2216->857|2231->863|2309->918|2396->969|2411->975|2471->1013|2718->1224|2733->1230|2776->1251|2862->1301|2877->1307|2923->1331|3065->1437|3094->1444
-                    LINES: 27->1|31->1|33->4|39->10|39->10|40->11|40->11|40->11|41->12|41->12|41->12|42->13|42->13|42->13|43->14|43->14|43->14|44->15|44->15|44->15|45->16|45->16|45->16|46->17|46->17|46->17|47->18|47->18|47->18|59->30|59->30|59->30|60->31|60->31|60->31|67->38|67->38
+                    DATE: Thu Jun 14 14:00:29 CEST 2012
+                    SOURCE: C:/tutoPlay/KIND/app/views/main.scala.html
+                    HASH: 5367377b9d9ac07077a7ff9ba289ce18cd7d0520
+                    MATRIX: 759->1|899->31|927->67|1016->120|1043->125|1146->192|1161->198|1215->230|1292->271|1307->277|1395->342|1506->417|1521->423|1625->504|1718->561|1733->567|1789->601|1867->643|1882->649|1949->694|2036->745|2051->751|2129->806|2216->857|2231->863|2309->918|2396->969|2411->975|2471->1013|2723->1229|2738->1235|2781->1256|2867->1306|2882->1312|2928->1336|3070->1442|3099->1449
+                    LINES: 27->1|31->1|33->4|39->10|39->10|40->11|40->11|40->11|41->12|41->12|41->12|42->13|42->13|42->13|43->14|43->14|43->14|44->15|44->15|44->15|45->16|45->16|45->16|46->17|46->17|46->17|47->18|47->18|47->18|60->31|60->31|60->31|61->32|61->32|61->32|68->39|68->39
                     -- GENERATED --
                 */
             

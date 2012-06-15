@@ -21,27 +21,22 @@ public class Horaire extends Model {
 	public Long id;	
 
 	public String debut;
+
+	public String fin;
+
+	
 	
 	public String getDebut() {
 		return debut;
 	}
 
-
-
 	public void setDebut(String debut) {
 		this.debut = debut;
-	}
-
-
-
-	public String fin;
-		
+	}		
 
 	public String getFin() {
 		return fin;
 	}
-
-
 
 	public void setFin(String fin) {
 		this.fin = fin;

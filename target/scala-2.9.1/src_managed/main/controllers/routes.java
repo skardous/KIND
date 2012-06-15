@@ -1,6 +1,6 @@
-// @SOURCE:C:/tutoPlay/doodle/conf/routes
+// @SOURCE:C:/tutoPlay/KIND/conf/routes
 // @HASH:39e0689e7d1650f953e32a8f1b4e21ebf83f6567
-// @DATE:Thu Jun 07 15:01:48 CEST 2012
+// @DATE:Tue Jun 12 14:45:23 CEST 2012
 
 package controllers;
 

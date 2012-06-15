@@ -21,39 +21,20 @@ import play.data.validation.Constraints.*;
 public class Evenement extends Model {
 
 	@Id
-	public Long id;
-
-	public Long getId() {
-		return id;
-	}
+	public Long id;	
 
 	@Required
-	public String titre;
-
-	public String getTitre() {
-		return titre;
-	}
+	public String titre;	
 
 	public String lieu;
 
-	public String descriptif;
-
-	public String getDescriptif() {
-		return descriptif;
-	}
+	public String descriptif;	
 
 	@Required
-	public String createur;
-
-	public String getCreateur() {
-		return createur;
-	}
-
-	public String mail;
-
-	public String dates;
+	public String createur;	
 	
-	public String heures;
+	@Email
+	public String mail;	
 
 	@Valid
 	@ManyToMany
@@ -62,28 +43,6 @@ public class Evenement extends Model {
 	@Valid
 	@ManyToMany
 	public List<Jour> jours = new ArrayList<Jour>();
-
-	// @Formats.DateTime(pattern="MM/dd/yyyy")
-	// public Date date;
-
-	/*
-	 * public int hdebut; public int mdebut;
-	 * 
-	 * public int hfin; public int mfin;
-	 */
-
-	/*
-	 * public Evenement() {
-	 * 
-	 * }
-	 * 
-	 * public Evenement(String titre, String lieu, String descriptif, String
-	 * createur, String mail, String... participants) { this.titre = titre;
-	 * this.lieu = lieu; this.descriptif = descriptif; this.createur = createur;
-	 * this.mail = mail; this.participants = new ArrayList<Personne>(); for
-	 * (String participant : participants) { this.participants.add(new
-	 * Personne(participant)); } }
-	 */
 
 	public static Finder<Long, Evenement> findEvt = new Finder(Long.class,
 			Evenement.class);
@@ -111,8 +70,8 @@ public class Evenement extends Model {
 		Boolean exists = false;
 		if (evt.jours != null) {
 			for (Jour j : evt.jours) {
-				if (j.getDate().equals(date)) {	
-					evt.jours.remove(Jour.findJour.ref(j.getId()));
+				if (j.date.equals(date)) {	
+					evt.jours.remove(Jour.findJour.ref(j.id));
 					evt.saveManyToManyAssociations("jours");
 					exists = true;
 					break;
@@ -141,8 +100,8 @@ public class Evenement extends Model {
 	public static void removeJour(Long eventId, String date) {
 		Evenement evt = Evenement.findEvt.ref(eventId);
 		for (Jour j : evt.jours) {
-			if (j.getDate().equals(date)) {	
-				evt.jours.remove(Jour.findJour.ref(j.getId()));
+			if (j.date.equals(date)) {	
+				evt.jours.remove(Jour.findJour.ref(j.id));
 				evt.saveManyToManyAssociations("jours");				
 				break;
 			}			

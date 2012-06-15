@@ -11,12 +11,12 @@
     <h2>Selectionner les horaires:</h2>
     
     @for(jour <- event.jours) {
-		<div class="control-group selectDate" id="@jour.getId">
+		<div class="control-group selectDate" id="@jour.id">
 		  @form(routes.Application.updatePersonne(id), 'id->"formJour") {
-			  @jour.getDate()
+			  @jour.date
 			 
 			<a class="linkPlus btn btn-success" >
-			<i class="icon-plus"></i></a>
+			<i class="mesicones icon-plus"></i></a>
 		
 			  
 		  }
@@ -44,15 +44,43 @@
 			data: '{"jour" : "' + idJour + '"}',
 			contentType: "application/json",
 			success : function(data) {
-			    button.parent().append("<div id=\""+data.idHoraire+"\">&nbsp; Debut :<select id=\"hrDeb\">"+optionsHeuresDebut+"</select>"+
-					"h"+
-					"<select id=\"minDeb\">"+optionsMinutes+"</select>"+
-					" Fin :<select id=\"hrFin\">"+optionsHeuresFin+"</select>"+
-					"h"+
-					"<select id=\"minFin\">"+optionsMinutes+"</select>"+
+			    button.parent().append("<div id=\""+data.idHoraire+"\">"+
+					"<input type=\"text\" id=\"amount"+data.idHoraire+"\" value=\"8h - 17h\" style=\"border:0; color:#f6931f; font-weight:bold;\" />"+
 					"&nbsp;<a class=\"linkMinus btn btn-danger\" >"+
-					"<i class=\"icon-minus\"></i></a></div>"
+					"<i class=\"mesicones icon-minus\"></i></a></div>"+
+					
+					"<div class=\"slider-range\"></div>"
 				);
+			    $( ".slider-range" ).slider({
+			    	range: true,
+			    	min: 0,
+			    	max: 1440,
+			    	step: 15,
+			    	values: [ 8*60, 17*60 ],
+			    	slide: function( event, ui ) {
+			    		$( "#amount"+data.idHoraire ).val(parseInt(ui.values[ 0 ]/60) + "h"+pad2(ui.values[ 0 ]%60)+" - " + parseInt(ui.values[ 1 ]/60) +"h"+pad2(ui.values[ 1 ]%60));
+			    	},
+			    	change: function(event, ui) {
+			    		var debut;
+			    		var fin;
+						debut = parseInt(ui.values[ 0 ]/60) + "h"+pad2(ui.values[ 0 ]%60);
+						fin = parseInt(ui.values[ 1 ]/60) + "h"+pad2(ui.values[ 1 ]%60);
+						$.ajax({
+							type: "POST",
+							url: "@routes.Application.dateChanged(id)",
+							data: '{"idhoraire" : "' + data.idHoraire + '",'+ 
+							'"debut" : "' + debut + '",'+
+							'"fin" : "' + fin + '"}',
+							contentType: "application/json",
+							success : function(data) {
+
+							}               
+						});
+
+					}
+			    });
+			    $( "#amount"+data.idHoraire ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+			    	" - $" + $( "#slider-range" ).slider( "values", 1 ) );
 			}               
 		});
     });
@@ -109,23 +137,13 @@
 	});
 	
 
-	$('#hrDeb, #minDeb, #hrFin, #minFin').live('change', function(e) {
-	  var debut = $(this).parent().children('#hrDeb').val()+"h"+$(this).parent().children('#minDeb').val();
-	    var fin = $(this).parent().children('#hrFin').val()+"h"+$(this).parent().children('#minFin').val();
-	   var idhoraire = $(this).parent().attr("id");
-	  
-	    	$.ajax({
-				type: "POST",
-				url: "@routes.Application.dateChanged(id)",
-				data: '{"idhoraire" : "' + idhoraire + '",'+ 
-				  		'"debut" : "' + debut + '",'+
-				  		'"fin" : "' + fin + '"}',
-				contentType: "application/json",
-				success : function(data) {
-					
-				}               
-			});		
-	});
+	
+	
+	function pad2(number) {
+   
+    	return (number < 10 ? '0' : '') + number
+   
+	}
 
 	</script>
     

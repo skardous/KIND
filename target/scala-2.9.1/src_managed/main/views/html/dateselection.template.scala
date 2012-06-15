@@ -27,35 +27,25 @@ object dateselection extends BaseScalaTemplate[play.api.templates.Html,Format[pl
     def apply/*1.2*/(id: Long, eventForm: Form[Evenement], event: Evenement):play.api.templates.Html = {
         _display_ {import helper._
 
-implicit def /*5.2*/implicitFieldConstructor/*5.26*/ = {{ FieldConstructor(twitterBootstrapInput.render) }};
+
 Seq[Any](format.raw/*1.58*/("""
 
 """),format.raw/*4.1*/("""
-"""),format.raw/*5.80*/(""" 
 
-
-"""),_display_(Seq[Any](/*8.2*/main("Selectionner les jours")/*8.32*/ {_display_(Seq[Any](format.raw/*8.34*/("""
+"""),_display_(Seq[Any](/*6.2*/main("Selectionner les jours")/*6.32*/ {_display_(Seq[Any](format.raw/*6.34*/("""
     
     <h2>Selectionner les jours:</h2>
     
            
 
-      <div class="control-group"><label class="control-label">TITRE:&nbsp;</label> """),_display_(Seq[Any](/*14.85*/event/*14.90*/.getTitre)),format.raw/*14.99*/(""" </div>  <br>  
+      TITRE:&nbsp; """),_display_(Seq[Any](/*12.21*/event/*12.26*/.titre)),format.raw/*12.32*/(""" <br>  
       
-        <label class="control-label">Date</label> <div class="controls" id="date"></div> 
+        Date:  <div class="controls" id="date"></div> 
 		
-   		<ul class="controls" id="altField"> </ul> 
-    	
-    	"""),_display_(Seq[Any](/*20.7*/input(eventForm("dates"), '_label -> "")/*20.47*/ { (id, name, value, args) =>_display_(Seq[Any](format.raw/*20.76*/("""
-		    <input type="hidden" name=""""),_display_(Seq[Any](/*21.35*/name)),format.raw/*21.39*/("""" id="myDates" """),_display_(Seq[Any](/*21.55*/toHtmlArgs(args))),format.raw/*21.71*/(""">
-		""")))})),format.raw/*22.4*/("""
-		
-		"""),_display_(Seq[Any](/*24.4*/input(eventForm("heures"), '_label -> "")/*24.45*/ { (id, name, value, args) =>_display_(Seq[Any](format.raw/*24.74*/("""
-		    <input type="hidden" name=""""),_display_(Seq[Any](/*25.35*/name)),format.raw/*25.39*/("""" id="myHours" """),_display_(Seq[Any](/*25.55*/toHtmlArgs(args))),format.raw/*25.71*/(""">
-		""")))})),format.raw/*26.4*/("""
+   		<ul class="controls" id="altField"> </ul>     	
 				
         
-        <a href=""""),_display_(Seq[Any](/*29.19*/routes/*29.25*/.Application.heureSelection(event.getId))),format.raw/*29.65*/("""" class="btn btn-primary">Continuer</a>
+        <a href=""""),_display_(Seq[Any](/*19.19*/routes/*19.25*/.Application.heureSelection(event.id))),format.raw/*19.62*/("""" class="btn btn-primary">Continuer</a>
         
     
     
@@ -66,71 +56,43 @@ Seq[Any](format.raw/*1.58*/("""
 		var heuresList = new Array(); 
 	
 
-	$(function()"""),format.raw("""{"""),format.raw/*40.15*/("""  
-		
-		$( "#date" ).multiDatesPicker();
-		
-		$("#date").multiDatesPicker("""),format.raw("""{"""),format.raw/*44.32*/("""
-	   		onSelect: function(date) """),format.raw("""{"""),format.raw/*45.33*/("""
-	   		    var selectionType = $.inArray(date, $( "#date" ).multiDatesPicker('getDates'));
-	   		    var d = new Date(date);
-	   		    
-	   		    //var d = date.substring(1, 8);
-	   		    var dateText = d.toLocaleDateString();
-	   		    if (selectionType == -1) """),format.raw("""{"""),format.raw/*51.37*/(""" // suppression de la date dans la liste
-	   		      var str = dateText.replace("/", "");
-	   		      str = str.replace("/", "");
-	   		      	   		      
-	   		      $("#"+str).remove();
-	   		    """),format.raw("""}"""),format.raw/*56.12*/("""
-	   		
-	   		  	$(".areload").html("");
-	   			$(".areload").html(
-	   			    """"),_display_(Seq[Any](/*60.14*/for(jour <- event.jours) yield /*60.38*/ {_display_(Seq[Any](format.raw/*60.40*/(""""+
-	        	   		"<li>"""),_display_(Seq[Any](/*61.22*/jour/*61.26*/.date)),format.raw/*61.31*/(""" &nbsp;"+
-	           		"</li>""")))})),format.raw/*62.22*/(""""
-	   			    );
-	   			$.ajax("""),format.raw("""{"""),format.raw/*64.16*/("""
-					type: "POST",
-					url: """"),_display_(Seq[Any](/*66.13*/routes/*66.19*/.Application.addDate(id))),format.raw/*66.43*/("""",
-					data: '"""),format.raw("""{"""),format.raw/*67.14*/(""""date" : "' + dateText + '""""),format.raw("""}"""),format.raw/*67.42*/("""',
-					contentType: "application/json",
-					success : function(data) """),format.raw("""{"""),format.raw/*69.32*/("""
-					  if (selectionType != -1) """),format.raw("""{"""),format.raw/*70.34*/("""					
-						  ajouterDate(dateText);
-					  """),format.raw("""}"""),format.raw/*72.9*/("""
-					"""),format.raw("""}"""),format.raw/*73.7*/("""               
-				"""),format.raw("""}"""),format.raw/*74.6*/(""");		
-	    	"""),format.raw("""}"""),format.raw/*75.8*/("""
-		"""),format.raw("""}"""),format.raw/*76.4*/("""); 
-	"""),format.raw("""}"""),format.raw/*77.3*/(""");
-	
-	function ajouterDate(dateText) """),format.raw("""{"""),format.raw/*79.34*/("""
+		$(function()"""),format.raw("""{"""),format.raw/*30.16*/("""  
+
+			$( "#date" ).multiDatesPicker();
+
+			$("#date").multiDatesPicker("""),format.raw("""{"""),format.raw/*34.33*/("""
+				onSelect: function(date) """),format.raw("""{"""),format.raw/*35.31*/("""
+					alert("select");
+	   		"""),format.raw("""}"""),format.raw/*37.8*/("""
+	   	"""),format.raw("""}"""),format.raw/*38.7*/("""); 
+		"""),format.raw("""}"""),format.raw/*39.4*/(""");
+
+	function ajouterDate(dateText) """),format.raw("""{"""),format.raw/*41.34*/("""
 	  var str = dateText.replace("/", "");//efface le premier slash de la date
 	  str = str.replace("/", "");//efface le premier slash de la date
-			$("#altField").append("<li id=\""+str+"\">"+ 
-		"<a class=\"linkDate\" name=\""+dateText+"\">"+
-		"<i class=\"icon-trash\"></i>&nbsp;"+
-		"</a>"+dateText+		
-		"</li>");
-	"""),format.raw("""}"""),format.raw/*87.3*/("""	
+	  $("#altField").append("<li id=\""+str+"\">"+ 
+	  	"<a class=\"linkDate\" name=\""+dateText+"\">"+
+	  	"<i class=\"mesicones icon-trash\"></i>&nbsp;"+
+	  	"</a>"+dateText+		
+	  	"</li>");
+	"""),format.raw("""}"""),format.raw/*49.3*/("""
 
-	$('.linkDate').live('click', function(e) """),format.raw("""{"""),format.raw/*89.44*/("""	  
-	   $("#date").multiDatesPicker('removeDates', $(this).attr("name")); //enleve la date dans l'affichage du datepicker
-	   $(this).parent().remove();
-	   /*SUPPRESSION DE DATE*/
-	   
-	   $.ajax("""),format.raw("""{"""),format.raw/*94.13*/("""
-			type: "POST",
-			url: """"),_display_(Seq[Any](/*96.11*/routes/*96.17*/.Application.removeDate(id))),format.raw/*96.44*/("""",
-			data: '"""),format.raw("""{"""),format.raw/*97.12*/(""""date" : "' + $(this).attr("name") + '""""),format.raw("""}"""),format.raw/*97.52*/("""',
-			contentType: "application/json",
-			success : function(data) """),format.raw("""{"""),format.raw/*99.30*/("""
-			  
-			"""),format.raw("""}"""),format.raw/*101.5*/("""               
-		"""),format.raw("""}"""),format.raw/*102.4*/(""");	
-	   
-	"""),format.raw("""}"""),format.raw/*104.3*/(""");
+	$('.linkDate').live('click', function(e) """),format.raw("""{"""),format.raw/*51.44*/("""	  
+		   $("#date").multiDatesPicker('removeDates', $(this).attr("name")); //enleve la date dans l'affichage du datepicker
+		   $(this).parent().remove();
+		   /*SUPPRESSION DE DATE*/
+		   
+		   $.ajax("""),format.raw("""{"""),format.raw/*56.14*/("""
+		   	type: "POST",
+		   	url: """"),_display_(Seq[Any](/*58.14*/routes/*58.20*/.Application.removeDate(id))),format.raw/*58.47*/("""",
+		   	data: '"""),format.raw("""{"""),format.raw/*59.15*/(""""date" : "' + $(this).attr("name") + '""""),format.raw("""}"""),format.raw/*59.55*/("""',
+		   	contentType: "application/json",
+		   	success : function(data) """),format.raw("""{"""),format.raw/*61.33*/("""
+
+		   	"""),format.raw("""}"""),format.raw/*63.8*/("""               
+		   """),format.raw("""}"""),format.raw/*64.7*/(""");	
+
+		"""),format.raw("""}"""),format.raw/*66.4*/(""");
 
 
 	</script>
@@ -148,11 +110,11 @@ Seq[Any](format.raw/*1.58*/("""
 }
                 /*
                     -- GENERATED --
-                    DATE: Mon Jun 11 14:12:17 CEST 2012
-                    SOURCE: C:/tutoPlay/doodle/app/views/dateselection.scala.html
-                    HASH: adaa37d35ec036959512acdcbee8dca3dba41e89
-                    MATRIX: 787->1|928->78|960->102|1044->57|1072->76|1100->156|1139->161|1177->191|1216->193|1397->338|1411->343|1442->352|1653->528|1702->568|1769->597|1840->632|1866->636|1918->652|1956->668|1992->673|2034->680|2084->721|2151->750|2222->785|2248->789|2300->805|2338->821|2374->826|2443->859|2458->865|2520->905|2779->1117|2901->1192|2981->1225|3291->1488|3537->1687|3654->1768|3694->1792|3734->1794|3794->1818|3807->1822|3834->1827|3897->1858|3975->1889|4043->1921|4058->1927|4104->1951|4167->1967|4242->1995|4361->2067|4442->2101|4533->2146|4586->2153|4653->2174|4711->2186|4761->2190|4813->2196|4898->2234|5262->2552|5355->2598|5600->2796|5664->2824|5679->2830|5728->2857|5789->2871|5876->2911|5991->2979|6049->2990|6115->3009|6173->3020
-                    LINES: 27->1|30->5|30->5|31->1|33->4|34->5|37->8|37->8|37->8|43->14|43->14|43->14|49->20|49->20|49->20|50->21|50->21|50->21|50->21|51->22|53->24|53->24|53->24|54->25|54->25|54->25|54->25|55->26|58->29|58->29|58->29|69->40|73->44|74->45|80->51|85->56|89->60|89->60|89->60|90->61|90->61|90->61|91->62|93->64|95->66|95->66|95->66|96->67|96->67|98->69|99->70|101->72|102->73|103->74|104->75|105->76|106->77|108->79|116->87|118->89|123->94|125->96|125->96|125->96|126->97|126->97|128->99|130->101|131->102|133->104
+                    DATE: Thu Jun 14 15:58:39 CEST 2012
+                    SOURCE: C:/tutoPlay/KIND/app/views/dateselection.scala.html
+                    HASH: e48c09b4106f91a11359edfbb0951377e248eef4
+                    MATRIX: 787->1|936->57|964->76|1001->79|1039->109|1078->111|1195->192|1209->197|1237->203|1431->361|1446->367|1505->404|1765->617|1885->690|1963->721|2039->751|2092->758|2145->765|2229->802|2611->1138|2703->1183|2953->1386|3023->1420|3038->1426|3087->1453|3151->1470|3238->1510|3359->1584|3414->1593|3482->1615|3536->1623
+                    LINES: 27->1|31->1|33->4|35->6|35->6|35->6|41->12|41->12|41->12|48->19|48->19|48->19|59->30|63->34|64->35|66->37|67->38|68->39|70->41|78->49|80->51|85->56|87->58|87->58|87->58|88->59|88->59|90->61|92->63|93->64|95->66
                     -- GENERATED --
                 */
             

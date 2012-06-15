@@ -44,12 +44,4 @@ public class Jour extends Model {
 		this.date = date;
 	}
 
-	public String getDate() {
-		return date;
-	}
-	
-	public Long getId() {
-		return id;
-	}
-
 }

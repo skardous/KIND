@@ -1,0 +1,78 @@
+
+# Horaires
+
+horaire:
+
+    - !!models.Horaire
+        id: 1
+        debut:      16h30
+        fin:       17h30
+        
+    
+    - !!models.Horaire
+        id: 2
+        debut:      18h30
+        fin:       22h00
+    
+    - !!models.Horaire
+        id: 3
+        debut:      08h00
+        fin:       16h00
+    
+    
+    
+# Jours
+
+jour:
+
+    - !!models.Jour
+        id:         1
+        date:       samedi 4 Juillet 2012          
+        horaires:
+            - !!models.Horaire
+                id: 1
+            - !!models.Horaire
+                id: 2
+            - !!models.Horaire
+                id: 3
+            
+
+    
+# Task
+
+personne:
+    
+    - !!models.Personne    
+        id: 1
+        nom: John        
+                        
+    - !!models.Personne    
+        id: 2
+        nom: Kevin  
+
+    - !!models.Personne    
+        id: 3
+        nom: Billy  
+
+    - !!models.Personne    
+        id: 4
+        nom: Ned  
+            
+
+evenement:
+
+        - !!models.Evenement    
+                id: 1
+                titre: Reunion
+                createur: inconnu
+                participants:
+                    - !!models.Personne    
+                        id: 1
+                    - !!models.Personne    
+                        id: 2
+                    - !!models.Personne    
+                        id: 3
+                jours:
+                    - !!models.Jour    
+                        id: 1
+

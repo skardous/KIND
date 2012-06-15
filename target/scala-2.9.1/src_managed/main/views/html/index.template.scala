@@ -47,8 +47,8 @@ Seq[Any](format.raw/*4.1*/("""
 }
                 /*
                     -- GENERATED --
-                    DATE: Mon Jun 04 09:16:09 CEST 2012
-                    SOURCE: C:/tutoPlay/doodle/app/views/index.scala.html
+                    DATE: Tue Jun 12 14:45:25 CEST 2012
+                    SOURCE: C:/tutoPlay/KIND/app/views/index.scala.html
                     HASH: b31259b29fe8a2d99c4543026898fad9ece7c725
                     MATRIX: 835->19|871->21|892->34|931->36
                     LINES: 31->4|32->5|32->5|32->5

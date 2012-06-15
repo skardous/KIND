@@ -72,7 +72,7 @@ public class Application extends Controller {
 			message.setFrom(new InternetAddress("doodle@chu-rouen.fr"));
 			message.setRecipients(Message.RecipientType.TO,
 					InternetAddress.parse(mails));
-			message.setSubject("Invitation a "+e.getTitre());
+			message.setSubject("Invitation a "+e.titre);
 			message.setText("Lien d'invitation,"
 					+ "\n\n http://localhost:9000/eventsEdit/"+idevt);
 			transport = session.getTransport();
@@ -137,7 +137,7 @@ public class Application extends Controller {
 		Form<Evenement> evenementForm = form(Evenement.class).fill(
 				Evenement.findEvt.byId(id));
 		Evenement created = evenementForm.get();
-		return ok(editForm.render(id, evenementForm, created));
+		return ok(editForm.render(created));
 	}
 
 	// action de validation du formulaire d'edition d'evt

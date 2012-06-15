@@ -4,32 +4,30 @@
 # --- !Ups
 
 create table evenement (
-  id                        bigint not null,
+  id                        bigint auto_increment not null,
   titre                     varchar(255),
   lieu                      varchar(255),
   descriptif                varchar(255),
   createur                  varchar(255),
   mail                      varchar(255),
-  dates                     varchar(255),
-  heures                    varchar(255),
   constraint pk_evenement primary key (id))
 ;
 
 create table horaire (
-  id                        bigint not null,
+  id                        bigint auto_increment not null,
   debut                     varchar(255),
   fin                       varchar(255),
   constraint pk_horaire primary key (id))
 ;
 
 create table jour (
-  id                        bigint not null,
+  id                        bigint auto_increment not null,
   date                      varchar(255),
   constraint pk_jour primary key (id))
 ;
 
 create table personne (
-  id                        bigint not null,
+  id                        bigint auto_increment not null,
   nom                       varchar(255),
   constraint pk_personne primary key (id))
 ;
@@ -64,14 +62,6 @@ create table personne_jour (
   jour_id                        bigint not null,
   constraint pk_personne_jour primary key (personne_id, jour_id))
 ;
-create sequence evenement_seq;
-
-create sequence horaire_seq;
-
-create sequence jour_seq;
-
-create sequence personne_seq;
-
 
 
 
@@ -97,33 +87,25 @@ alter table personne_jour add constraint fk_personne_jour_jour_02 foreign key (j
 
 # --- !Downs
 
-SET REFERENTIAL_INTEGRITY FALSE;
+SET FOREIGN_KEY_CHECKS=0;
 
-drop table if exists evenement;
+drop table evenement;
 
-drop table if exists evenement_personne;
+drop table evenement_personne;
 
-drop table if exists evenement_jour;
+drop table evenement_jour;
 
-drop table if exists horaire;
+drop table horaire;
 
-drop table if exists jour;
+drop table jour;
 
-drop table if exists jour_horaire;
+drop table jour_horaire;
 
-drop table if exists personne;
+drop table personne;
 
-drop table if exists personne_horaire;
+drop table personne_horaire;
 
-drop table if exists personne_jour;
+drop table personne_jour;
 
-SET REFERENTIAL_INTEGRITY TRUE;
-
-drop sequence if exists evenement_seq;
-
-drop sequence if exists horaire_seq;
-
-drop sequence if exists jour_seq;
-
-drop sequence if exists personne_seq;
+SET FOREIGN_KEY_CHECKS=1;
 

@@ -17,8 +17,7 @@
                 <div class="styleDates" >
                 Dates propos&eacute;es: <br/>
                 
-                <input type="hidden" id="hiddenDates@e.id" value="@e.dates">
-                <input type="hidden" id="hiddenHeures@e.id" value="@e.heures">
+                
                 <input type="hidden" id="identifiants" value="@e.id">
                 <img id="image" src="@routes.Assets.at("images/calendar.png")"/>
                 
@@ -27,7 +26,7 @@
                  <li><b>@jour.date</b> &nbsp;
                 	<ul>
                 	@for(horaire <- jour.horaires) {
-                	  <li><i class="icon-time"></i>  @horaire.debut - @horaire.fin</li>
+                	  <li><i class="mesicones icon-time"></i>  @horaire.debut - @horaire.fin</li>
                 	}
                 	</ul>
                 	</li>
@@ -40,13 +39,13 @@
                 @if(e.participants.size > 0) {
 	                <ul>
 	                @e.participants.map { personne =>
-	                    <li><i class="icon-user"></i>&nbsp;@personne.nom</li>
+	                    <li><i class="mesicones icon-user"></i>&nbsp;@personne.nom</li>
 	                }
 	            	</ul>
             	} 
             	@if(e.participants == null) {
             		@e.createur
-            		}
+            	}
                 
                  <!-- @** <input type="submit" action="@routes.Application.edit(e.id)" value="Editer evenement">   *@  -->
                  <a href="@routes.Application.edit(e.id)">Editer evenement</a>         	

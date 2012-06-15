@@ -21,447 +21,465 @@ import com.avaje.ebean._
 import play.mvc.Http.Context.Implicit._
 import views.html._
 /**/
-object editForm extends BaseScalaTemplate[play.api.templates.Html,Format[play.api.templates.Html]](play.api.templates.HtmlFormat) with play.api.templates.Template3[Long,Form[Evenement],Evenement,play.api.templates.Html] {
+object editForm extends BaseScalaTemplate[play.api.templates.Html,Format[play.api.templates.Html]](play.api.templates.HtmlFormat) with play.api.templates.Template1[Evenement,play.api.templates.Html] {
 
     /**/
-    def apply/*1.2*/(id: Long, eventForm: Form[Evenement], event: Evenement):play.api.templates.Html = {
+    def apply/*1.2*/(event: Evenement):play.api.templates.Html = {
         _display_ {import helper._
 
-def /*7.2*/partiField/*7.12*/(field: Field, className: String = "part"):play.api.templates.Html = {_display_(
-
-Seq[Any](format.raw/*7.58*/("""
-	"""),_display_(Seq[Any](/*8.3*/input(field, '_label -> "Participants", '_class -> className)/*8.64*/ { (id, name, value, _) =>_display_(Seq[Any](format.raw/*8.90*/("""
-	<input type="text" name=""""),_display_(Seq[Any](/*9.28*/name)),format.raw/*9.32*/("""" value=""""),_display_(Seq[Any](/*9.42*/value)),format.raw/*9.47*/(""""> 
-	<a class="removeParti btn danger">Remove</a>
-	""")))})),format.raw/*11.3*/("""
-""")))};implicit def /*5.2*/implicitFieldConstructor/*5.26*/ = {{ FieldConstructor(twitterBootstrapInput.render) }};
-Seq[Any](format.raw/*1.58*/("""
+implicit def /*5.2*/implicitFieldConstructor/*5.26*/ = {{ FieldConstructor(twitterBootstrapInput.render) }};
+Seq[Any](format.raw/*1.20*/("""
 
 """),format.raw/*4.1*/("""
 """),format.raw/*5.80*/(""" 
 
-"""),format.raw/*12.2*/("""
 
-"""),_display_(Seq[Any](/*14.2*/main("Editer un evenement")/*14.29*/ {_display_(Seq[Any](format.raw/*14.31*/("""
+"""),_display_(Seq[Any](/*8.2*/main("Editer un evenement")/*8.29*/ {_display_(Seq[Any](format.raw/*8.31*/("""
 
-	<h1>Participants pour: """),_display_(Seq[Any](/*16.26*/event/*16.31*/.getTitre)),format.raw/*16.40*/("""</h1><br/>
+	<h1>Participants pour: """),_display_(Seq[Any](/*10.26*/event/*10.31*/.titre)),format.raw/*10.37*/("""</h1><br/>
 
 	
-			Titre de l'&eacute;venement : <b>"""),_display_(Seq[Any](/*19.38*/event/*19.43*/.getTitre)),format.raw/*19.52*/("""</b> <br/>
-			Cr&eacute;ateur : <b>"""),_display_(Seq[Any](/*20.26*/event/*20.31*/.getCreateur)),format.raw/*20.43*/("""</b> <br/>
-			Description : <i>"""),_display_(Seq[Any](/*21.22*/event/*21.27*/.getDescriptif)),format.raw/*21.41*/("""</i> <br/>			
+	Titre de l'&eacute;venement : <b>"""),_display_(Seq[Any](/*13.36*/event/*13.41*/.titre)),format.raw/*13.47*/("""</b> <br/>
+	Cr&eacute;ateur : <b>"""),_display_(Seq[Any](/*14.24*/event/*14.29*/.createur)),format.raw/*14.38*/("""</b> <br/>
+	Description : <i>"""),_display_(Seq[Any](/*15.20*/event/*15.25*/.descriptif)),format.raw/*15.36*/("""</i> <br/>			
 	
 
 
 
-<table cellspacing="5" cellpadding="5">
-	<tbody id="mainBody">
-		<tr class="titres" style="display:none"><td style="visibility:hidden"></td>
-			"""),_display_(Seq[Any](/*29.5*/for(jour <- event.jours) yield /*29.29*/ {_display_(Seq[Any](format.raw/*29.31*/("""  					  
-				<td id=""""),_display_(Seq[Any](/*30.14*/jour/*30.18*/.id)),format.raw/*30.21*/("""" class="jour" colspan=""""),_display_(Seq[Any](/*30.46*/jour/*30.50*/.horaires.size())),format.raw/*30.66*/(""""><b>"""),_display_(Seq[Any](/*30.72*/jour/*30.76*/.date)),format.raw/*30.81*/("""</b></td>	                        	                
-			""")))})),format.raw/*31.5*/("""
-		</tr>
-		<tr class="titres" style="display:none"><td style="visibility:hidden"></td>
-			"""),_display_(Seq[Any](/*34.5*/for(jour <- event.jours) yield /*34.29*/ {_display_(Seq[Any](format.raw/*34.31*/("""  
-			  """),_display_(Seq[Any](/*35.7*/if(jour.horaires.size() == 0)/*35.36*/{_display_(Seq[Any](format.raw/*35.37*/("""
-			    <td class="jour"></td>
-			  """)))})),format.raw/*37.7*/("""
-			     """),_display_(Seq[Any](/*38.10*/for(horaire <- jour.horaires) yield /*38.39*/ {_display_(Seq[Any](format.raw/*38.41*/("""
-			    	 <td id=""""),_display_(Seq[Any](/*39.19*/horaire/*39.26*/.id)),format.raw/*39.29*/("""" day=""""),_display_(Seq[Any](/*39.37*/jour/*39.41*/.date)),format.raw/*39.46*/("""" class="horaire">"""),_display_(Seq[Any](/*39.65*/horaire/*39.72*/.debut)),format.raw/*39.78*/(""" - """),_display_(Seq[Any](/*39.82*/horaire/*39.89*/.fin)),format.raw/*39.93*/("""</td>
-			     """)))})),format.raw/*40.10*/("""            	                
-			""")))})),format.raw/*41.5*/("""
-		</tr>
-		              
-		
-		"""),_display_(Seq[Any](/*45.4*/for(participant <- event.participants) yield /*45.42*/ {_display_(Seq[Any](format.raw/*45.44*/("""
-			<tr id=""""),_display_(Seq[Any](/*46.13*/participant/*46.24*/.getId())),format.raw/*46.32*/(""""><td class="infoPersonne">
-				"""),_display_(Seq[Any](/*47.6*/form(routes.Application.updatePersonne(id), 'id->"formPersonne")/*47.70*/ {_display_(Seq[Any](format.raw/*47.72*/("""
-					<input id="nom" type="text" value=""""),_display_(Seq[Any](/*48.42*/participant/*48.53*/.getNom())),format.raw/*48.62*/("""" name="nom" readonly="readonly">	
-				
-					<a id=""""),_display_(Seq[Any](/*50.14*/participant/*50.25*/.getId())),format.raw/*50.33*/("""" class="editPersonne btn"> Editer<i class="icon-pencil"></i></a>
-					<a id=""""),_display_(Seq[Any](/*51.14*/participant/*51.25*/.getId())),format.raw/*51.33*/("""" class="deletePersonne btn btn-danger"> Supprimer<i class="icon-trash"></i></a>
-				""")))})),format.raw/*52.6*/("""</td>
-				
-				"""),_display_(Seq[Any](/*54.6*/for(jour <- event.jours) yield /*54.30*/ {_display_(Seq[Any](format.raw/*54.32*/("""
-				    """),_display_(Seq[Any](/*55.10*/if(jour.horaires.size() == 0)/*55.39*/{_display_(Seq[Any](format.raw/*55.40*/("""
-				      """),_display_(Seq[Any](/*56.12*/if(participant.inscriptionsJours.contains(jour))/*56.60*/ {_display_(Seq[Any](format.raw/*56.62*/("""
-		                <td class="checktd"><input id=""""),_display_(Seq[Any](/*57.51*/jour/*57.55*/.id)),format.raw/*57.58*/("""" type="checkbox" checked class="jour checkbox" value=""""),_display_(Seq[Any](/*57.114*/jour/*57.118*/.date)),format.raw/*57.123*/("""" /></td>
-		              """)))}/*58.19*/else/*58.24*/{_display_(Seq[Any](format.raw/*58.25*/("""
-		                 <td class="checktd"><input id=""""),_display_(Seq[Any](/*59.52*/jour/*59.56*/.id)),format.raw/*59.59*/("""" type="checkbox" class="jour checkbox" value=""""),_display_(Seq[Any](/*59.107*/jour/*59.111*/.date)),format.raw/*59.116*/("""" /></td>
-		              """)))})),format.raw/*60.18*/("""
-				       
-				    """)))})),format.raw/*62.10*/("""
-		            """),_display_(Seq[Any](/*63.16*/for(horaire <- jour.horaires) yield /*63.45*/ {_display_(Seq[Any](format.raw/*63.47*/("""
-		              """),_display_(Seq[Any](/*64.18*/if(participant.inscriptionsHoraires.contains(horaire))/*64.72*/ {_display_(Seq[Any](format.raw/*64.74*/("""
-		                <td class="checktd"><input id=""""),_display_(Seq[Any](/*65.51*/horaire/*65.58*/.id)),format.raw/*65.61*/("""" type="checkbox" class="horaire checkbox"  checked value=""""),_display_(Seq[Any](/*65.121*/horaire/*65.128*/.debut)),format.raw/*65.134*/(""" - """),_display_(Seq[Any](/*65.138*/horaire/*65.145*/.fin)),format.raw/*65.149*/("""" /></td>
-		              """)))}/*66.19*/else/*66.24*/{_display_(Seq[Any](format.raw/*66.25*/("""
-		                 <td class="checktd"><input id=""""),_display_(Seq[Any](/*67.52*/horaire/*67.59*/.id)),format.raw/*67.62*/("""" type="checkbox" class="horaire checkbox" value=""""),_display_(Seq[Any](/*67.113*/horaire/*67.120*/.debut)),format.raw/*67.126*/(""" - """),_display_(Seq[Any](/*67.130*/horaire/*67.137*/.fin)),format.raw/*67.141*/("""" /></td>
-		              """)))})),format.raw/*68.18*/("""
-		            """)))})),format.raw/*69.16*/("""            	                
-		        """)))})),format.raw/*70.12*/("""				
+	<table class="datesTable" cellspacing="5" cellpadding="5">
+		<tbody>
+			<tr class="titres" style="display:none"><td style="visibility:hidden"></td>
+				"""),_display_(Seq[Any](/*23.6*/for(jour <- event.jours) yield /*23.30*/ {_display_(Seq[Any](format.raw/*23.32*/("""  					  
+					<td id=""""),_display_(Seq[Any](/*24.15*/jour/*24.19*/.id)),format.raw/*24.22*/("""" class="jour" colspan=""""),_display_(Seq[Any](/*24.47*/jour/*24.51*/.horaires.size())),format.raw/*24.67*/(""""><b>"""),_display_(Seq[Any](/*24.73*/jour/*24.77*/.date)),format.raw/*24.82*/("""</b></td>	                        	                
+				""")))})),format.raw/*25.6*/("""
 			</tr>
-		""")))})),format.raw/*72.4*/("""
-	
-	<tr id="compte" class="titres" style="display:none">
-		<td id=""><b>Compte: </b></td>
-		"""),_display_(Seq[Any](/*76.4*/for(jour <- event.jours) yield /*76.28*/ {_display_(Seq[Any](format.raw/*76.30*/("""
-		    """),_display_(Seq[Any](/*77.8*/if(jour.horaires.size() == 0)/*77.37*/{_display_(Seq[Any](format.raw/*77.38*/("""		     
-                <td id=""""),_display_(Seq[Any](/*78.26*/jour/*78.30*/.id)),format.raw/*78.33*/("""" class="jour">0</td>	       
-		    """)))})),format.raw/*79.8*/("""
-            """),_display_(Seq[Any](/*80.14*/for(horaire <- jour.horaires) yield /*80.43*/ {_display_(Seq[Any](format.raw/*80.45*/("""              
-                <td id=""""),_display_(Seq[Any](/*81.26*/horaire/*81.33*/.id)),format.raw/*81.36*/("""" class="horaire">0</td>              
-            """)))})),format.raw/*82.14*/("""
-		""")))})),format.raw/*83.4*/("""
-	</tr>
-	</tbody>
-	<tfoot>
-		<tr>
-			<td> Date(s) populaire(s) :</td>
-			<td colspan="0" class="footer"></td>
+			<tr class="titres" style="display:none"><td style="visibility:hidden"></td>
+				"""),_display_(Seq[Any](/*28.6*/for(jour <- event.jours) yield /*28.30*/ {_display_(Seq[Any](format.raw/*28.32*/("""  
+				  """),_display_(Seq[Any](/*29.8*/if(jour.horaires.size() == 0)/*29.37*/{_display_(Seq[Any](format.raw/*29.38*/("""
+				    <td class="jour"></td>
+				  """)))})),format.raw/*31.8*/("""
+				     """),_display_(Seq[Any](/*32.11*/for(horaire <- jour.horaires) yield /*32.40*/ {_display_(Seq[Any](format.raw/*32.42*/("""
+				    	 <td id=""""),_display_(Seq[Any](/*33.20*/horaire/*33.27*/.id)),format.raw/*33.30*/("""" day=""""),_display_(Seq[Any](/*33.38*/jour/*33.42*/.date)),format.raw/*33.47*/("""" class="horaire">"""),_display_(Seq[Any](/*33.66*/horaire/*33.73*/.debut)),format.raw/*33.79*/(""" - """),_display_(Seq[Any](/*33.83*/horaire/*33.90*/.fin)),format.raw/*33.94*/("""</td>
+				     """)))})),format.raw/*34.11*/("""            	                
+				""")))})),format.raw/*35.6*/("""
+			</tr>
+			              
+			
+			"""),_display_(Seq[Any](/*39.5*/for(participant <- event.participants) yield /*39.43*/ {_display_(Seq[Any](format.raw/*39.45*/("""
+				<tr id=""""),_display_(Seq[Any](/*40.14*/participant/*40.25*/.getId())),format.raw/*40.33*/(""""><td class="infoPersonne">
+					"""),_display_(Seq[Any](/*41.7*/form(routes.Application.updatePersonne(event.id), 'id->"formPersonne")/*41.77*/ {_display_(Seq[Any](format.raw/*41.79*/("""
+						<input id="nom" type="text" value=""""),_display_(Seq[Any](/*42.43*/participant/*42.54*/.getNom())),format.raw/*42.63*/("""" name="nom" readonly="readonly">	
+					
+						<a id=""""),_display_(Seq[Any](/*44.15*/participant/*44.26*/.getId())),format.raw/*44.34*/("""" class="editPersonne btn">Editer</a>
+						<a id=""""),_display_(Seq[Any](/*45.15*/participant/*45.26*/.getId())),format.raw/*45.34*/("""" class="deletePersonne btn btn-danger"> Supprimer</a>
+					""")))})),format.raw/*46.7*/("""</td>
+					
+					"""),_display_(Seq[Any](/*48.7*/for(jour <- event.jours) yield /*48.31*/ {_display_(Seq[Any](format.raw/*48.33*/("""
+					    """),_display_(Seq[Any](/*49.11*/if(jour.horaires.size() == 0)/*49.40*/{_display_(Seq[Any](format.raw/*49.41*/("""
+					      """),_display_(Seq[Any](/*50.13*/if(participant.inscriptionsJours.contains(jour))/*50.61*/ {_display_(Seq[Any](format.raw/*50.63*/("""
+			                <td class="checktd"><input id=""""),_display_(Seq[Any](/*51.52*/jour/*51.56*/.id)),format.raw/*51.59*/("""" type="checkbox"  disabled checked class="jour checkbox" value=""""),_display_(Seq[Any](/*51.125*/jour/*51.129*/.date)),format.raw/*51.134*/("""" /></td>
+			              """)))}/*52.20*/else/*52.25*/{_display_(Seq[Any](format.raw/*52.26*/("""
+			                 <td class="checktd"><input id=""""),_display_(Seq[Any](/*53.53*/jour/*53.57*/.id)),format.raw/*53.60*/("""" type="checkbox"  disabled class="jour checkbox" value=""""),_display_(Seq[Any](/*53.118*/jour/*53.122*/.date)),format.raw/*53.127*/("""" /></td>
+			              """)))})),format.raw/*54.19*/("""
+					       
+					    """)))})),format.raw/*56.11*/("""
+			            """),_display_(Seq[Any](/*57.17*/for(horaire <- jour.horaires) yield /*57.46*/ {_display_(Seq[Any](format.raw/*57.48*/("""
+			              """),_display_(Seq[Any](/*58.19*/if(participant.inscriptionsHoraires.contains(horaire))/*58.73*/ {_display_(Seq[Any](format.raw/*58.75*/("""
+			                <td class="checktd"><input id=""""),_display_(Seq[Any](/*59.52*/horaire/*59.59*/.id)),format.raw/*59.62*/("""" type="checkbox" disabled class="horaire checkbox"  checked value=""""),_display_(Seq[Any](/*59.131*/horaire/*59.138*/.debut)),format.raw/*59.144*/(""" - """),_display_(Seq[Any](/*59.148*/horaire/*59.155*/.fin)),format.raw/*59.159*/("""" /></td>
+			              """)))}/*60.20*/else/*60.25*/{_display_(Seq[Any](format.raw/*60.26*/("""
+			                 <td class="checktd"><input id=""""),_display_(Seq[Any](/*61.53*/horaire/*61.60*/.id)),format.raw/*61.63*/("""" type="checkbox" disabled class="horaire checkbox" value=""""),_display_(Seq[Any](/*61.123*/horaire/*61.130*/.debut)),format.raw/*61.136*/(""" - """),_display_(Seq[Any](/*61.140*/horaire/*61.147*/.fin)),format.raw/*61.151*/("""" /></td>
+			              """)))})),format.raw/*62.19*/("""
+			            """)))})),format.raw/*63.17*/("""            	                
+			        """)))})),format.raw/*64.13*/("""				
+				</tr>
+			""")))})),format.raw/*66.5*/("""
+		</tbody>
+		<tfoot>
+		<tr id="compte" style="display:none">
+			<td id=""><b>Compte: </b></td>
+			"""),_display_(Seq[Any](/*71.5*/for(jour <- event.jours) yield /*71.29*/ {_display_(Seq[Any](format.raw/*71.31*/("""
+			    """),_display_(Seq[Any](/*72.9*/if(jour.horaires.size() == 0)/*72.38*/{_display_(Seq[Any](format.raw/*72.39*/("""		     
+	                <td id=""""),_display_(Seq[Any](/*73.27*/jour/*73.31*/.id)),format.raw/*73.34*/("""" class="jour">0</td>	       
+			    """)))})),format.raw/*74.9*/("""
+	            """),_display_(Seq[Any](/*75.15*/for(horaire <- jour.horaires) yield /*75.44*/ {_display_(Seq[Any](format.raw/*75.46*/("""              
+	                <td id=""""),_display_(Seq[Any](/*76.27*/horaire/*76.34*/.id)),format.raw/*76.37*/("""" class="horaire">0</td>              
+	            """)))})),format.raw/*77.15*/("""
+			""")))})),format.raw/*78.5*/("""
 		</tr>
-	</tfoot>
+		
+		
+			<!--<tr>
+				<td> Date(s) populaire(s) :</td>
+				<td colspan="0" class="footer"></td>
+			</tr>-->
+		</tfoot>
+
+		<div class="populaires"></div>
 
 
-	
-</table>
+		
+	</table>
 
-Ajouter :		  
-<input id="champ" type="text" value=""><a id="ajouter" class="btn">Ajouter</a><br>
+	Ajouter :		  
+	<input id="champ" type="text" value="">&nbsp;<a id="ajouter" class="btn">Ajouter</a><br>
 
-<br>
-<h3>Inviter des copains</h3>
+	<br>
+	<h3>Inviter des personnes à l'évenement</h3>
 
-<div class="selectDate">
-<textarea id="mailsArea" rows="4"></textarea>
-<a id="envoiLien" class="btn btn-info">Envoyer Lien</a>
-</div>
+	<div class="selectDate">
+	<textarea id="mailsArea" rows="4" style="color:grey">Entrez ici les adresses mail séparées par une virgule ...</textarea>
+	<a id="envoiLien" class="btn btn-info">Envoyer Lien</a>
+	</div>
 
-<script type="text/javascript" charset="utf-8">
-
-$(function()"""),format.raw("""{"""),format.raw/*110.14*/(""" 
-	$('.checkbox').each(function (i) """),format.raw("""{"""),format.raw/*111.36*/("""
-	  	if ($(this).is(':checked'))"""),format.raw("""{"""),format.raw/*112.33*/("""
-	  		$(this).parent().css("background-color", "#66CC99");
-	  	"""),format.raw("""}"""),format.raw/*114.6*/("""
-	"""),format.raw("""}"""),format.raw/*115.3*/(""");
-
-	$('.infoPersonne').each(function (i) """),format.raw("""{"""),format.raw/*117.40*/("""
-	  $('.titres').attr('style','');
-	"""),format.raw("""}"""),format.raw/*119.3*/(""");
+	<script type="text/javascript" charset="utf-8">
 
 
+	$(function()"""),format.raw("""{"""),format.raw/*108.15*/(""" 
+		$('.checkbox').each(function (i) """),format.raw("""{"""),format.raw/*109.37*/("""
+		  	if ($(this).is(':checked'))"""),format.raw("""{"""),format.raw/*110.34*/("""
+		  		$(this).parent().css("background-color", "#66CC99");
+		  	"""),format.raw("""}"""),format.raw/*112.7*/("""
+		"""),format.raw("""}"""),format.raw/*113.4*/(""");
 
-	$('input[type="checkbox"]').each(function(i) """),format.raw("""{"""),format.raw/*123.48*/("""
-	var iden = $(this).attr('id');
-
-	if ($(this).attr('class') == 'horaire checkbox') """),format.raw("""{"""),format.raw/*126.52*/("""
-		if ($(this).is(':checked'))"""),format.raw("""{"""),format.raw/*127.31*/("""
-	    	var increment = $('#compte').children('.horaire[id="'+iden+'"]');
-			increment.html(parseInt(increment.html())+1);
-		"""),format.raw("""}"""),format.raw/*130.4*/("""
-	"""),format.raw("""}"""),format.raw/*131.3*/("""
-	if ($(this).attr('class') == 'jour checkbox') """),format.raw("""{"""),format.raw/*132.49*/("""
-		if ($(this).is(':checked'))"""),format.raw("""{"""),format.raw/*133.31*/("""
-	    	var increment = $('#compte').children('.jour[id="'+iden+'"]');
-			increment.html(parseInt(increment.html())+1);
-		"""),format.raw("""}"""),format.raw/*136.4*/("""
-	"""),format.raw("""}"""),format.raw/*137.3*/("""
-	"""),format.raw("""}"""),format.raw/*138.3*/(""");
-
-	var max = 0;
-	$("#compte").children().each( function() """),format.raw("""{"""),format.raw/*141.44*/("""
-		$(this).css("background-color", "#A0A0A0") //gris
-		$('.titres').children().css("background-color","#A0A0A0");		
-		if ($(this).html() > max) """),format.raw("""{"""),format.raw/*144.30*/("""			
-			max = $(this).html();
-		"""),format.raw("""}"""),format.raw/*146.4*/("""
-	"""),format.raw("""}"""),format.raw/*147.3*/(""")
-	$("#compte").children().each( function() """),format.raw("""{"""),format.raw/*148.44*/("""		
-		if ($(this).html() == max && $(this).html() != 0) """),format.raw("""{"""),format.raw/*149.54*/("""			
-			$(this).css("background-color", "black");
-			//alert("classe : "+$(this).attr("class")+" id : "+$(this).attr("id"));
-			$('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').css("background-color", "black");
-			if($(this).attr("class") == "horaire") """),format.raw("""{"""),format.raw/*153.44*/("""
-				var day = $('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').attr("day");				
-				$("td:contains('"+day+"')").css("background-color", "black");
-				
-			"""),format.raw("""}"""),format.raw/*157.5*/("""
-		"""),format.raw("""}"""),format.raw/*158.4*/("""
-	"""),format.raw("""}"""),format.raw/*159.3*/(""")
-  
-"""),format.raw("""}"""),format.raw/*161.2*/(""");
+		$('.infoPersonne').each(function (i) """),format.raw("""{"""),format.raw/*115.41*/("""
+		  	$('.titres').attr('style','');
+		"""),format.raw("""}"""),format.raw/*117.4*/(""");
 
 
-$('#envoiLien').live('click', function(e) """),format.raw("""{"""),format.raw/*164.44*/("""
-  var mailsList = $("#mailsArea").val();
-  
-	$.ajax("""),format.raw("""{"""),format.raw/*167.10*/("""
-		type: "POST",
-		url: """"),_display_(Seq[Any](/*169.10*/routes/*169.16*/.Application.sendMail(id))),format.raw/*169.41*/("""",
-		data: '"""),format.raw("""{"""),format.raw/*170.11*/(""""mailslist" : "' + mailsList + '""""),format.raw("""}"""),format.raw/*170.45*/("""',
-		contentType: "application/json",
-		success : function(data) """),format.raw("""{"""),format.raw/*172.29*/("""
-		  alert("Mail(s) envoye(s) a "+mailsList);
-		"""),format.raw("""}"""),format.raw/*174.4*/("""
-   """),format.raw("""}"""),format.raw/*175.5*/(""");
-"""),format.raw("""}"""),format.raw/*176.2*/(""");
+
+		$('input[type="checkbox"]').each(function(i) """),format.raw("""{"""),format.raw/*121.49*/("""
+			var iden = $(this).attr('id');
+
+			if ($(this).attr('class') == 'horaire checkbox') """),format.raw("""{"""),format.raw/*124.54*/("""
+				if ($(this).is(':checked'))"""),format.raw("""{"""),format.raw/*125.33*/("""
+			    	var increment = $('#compte').children('.horaire[id="'+iden+'"]');
+					increment.html(parseInt(increment.html())+1);
+				"""),format.raw("""}"""),format.raw/*128.6*/("""
+			"""),format.raw("""}"""),format.raw/*129.5*/("""
+			if ($(this).attr('class') == 'jour checkbox') """),format.raw("""{"""),format.raw/*130.51*/("""
+				if ($(this).is(':checked'))"""),format.raw("""{"""),format.raw/*131.33*/("""
+			    	var increment = $('#compte').children('.jour[id="'+iden+'"]');
+					increment.html(parseInt(increment.html())+1);
+				"""),format.raw("""}"""),format.raw/*134.6*/("""
+			"""),format.raw("""}"""),format.raw/*135.5*/("""
+		"""),format.raw("""}"""),format.raw/*136.4*/(""");
+
+		var max = 0;
+		$("#compte").children().each( function() """),format.raw("""{"""),format.raw/*139.45*/("""
+			$(this).css("background-color", "#A0A0A0") //gris
+			$('.titres').children().css("background-color","#A0A0A0");		
+			if ($(this).html() > max) """),format.raw("""{"""),format.raw/*142.31*/("""			
+				max = $(this).html();
+			"""),format.raw("""}"""),format.raw/*144.5*/("""
+		"""),format.raw("""}"""),format.raw/*145.4*/(""")
+		$("#compte").children().each( function() """),format.raw("""{"""),format.raw/*146.45*/("""		
+			if ($(this).html() == max && $(this).html() != 0) """),format.raw("""{"""),format.raw/*147.55*/("""			
+				$(this).css("background-color", "black");
+				//alert("classe : "+$(this).attr("class")+" id : "+$(this).attr("id"));
+				$('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').css("background-color", "black");
+				if($(this).attr("class") == "horaire") """),format.raw("""{"""),format.raw/*151.45*/("""
+					var day = $('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').attr("day");				
+					$("td:contains('"+day+"')").css("background-color", "black");
+					
+				"""),format.raw("""}"""),format.raw/*155.6*/("""
+			"""),format.raw("""}"""),format.raw/*156.5*/("""
+		"""),format.raw("""}"""),format.raw/*157.4*/(""")
 	  
+	"""),format.raw("""}"""),format.raw/*159.3*/(""");
+
+	$("textarea").live('click', function(e) """),format.raw("""{"""),format.raw/*161.43*/("""
+		$(this).html("");
+		$(this).removeAttr("style");
+	"""),format.raw("""}"""),format.raw/*164.3*/(""")
+
+
+	$('#envoiLien').live('click', function(e) """),format.raw("""{"""),format.raw/*167.45*/("""
+	  var mailsList = $("#mailsArea").val();
 	  
-$('.deletePersonne').live('click', function(e) """),format.raw("""{"""),format.raw/*179.49*/("""    
-    $(this).parent().parent().parent().remove();
-    renumber();   
-    deletePersonne($(this).attr('id'));
-    if($('td[class="infoPersonne"]').html() == null) """),format.raw("""{"""),format.raw/*183.55*/("""
-    	$('.titres').attr('style','display:none');
-    """),format.raw("""}"""),format.raw/*185.6*/("""
-    $('#compte').children('td[id!=""]').each(function(i) """),format.raw("""{"""),format.raw/*186.59*/("""$(this).html("0")"""),format.raw("""}"""),format.raw/*186.77*/(""");
-    $('input[type="checkbox"]').each(function(i) """),format.raw("""{"""),format.raw/*187.51*/("""
-    var iden = $(this).attr('id');
-  
-    if ($(this).attr('class') == 'horaire') """),format.raw("""{"""),format.raw/*190.46*/("""
-    	if ($(this).is(':checked'))"""),format.raw("""{"""),format.raw/*191.34*/("""
-	    	var increment = $('#compte').children('.horaire[id="'+iden+'"]');
-			increment.html(parseInt(increment.html())+1);
-    	"""),format.raw("""}"""),format.raw/*194.7*/("""
-    """),format.raw("""}"""),format.raw/*195.6*/("""
-    if ($(this).attr('class') == 'jour') """),format.raw("""{"""),format.raw/*196.43*/("""
-    	if ($(this).is(':checked'))"""),format.raw("""{"""),format.raw/*197.34*/("""
-	    	var increment = $('#compte').children('.jour[id="'+iden+'"]');
-			increment.html(parseInt(increment.html())+1);
-    	"""),format.raw("""}"""),format.raw/*200.7*/("""
-    """),format.raw("""}"""),format.raw/*201.6*/("""
-  """),format.raw("""}"""),format.raw/*202.4*/(""");
-"""),format.raw("""}"""),format.raw/*203.2*/(""")
+		$.ajax("""),format.raw("""{"""),format.raw/*170.11*/("""
+			type: "POST",
+			url: """"),_display_(Seq[Any](/*172.11*/routes/*172.17*/.Application.sendMail(event.id))),format.raw/*172.48*/("""",
+			data: '"""),format.raw("""{"""),format.raw/*173.12*/(""""mailslist" : "' + mailsList + '""""),format.raw("""}"""),format.raw/*173.46*/("""',
+			contentType: "application/json",
+			success : function(data) """),format.raw("""{"""),format.raw/*175.30*/("""
+			  alert("Mail(s) envoye(s) a "+mailsList);
+			"""),format.raw("""}"""),format.raw/*177.5*/("""
+	   """),format.raw("""}"""),format.raw/*178.6*/(""");
+	"""),format.raw("""}"""),format.raw/*179.3*/(""");
+		  
+		  
+	$('.deletePersonne').live('click', function(e) """),format.raw("""{"""),format.raw/*182.50*/("""    
+	    $(this).parent().parent().parent().remove();
+	    
+	    
+	    deletePersonne($(this).attr('id'));
+	    if($('td[class="infoPersonne"]').html() == null) """),format.raw("""{"""),format.raw/*187.56*/("""
+	    	$('.titres').attr('style','display:none');
+	    """),format.raw("""}"""),format.raw/*189.7*/("""
+	    $('#compte').children('td[id!=""]').each(function(i) """),format.raw("""{"""),format.raw/*190.60*/("""$(this).html("0")"""),format.raw("""}"""),format.raw/*190.78*/(""");
+	    $('input[type="checkbox"]').each(function(i) """),format.raw("""{"""),format.raw/*191.52*/("""
+	    var iden = $(this).attr('id');
+	  
+	    if ($(this).attr('class') == 'horaire checkbox') """),format.raw("""{"""),format.raw/*194.56*/("""
+	    	if ($(this).is(':checked'))"""),format.raw("""{"""),format.raw/*195.35*/("""
+		    	var increment = $('#compte').children('.horaire[id="'+iden+'"]');
+				increment.html(parseInt(increment.html())+1);
+	    	"""),format.raw("""}"""),format.raw/*198.8*/("""
+	    """),format.raw("""}"""),format.raw/*199.7*/("""
+	    if ($(this).attr('class') == 'jour checkbox') """),format.raw("""{"""),format.raw/*200.53*/("""
+	    	if ($(this).is(':checked'))"""),format.raw("""{"""),format.raw/*201.35*/("""
+		    	var increment = $('#compte').children('.jour[id="'+iden+'"]');
+				increment.html(parseInt(increment.html())+1);
+	    	"""),format.raw("""}"""),format.raw/*204.8*/("""
+	    """),format.raw("""}"""),format.raw/*205.7*/("""
+	  """),format.raw("""}"""),format.raw/*206.5*/(""");
+	    
+	"""),format.raw("""}"""),format.raw/*208.3*/(""")
 
-$('.editPersonne').live('click', function(e) """),format.raw("""{"""),format.raw/*205.47*/("""
-    if($(this).html() == "<i class=\"icon-pencil\"></i>")  """),format.raw("""{"""),format.raw/*206.61*/("""
-      $(this).html("OK");
-      $(this).attr("class", "editPersonne btn btn-success");
-      $(this).siblings("input").removeAttr("readonly");
-    """),format.raw("""}"""),format.raw/*210.6*/(""" else """),format.raw("""{"""),format.raw/*210.13*/("""
-      $(this).html("<i class=\"icon-pencil\"></i>");
-      $(this).attr("class", "editPersonne btn");
-      $(this).siblings("input").attr("readonly", "readonly");
-      renumber();      
-      editPersonne($(this).attr('id'), $(this).siblings("input").attr("value"));
-    """),format.raw("""}"""),format.raw/*216.6*/("""
-  
-"""),format.raw("""}"""),format.raw/*218.2*/(""")
-
-
-
-
-
-$("#ajouter").live('click', function(e)"""),format.raw("""{"""),format.raw/*224.41*/("""
-  
-    envoiPersonne($("#champ"));
-"""),format.raw("""}"""),format.raw/*227.2*/(""");
-
-
-
-
-function envoiPersonne(self)
-"""),format.raw("""{"""),format.raw/*233.2*/("""
-    var vide = "";
-    var nom = self.attr("value");
-    if (vide != nom) """),format.raw("""{"""),format.raw/*236.23*/("""      
-		addPersonne($("#champ").attr('value'));			
-	"""),format.raw("""}"""),format.raw/*238.3*/("""
-"""),format.raw("""}"""),format.raw/*239.2*/("""
-
-function editPersonne(personneId, personneNom)
-"""),format.raw("""{"""),format.raw/*242.2*/("""
-  $.ajax("""),format.raw("""{"""),format.raw/*243.11*/("""
-		type: "POST",
-		url: """"),_display_(Seq[Any](/*245.10*/routes/*245.16*/.Application.updatePersonne(id))),format.raw/*245.47*/("""",
-		data: '"""),format.raw("""{"""),format.raw/*246.11*/(""""id" : "' + personneId + '", "nom" : "' + personneNom + '""""),format.raw("""}"""),format.raw/*246.70*/("""',
-		contentType: "application/json",
-		success : function(data) """),format.raw("""{"""),format.raw/*248.29*/("""
-		  //alert("Participant edit\351");
-		"""),format.raw("""}"""),format.raw/*250.4*/("""
-  """),format.raw("""}"""),format.raw/*251.4*/(""");
-"""),format.raw("""}"""),format.raw/*252.2*/("""
-
-function deletePersonne(persId)
-"""),format.raw("""{"""),format.raw/*255.2*/("""
-  $.ajax("""),format.raw("""{"""),format.raw/*256.11*/("""
-		type: "POST",
-		url: """"),_display_(Seq[Any](/*258.10*/routes/*258.16*/.Application.deleteParticipant(id))),format.raw/*258.50*/("""",
-		data: '"""),format.raw("""{"""),format.raw/*259.11*/(""""id" : "' + persId + '""""),format.raw("""}"""),format.raw/*259.35*/("""',
-		contentType: "application/json",
-		success : function(data) """),format.raw("""{"""),format.raw/*261.29*/("""
-		  //alert("Participant supprim\351");
-		"""),format.raw("""}"""),format.raw/*263.4*/("""
-  """),format.raw("""}"""),format.raw/*264.4*/(""");
-"""),format.raw("""}"""),format.raw/*265.2*/("""
-
-function addPersonne(nomParticipant)
-"""),format.raw("""{"""),format.raw/*268.2*/("""	
-	$.ajax("""),format.raw("""{"""),format.raw/*269.10*/("""
-		type: "POST",
-		url: """"),_display_(Seq[Any](/*271.10*/routes/*271.16*/.Application.addParticipant(id))),format.raw/*271.47*/("""",
-		data: '"""),format.raw("""{"""),format.raw/*272.11*/(""""nom" : "' + nomParticipant + '""""),format.raw("""}"""),format.raw/*272.44*/("""',
-		contentType: "application/json",
-		success : function(data) """),format.raw("""{"""),format.raw/*274.29*/("""		  
-		  $("#mainBody").append("<tr id=\""+data.idPersonne+"\"><td class=\"infoPersonne\">"+
-				  "<form id=\"formPersonne\">"+
-				  "<input id=\"nom\" type=\"text\" value=\""+nomParticipant+"\" name=\"nom\" readonly=\"readonly\">&nbsp;"+
-				  "<a id=\""+data.idPersonne+"\" class=\"editPersonne btn\">Editer<i class=\"icon-pencil\"></i></a>&nbsp;"+
-				  "<a id=\""+data.idPersonne+"\" class=\"deletePersonne btn btn-danger\">Supprimer<i class=\"icon-trash\"></i></a>"+				  
-				 "</form></td>"+
-				  """"),_display_(Seq[Any](/*281.9*/for(jour <- event.jours) yield /*281.33*/ {_display_(Seq[Any](format.raw/*281.35*/(""""+  
-				  	""""),_display_(Seq[Any](/*282.10*/if(jour.horaires.size() == 0)/*282.39*/{_display_(Seq[Any](format.raw/*282.40*/("""<td class=\"checktd\"><input id=\""""),_display_(Seq[Any](/*282.75*/jour/*282.79*/.id)),format.raw/*282.82*/("""\" type=\"checkbox\" class=\"jour checkbox\" value=\""""),_display_(Seq[Any](/*282.136*/jour/*282.140*/.date)),format.raw/*282.145*/("""\" /></td>""")))})),format.raw/*282.156*/(""""+
-	                	""""),_display_(Seq[Any](/*283.21*/for(horaire <- jour.horaires) yield /*283.50*/ {_display_(Seq[Any](format.raw/*283.52*/(""""+	                		
-			                 "<td class=\"checktd\"><input id=\""""),_display_(Seq[Any](/*284.57*/horaire/*284.64*/.id)),format.raw/*284.67*/("""\" type=\"checkbox\" class=\"horaire checkbox\" value=\""""),_display_(Seq[Any](/*284.124*/horaire/*284.131*/.debut)),format.raw/*284.137*/(""" - """),_display_(Seq[Any](/*284.141*/horaire/*284.148*/.fin)),format.raw/*284.152*/("""\" /></td>"+			                
-	                	"""")))})),format.raw/*285.21*/(""""+                	                
-                  """")))})),format.raw/*286.21*/("""" +
-				"</tr>")
-		  $('#champ').attr('value', '')
-		  $('.titres').attr('style','');
-		"""),format.raw("""}"""),format.raw/*290.4*/("""               
-	"""),format.raw("""}"""),format.raw/*291.3*/(""");
-"""),format.raw("""}"""),format.raw/*292.2*/("""
-
-
-$('.checktd').live('click', function(e) """),format.raw("""{"""),format.raw/*295.42*/("""
-      
-	if ($(this).children().prop("checked") == false) """),format.raw("""{"""),format.raw/*297.52*/("""
-	  if (e.target.nodeName == "TD")"""),format.raw("""{"""),format.raw/*298.35*/("""
-	  	$(this).children().prop("checked", true);
-	  """),format.raw("""}"""),format.raw/*300.5*/("""
-	  changeCheck($(this).children());
-	"""),format.raw("""}"""),format.raw/*302.3*/(""" else """),format.raw("""{"""),format.raw/*302.10*/("""
-	if (e.target.nodeName == "TD")"""),format.raw("""{"""),format.raw/*303.33*/("""
-	  	$(this).children().prop("checked", false);
-	"""),format.raw("""}"""),format.raw/*305.3*/("""        
-	changeCheck($(this).children());
-	"""),format.raw("""}"""),format.raw/*307.3*/("""
-	var max = 0;
-	$("#compte").children().each( function() """),format.raw("""{"""),format.raw/*309.44*/("""
-		$(this).css("background-color", "#A0A0A0") //gris
-		$('.titres').children().css("background-color","#A0A0A0");
-		$('.footer').html("");
-		if ($(this).html() > max) """),format.raw("""{"""),format.raw/*313.30*/("""			
-			max = $(this).html();
-		"""),format.raw("""}"""),format.raw/*315.4*/("""
-	"""),format.raw("""}"""),format.raw/*316.3*/(""")
-	$("#compte").children().each( function() """),format.raw("""{"""),format.raw/*317.44*/("""		
-		if ($(this).html() == max && $(this).html() != 0) """),format.raw("""{"""),format.raw/*318.54*/("""			
-			$(this).css("background-color", "black");
-			//alert("classe : "+$(this).attr("class")+" id : "+$(this).attr("id"));
-			$('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').css("background-color", "black");
-			if($(this).attr("class") == "horaire") """),format.raw("""{"""),format.raw/*322.44*/("""
-				var day = $('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').attr("day");				
-				$("td:contains('"+day+"')").css("background-color", "black");
-				$('.footer').append(day);
-			"""),format.raw("""}"""),format.raw/*326.5*/("""
-		"""),format.raw("""}"""),format.raw/*327.4*/("""
-	"""),format.raw("""}"""),format.raw/*328.3*/(""")
+	$('.editPersonne').live('click', function(e) """),format.raw("""{"""),format.raw/*210.48*/("""
+	    if($(this).html() == "Editer")  """),format.raw("""{"""),format.raw/*211.39*/("""
+	      $(this).html("OK");
+	      $(this).attr("class", "editPersonne btn btn-success");
+	      $(this).siblings("input").removeAttr("readonly");
+	      $(this).parent().parent().parent().children("td").children().removeAttr("disabled");
+	    """),format.raw("""}"""),format.raw/*216.7*/(""" else """),format.raw("""{"""),format.raw/*216.14*/("""
+	      $(this).html("Editer");
+	      $(this).attr("class", "editPersonne btn");
+	      $(this).siblings("input").attr("readonly", "readonly");
+	      $(this).parent().parent().parent().children("td").children('input[type="checkbox"]').attr("disabled","true"); 
+	      editPersonne($(this).attr('id'), $(this).siblings("input").attr("value"));
+	    """),format.raw("""}"""),format.raw/*222.7*/("""
+	  
+	"""),format.raw("""}"""),format.raw/*224.3*/(""")
 
 
 
-"""),format.raw("""}"""),format.raw/*332.2*/(""");
+
+
+	$("#ajouter").live('click', function(e)"""),format.raw("""{"""),format.raw/*230.42*/("""
+	  
+	    envoiPersonne($("#champ"));	    
+
+	    
+	"""),format.raw("""}"""),format.raw/*235.3*/(""");
 
 
 
-$(".checktd").hover(  
-  function () """),format.raw("""{"""),format.raw/*337.16*/("""  	
-    $(this).css("background-color", "lightgreen");
-    
-  """),format.raw("""}"""),format.raw/*340.4*/(""",
-  function () """),format.raw("""{"""),format.raw/*341.16*/("""
-  	if ($(this).children().is(':checked'))"""),format.raw("""{"""),format.raw/*342.43*/("""	 
-    	$(this).css("background-color", "#66CC99");
-    """),format.raw("""}"""),format.raw/*344.6*/(""" else """),format.raw("""{"""),format.raw/*344.13*/("""
-    	$(this).css("background-color", "#A0A0A0");
-    """),format.raw("""}"""),format.raw/*346.6*/("""
 
-  """),format.raw("""}"""),format.raw/*348.4*/("""
-);
+	function envoiPersonne(self)
+	"""),format.raw("""{"""),format.raw/*241.3*/("""
+	    var vide = "";
+	    var nom = self.attr("value");
+	    if (vide != nom) """),format.raw("""{"""),format.raw/*244.24*/("""      
+			addPersonne($("#champ").attr('value'));			
+		"""),format.raw("""}"""),format.raw/*246.4*/("""
+	"""),format.raw("""}"""),format.raw/*247.3*/("""
 
+	function editPersonne(personneId, personneNom)
+	"""),format.raw("""{"""),format.raw/*250.3*/("""
+	  $.ajax("""),format.raw("""{"""),format.raw/*251.12*/("""
+			type: "POST",
+			url: """"),_display_(Seq[Any](/*253.11*/routes/*253.17*/.Application.updatePersonne(event.id))),format.raw/*253.54*/("""",
+			data: '"""),format.raw("""{"""),format.raw/*254.12*/(""""id" : "' + personneId + '", "nom" : "' + personneNom + '""""),format.raw("""}"""),format.raw/*254.71*/("""',
+			contentType: "application/json",
+			success : function(data) """),format.raw("""{"""),format.raw/*256.30*/("""
+			  //alert("Participant edit\351");
+			"""),format.raw("""}"""),format.raw/*258.5*/("""
+	  """),format.raw("""}"""),format.raw/*259.5*/(""");
+	"""),format.raw("""}"""),format.raw/*260.3*/("""
 
-function changeCheck(box) """),format.raw("""{"""),format.raw/*352.28*/("""   
-   var idtime = box.attr('id');
-   var idParticipant = box.parent().parent().attr('id');   
-   
-   if (box.is(':checked'))"""),format.raw("""{"""),format.raw/*356.28*/("""	   		
-       		box.parent().css("background-color", "#66CC99")//vert
-	   		if (box.attr('class') == 'horaire checkbox') """),format.raw("""{"""),format.raw/*358.53*/("""
-	           var increment = $('#compte').children('.horaire[id="'+idtime+'"]');
-		   	   increment.html(parseInt(increment.html())+1);
-	       	   requeteAjaxHeure(idtime, idParticipant);
-		    """),format.raw("""}"""),format.raw/*362.8*/("""
-       		if (box.attr('class') == 'jour checkbox') """),format.raw("""{"""),format.raw/*363.53*/("""	
-    	   	   var increment = $('#compte').children('.jour[id="'+idtime+'"]');
-		   	   increment.html(parseInt(increment.html())+1);
-			   requeteAjaxJour(idtime, idParticipant);
-		   """),format.raw("""}"""),format.raw/*367.7*/("""
-   """),format.raw("""}"""),format.raw/*368.5*/(""" else """),format.raw("""{"""),format.raw/*368.12*/("""
-     
-     box.parent().css("background-color", "#A0A0A0")//gris
-     if (box.attr('class') == 'horaire checkbox') """),format.raw("""{"""),format.raw/*371.52*/("""
-	     var increment = $('#compte').children('.horaire[id="'+idtime+'"]');
-	     increment.html(parseInt(increment.html())-1);
-	     requeteAjaxHeure(idtime, idParticipant);
-     """),format.raw("""}"""),format.raw/*375.7*/("""
-     if (box.attr('class') == 'jour checkbox') """),format.raw("""{"""),format.raw/*376.49*/("""
-        var increment = $('#compte').children('.jour[id="'+idtime+'"]');
-	    increment.html(parseInt(increment.html())-1);
-	    requeteAjaxJour(idtime, idParticipant);
-     """),format.raw("""}"""),format.raw/*380.7*/("""
-   """),format.raw("""}"""),format.raw/*381.5*/("""
-   
-   
-"""),format.raw("""}"""),format.raw/*384.2*/("""
+	function deletePersonne(persId)
+	"""),format.raw("""{"""),format.raw/*263.3*/("""
+	  $.ajax("""),format.raw("""{"""),format.raw/*264.12*/("""
+			type: "POST",
+			url: """"),_display_(Seq[Any](/*266.11*/routes/*266.17*/.Application.deleteParticipant(event.id))),format.raw/*266.57*/("""",
+			data: '"""),format.raw("""{"""),format.raw/*267.12*/(""""id" : "' + persId + '""""),format.raw("""}"""),format.raw/*267.36*/("""',
+			contentType: "application/json",
+			success : function(data) """),format.raw("""{"""),format.raw/*269.30*/("""
+			  //alert("Participant supprim\351");
+			"""),format.raw("""}"""),format.raw/*271.5*/("""
+	  """),format.raw("""}"""),format.raw/*272.5*/(""");
+	"""),format.raw("""}"""),format.raw/*273.3*/("""
 
-function requeteAjaxJour(idtime, idParticipant)
-"""),format.raw("""{"""),format.raw/*387.2*/("""
-  $.ajax("""),format.raw("""{"""),format.raw/*388.11*/("""
-		type: "POST",
-		url: """"),_display_(Seq[Any](/*390.10*/routes/*390.16*/.Application.checkBoxJour(id))),format.raw/*390.45*/("""",
-		data: '"""),format.raw("""{"""),format.raw/*391.11*/(""""idjour" : "' + idtime + '", "idpersonne" : "' + idParticipant + '""""),format.raw("""}"""),format.raw/*391.79*/("""',
-		contentType: "application/json",
-		success : function(data) """),format.raw("""{"""),format.raw/*393.29*/("""
-		  //alert("Jour edit\351");
-		"""),format.raw("""}"""),format.raw/*395.4*/("""
-   """),format.raw("""}"""),format.raw/*396.5*/(""");
-"""),format.raw("""}"""),format.raw/*397.2*/("""
-
-function requeteAjaxHeure(idtime, idParticipant)
-"""),format.raw("""{"""),format.raw/*400.2*/("""
-  $.ajax("""),format.raw("""{"""),format.raw/*401.11*/("""
-		type: "POST",
-		url: """"),_display_(Seq[Any](/*403.10*/routes/*403.16*/.Application.checkBoxHoraire(id))),format.raw/*403.48*/("""",
-		data: '"""),format.raw("""{"""),format.raw/*404.11*/(""""idhoraire" : "' + idtime + '", "idpersonne" : "' + idParticipant + '""""),format.raw("""}"""),format.raw/*404.82*/("""',
-		contentType: "application/json",
-		success : function(data) """),format.raw("""{"""),format.raw/*406.29*/("""
-		  //alert("Horaire edit\351");
-		"""),format.raw("""}"""),format.raw/*408.4*/("""
-   """),format.raw("""}"""),format.raw/*409.5*/(""");
-"""),format.raw("""}"""),format.raw/*410.2*/("""
+	function addPersonne(nomParticipant)
+	"""),format.raw("""{"""),format.raw/*276.3*/("""	
+		$.ajax("""),format.raw("""{"""),format.raw/*277.11*/("""
+			type: "POST",
+			url: """"),_display_(Seq[Any](/*279.11*/routes/*279.17*/.Application.addParticipant(event.id))),format.raw/*279.54*/("""",
+			data: '"""),format.raw("""{"""),format.raw/*280.12*/(""""nom" : "' + nomParticipant + '""""),format.raw("""}"""),format.raw/*280.45*/("""',
+			contentType: "application/json",
+			success : function(data) """),format.raw("""{"""),format.raw/*282.30*/("""		  
+				$("tbody").append("<tr id=\""+data.idPersonne+"\"><td class=\"infoPersonne\">"+
+					"<form id=\"formPersonne\">"+
+					"<input id=\"nom\" type=\"text\" value=\""+nomParticipant+"\" name=\"nom\" readonly=\"readonly\">&nbsp;"+
+					"<a id=\""+data.idPersonne+"\" class=\"editPersonne btn btn-success\">OK</a>&nbsp;"+
+					"<a id=\""+data.idPersonne+"\" class=\"deletePersonne btn btn-danger\">Supprimer<i class=\"mesicones icon-trash\"></i></a>"+				  
+					"</form></td>"+
+					""""),_display_(Seq[Any](/*289.8*/for(jour <- event.jours) yield /*289.32*/ {_display_(Seq[Any](format.raw/*289.34*/(""""+  
+					""""),_display_(Seq[Any](/*290.8*/if(jour.horaires.size() == 0)/*290.37*/{_display_(Seq[Any](format.raw/*290.38*/("""<td class=\"checktd\"><input id=\""""),_display_(Seq[Any](/*290.73*/jour/*290.77*/.id)),format.raw/*290.80*/("""\" type=\"checkbox\" class=\"jour checkbox\" value=\""""),_display_(Seq[Any](/*290.134*/jour/*290.138*/.date)),format.raw/*290.143*/("""\" /></td>""")))})),format.raw/*290.154*/(""""+
+					""""),_display_(Seq[Any](/*291.8*/for(horaire <- jour.horaires) yield /*291.37*/ {_display_(Seq[Any](format.raw/*291.39*/(""""+	                		
+					"<td class=\"checktd\"><input id=\""""),_display_(Seq[Any](/*292.42*/horaire/*292.49*/.id)),format.raw/*292.52*/("""\" type=\"checkbox\" class=\"horaire checkbox\" value=\""""),_display_(Seq[Any](/*292.109*/horaire/*292.116*/.debut)),format.raw/*292.122*/(""" - """),_display_(Seq[Any](/*292.126*/horaire/*292.133*/.fin)),format.raw/*292.137*/("""\" /></td>"+			                
+					"""")))})),format.raw/*293.8*/(""""+                	                
+					"""")))})),format.raw/*294.8*/("""" +
+					"</tr>")
+				$('#champ').attr('value', '')
+				$('.titres').attr('style','');
+			"""),format.raw("""}"""),format.raw/*298.5*/("""               
+		"""),format.raw("""}"""),format.raw/*299.4*/(""");
+	"""),format.raw("""}"""),format.raw/*300.3*/("""
 
 
+	$('.checktd').live('click', function(e) """),format.raw("""{"""),format.raw/*303.43*/("""
+		if ($(this).children().prop("disabled") == false) """),format.raw("""{"""),format.raw/*304.54*/("""
+			if ($(this).children().prop("checked") == false) """),format.raw("""{"""),format.raw/*305.54*/("""
+				if (e.target.nodeName == "TD")"""),format.raw("""{"""),format.raw/*306.36*/("""
+					$(this).children().prop("checked", true);
+				"""),format.raw("""}"""),format.raw/*308.6*/("""
+				changeCheck($(this).children());
+			"""),format.raw("""}"""),format.raw/*310.5*/(""" else """),format.raw("""{"""),format.raw/*310.12*/("""
+				if (e.target.nodeName == "TD")"""),format.raw("""{"""),format.raw/*311.36*/("""
+					$(this).children().prop("checked", false);
+				"""),format.raw("""}"""),format.raw/*313.6*/("""        
+				changeCheck($(this).children());
+			"""),format.raw("""}"""),format.raw/*315.5*/("""
+			var max = 0;
+			$("#compte").children().each( function() """),format.raw("""{"""),format.raw/*317.46*/("""
+				$(this).css("background-color", "#A0A0A0") //gris
+				$('.titres').children().css("background-color","#A0A0A0");
+				$('.footer').html("");
+				if ($(this).html() > max) """),format.raw("""{"""),format.raw/*321.32*/("""			
+					max = $(this).html();
+				"""),format.raw("""}"""),format.raw/*323.6*/("""
+			"""),format.raw("""}"""),format.raw/*324.5*/(""")
+			$("#compte").children().each( function() """),format.raw("""{"""),format.raw/*325.46*/("""		
+				if ($(this).html() == max && $(this).html() != 0) """),format.raw("""{"""),format.raw/*326.56*/("""			
+					$(this).css("background-color", "black");
+					//alert("classe : "+$(this).attr("class")+" id : "+$(this).attr("id"));
+					$('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').css("background-color", "black");
+					if($(this).attr("class") == "horaire") """),format.raw("""{"""),format.raw/*330.46*/("""
+						var day = $('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').attr("day");				
+						$("td:contains('"+day+"')").css("background-color", "black");
+						//$('.footer').append(day);
+					"""),format.raw("""}"""),format.raw/*334.7*/("""
+				"""),format.raw("""}"""),format.raw/*335.6*/("""
+			"""),format.raw("""}"""),format.raw/*336.5*/(""")
+			$('.populaires').html("");
+			$('.titres td').each( function() """),format.raw("""{"""),format.raw/*338.38*/("""
 
-</script>
+				if ($(this).css('background-color') == "black") """),format.raw("""{"""),format.raw/*340.54*/("""
+					$('.populaires').append($(this).html());
+				"""),format.raw("""}"""),format.raw/*342.6*/("""				
+			"""),format.raw("""}"""),format.raw/*343.5*/(""")
+			
+		"""),format.raw("""}"""),format.raw/*345.4*/("""
+	"""),format.raw("""}"""),format.raw/*346.3*/(""");
 
-""")))})),format.raw/*416.2*/("""
+
+
+	$(".checktd").on("""),format.raw("""{"""),format.raw/*350.20*/("""
+
+		mouseenter: function () """),format.raw("""{"""),format.raw/*352.28*/("""
+
+			$(this).css("background-color", "lightgreen");
+
+		"""),format.raw("""}"""),format.raw/*356.4*/(""", 
+
+		mouseleave: function () """),format.raw("""{"""),format.raw/*358.28*/("""
+
+		  if ($(this).children().is(':checked'))"""),format.raw("""{"""),format.raw/*360.44*/("""	 
+			    	$(this).css("background-color", "#66CC99");
+			    """),format.raw("""}"""),format.raw/*362.9*/(""" else """),format.raw("""{"""),format.raw/*362.16*/("""
+			    	$(this).css("background-color", "#A0A0A0");
+			    """),format.raw("""}"""),format.raw/*364.9*/("""
+
+		"""),format.raw("""}"""),format.raw/*366.4*/("""
+	"""),format.raw("""}"""),format.raw/*367.3*/(""");
+
+ 
+
+
+	function changeCheck(box) """),format.raw("""{"""),format.raw/*372.29*/("""   
+	   var idtime = box.attr('id');
+	   var idParticipant = box.parent().parent().attr('id');   
+	   
+	   if (box.is(':checked'))"""),format.raw("""{"""),format.raw/*376.29*/("""	   		
+	       		box.parent().css("background-color", "#66CC99")//vert
+		   		if (box.attr('class') == 'horaire checkbox') """),format.raw("""{"""),format.raw/*378.54*/("""
+		           var increment = $('#compte').children('.horaire[id="'+idtime+'"]');
+			   	   increment.html(parseInt(increment.html())+1);
+		       	   requeteAjaxHeure(idtime, idParticipant);
+			    """),format.raw("""}"""),format.raw/*382.9*/("""
+	       		if (box.attr('class') == 'jour checkbox') """),format.raw("""{"""),format.raw/*383.54*/("""	
+	    	   	   var increment = $('#compte').children('.jour[id="'+idtime+'"]');
+			   	   increment.html(parseInt(increment.html())+1);
+				   requeteAjaxJour(idtime, idParticipant);
+			   """),format.raw("""}"""),format.raw/*387.8*/("""
+	   """),format.raw("""}"""),format.raw/*388.6*/(""" else """),format.raw("""{"""),format.raw/*388.13*/("""
+	     
+	     box.parent().css("background-color", "#A0A0A0")//gris
+	     if (box.attr('class') == 'horaire checkbox') """),format.raw("""{"""),format.raw/*391.53*/("""
+		     var increment = $('#compte').children('.horaire[id="'+idtime+'"]');
+		     increment.html(parseInt(increment.html())-1);
+		     requeteAjaxHeure(idtime, idParticipant);
+	     """),format.raw("""}"""),format.raw/*395.8*/("""
+	     if (box.attr('class') == 'jour checkbox') """),format.raw("""{"""),format.raw/*396.50*/("""
+	        var increment = $('#compte').children('.jour[id="'+idtime+'"]');
+		    increment.html(parseInt(increment.html())-1);
+		    requeteAjaxJour(idtime, idParticipant);
+	     """),format.raw("""}"""),format.raw/*400.8*/("""
+	   """),format.raw("""}"""),format.raw/*401.6*/("""
+	   
+	   
+	"""),format.raw("""}"""),format.raw/*404.3*/("""
+
+	function requeteAjaxJour(idtime, idParticipant)
+	"""),format.raw("""{"""),format.raw/*407.3*/("""
+	  $.ajax("""),format.raw("""{"""),format.raw/*408.12*/("""
+			type: "POST",
+			url: """"),_display_(Seq[Any](/*410.11*/routes/*410.17*/.Application.checkBoxJour(event.id))),format.raw/*410.52*/("""",
+			data: '"""),format.raw("""{"""),format.raw/*411.12*/(""""idjour" : "' + idtime + '", "idpersonne" : "' + idParticipant + '""""),format.raw("""}"""),format.raw/*411.80*/("""',
+			contentType: "application/json",
+			success : function(data) """),format.raw("""{"""),format.raw/*413.30*/("""
+			  //alert("Jour edit\351");
+			"""),format.raw("""}"""),format.raw/*415.5*/("""
+	   """),format.raw("""}"""),format.raw/*416.6*/(""");
+	"""),format.raw("""}"""),format.raw/*417.3*/("""
+
+	function requeteAjaxHeure(idtime, idParticipant)
+	"""),format.raw("""{"""),format.raw/*420.3*/("""
+	  $.ajax("""),format.raw("""{"""),format.raw/*421.12*/("""
+			type: "POST",
+			url: """"),_display_(Seq[Any](/*423.11*/routes/*423.17*/.Application.checkBoxHoraire(event.id))),format.raw/*423.55*/("""",
+			data: '"""),format.raw("""{"""),format.raw/*424.12*/(""""idhoraire" : "' + idtime + '", "idpersonne" : "' + idParticipant + '""""),format.raw("""}"""),format.raw/*424.83*/("""',
+			contentType: "application/json",
+			success : function(data) """),format.raw("""{"""),format.raw/*426.30*/("""
+			  //alert("Horaire edit\351");
+			"""),format.raw("""}"""),format.raw/*428.5*/("""
+	   """),format.raw("""}"""),format.raw/*429.6*/(""");
+	"""),format.raw("""}"""),format.raw/*430.3*/("""
+
+
+
+	</script>
+
+""")))})),format.raw/*436.2*/("""
 """))}
     }
     
-    def render(id:Long,eventForm:Form[Evenement],event:Evenement) = apply(id,eventForm,event)
+    def render(event:Evenement) = apply(event)
     
-    def f:((Long,Form[Evenement],Evenement) => play.api.templates.Html) = (id,eventForm,event) => apply(id,eventForm,event)
+    def f:((Evenement) => play.api.templates.Html) = (event) => apply(event)
     
     def ref = this
 
 }
                 /*
                     -- GENERATED --
-                    DATE: Mon Jun 11 13:25:37 CEST 2012
-                    SOURCE: C:/tutoPlay/doodle/app/views/editForm.scala.html
-                    HASH: e5afeb2302ec6da1efc652478ded0e24d89b3c47
-                    MATRIX: 782->1|914->160|932->170|1041->216|1078->219|1147->280|1210->306|1273->334|1298->338|1343->348|1369->353|1452->405|1485->78|1517->102|1601->57|1629->76|1657->156|1687->407|1725->410|1761->437|1801->439|1864->466|1878->471|1909->480|1996->531|2010->536|2041->545|2113->581|2127->586|2161->598|2229->630|2243->635|2279->649|2478->813|2518->837|2558->839|2617->862|2630->866|2655->869|2716->894|2729->898|2767->914|2809->920|2822->924|2849->929|2936->985|3062->1076|3102->1100|3142->1102|3186->1111|3224->1140|3263->1141|3331->1178|3377->1188|3422->1217|3462->1219|3517->1238|3533->1245|3558->1248|3602->1256|3615->1260|3642->1265|3697->1284|3713->1291|3741->1297|3781->1301|3797->1308|3823->1312|3870->1327|3935->1361|4002->1393|4056->1431|4096->1433|4145->1446|4165->1457|4195->1465|4263->1498|4336->1562|4376->1564|4454->1606|4474->1617|4505->1626|4594->1679|4614->1690|4644->1698|4759->1777|4779->1788|4809->1796|4926->1882|4977->1898|5017->1922|5057->1924|5103->1934|5141->1963|5180->1964|5228->1976|5285->2024|5325->2026|5412->2077|5425->2081|5450->2084|5543->2140|5557->2144|5585->2149|5631->2177|5644->2182|5683->2183|5771->2235|5784->2239|5809->2242|5894->2290|5908->2294|5936->2299|5995->2326|6049->2348|6101->2364|6146->2393|6186->2395|6240->2413|6303->2467|6343->2469|6430->2520|6446->2527|6471->2530|6568->2590|6585->2597|6614->2603|6655->2607|6672->2614|6699->2618|6745->2646|6758->2651|6797->2652|6885->2704|6901->2711|6926->2714|7014->2765|7031->2772|7060->2778|7101->2782|7118->2789|7145->2793|7204->2820|7252->2836|7325->2877|7373->2894|7501->2987|7541->3011|7581->3013|7624->3021|7662->3050|7701->3051|7770->3084|7783->3088|7808->3091|7876->3128|7926->3142|7971->3171|8011->3173|8087->3213|8103->3220|8128->3223|8212->3275|8247->3279|8767->3751|8852->3788|8933->3821|9044->3885|9094->3888|9185->3931|9269->3968|9370->4021|9503->4106|9582->4137|9754->4262|9804->4265|9901->4314|9980->4345|10149->4467|10199->4470|10249->4473|10358->4534|10551->4679|10630->4711|10680->4714|10773->4759|10877->4815|11201->5091|11427->5270|11478->5274|11528->5277|11581->5283|11677->5331|11779->5385|11842->5411|11858->5417|11906->5442|11967->5455|12049->5489|12163->5555|12259->5604|12311->5609|12362->5613|12469->5672|12684->5839|12785->5893|12892->5952|12958->5970|13059->6023|13191->6107|13273->6141|13448->6269|13501->6275|13592->6318|13674->6352|13846->6477|13899->6483|13950->6487|14001->6491|14098->6540|14207->6601|14403->6750|14458->6757|14780->7032|14832->7037|14927->7084|15011->7121|15095->7158|15219->7234|15320->7288|15369->7290|15466->7340|15525->7351|15588->7377|15604->7383|15658->7414|15719->7427|15826->7486|15940->7552|16028->7593|16079->7597|16130->7601|16212->7636|16271->7647|16334->7673|16350->7679|16407->7713|16468->7726|16540->7750|16654->7816|16745->7860|16796->7864|16847->7868|16934->7908|16993->7919|17056->7945|17072->7951|17126->7982|17187->7995|17268->8028|17382->8094|17927->8603|17968->8627|18009->8629|18060->8643|18099->8672|18139->8673|18211->8708|18225->8712|18251->8715|18343->8769|18358->8773|18387->8778|18432->8789|18492->8812|18538->8841|18579->8843|18694->8921|18711->8928|18737->8931|18832->8988|18850->8995|18880->9001|18922->9005|18940->9012|18968->9016|19053->9068|19142->9124|19278->9213|19343->9231|19394->9235|19486->9279|19593->9338|19676->9373|19774->9424|19860->9463|19915->9470|19996->9503|20093->9553|20185->9598|20291->9656|20507->9824|20586->9856|20636->9859|20729->9904|20833->9960|21157->10236|21408->10440|21459->10444|21509->10447|21562->10453|21654->10497|21764->10560|21829->10577|21920->10620|22024->10677|22079->10684|22181->10739|22233->10744|22314->10777|22489->10904|22659->11026|22902->11222|23003->11275|23236->11461|23288->11466|23343->11473|23508->11590|23735->11770|23832->11819|24055->11995|24107->12000|24164->12010|24262->12061|24321->12072|24384->12098|24400->12104|24452->12133|24513->12146|24629->12214|24743->12280|24824->12314|24876->12319|24927->12323|25026->12375|25085->12386|25148->12412|25164->12418|25219->12450|25280->12463|25399->12534|25513->12600|25597->12637|25649->12642|25700->12646|25748->12662
-                    LINES: 27->1|30->7|30->7|32->7|33->8|33->8|33->8|34->9|34->9|34->9|34->9|36->11|37->5|37->5|38->1|40->4|41->5|43->12|45->14|45->14|45->14|47->16|47->16|47->16|50->19|50->19|50->19|51->20|51->20|51->20|52->21|52->21|52->21|60->29|60->29|60->29|61->30|61->30|61->30|61->30|61->30|61->30|61->30|61->30|61->30|62->31|65->34|65->34|65->34|66->35|66->35|66->35|68->37|69->38|69->38|69->38|70->39|70->39|70->39|70->39|70->39|70->39|70->39|70->39|70->39|70->39|70->39|70->39|71->40|72->41|76->45|76->45|76->45|77->46|77->46|77->46|78->47|78->47|78->47|79->48|79->48|79->48|81->50|81->50|81->50|82->51|82->51|82->51|83->52|85->54|85->54|85->54|86->55|86->55|86->55|87->56|87->56|87->56|88->57|88->57|88->57|88->57|88->57|88->57|89->58|89->58|89->58|90->59|90->59|90->59|90->59|90->59|90->59|91->60|93->62|94->63|94->63|94->63|95->64|95->64|95->64|96->65|96->65|96->65|96->65|96->65|96->65|96->65|96->65|96->65|97->66|97->66|97->66|98->67|98->67|98->67|98->67|98->67|98->67|98->67|98->67|98->67|99->68|100->69|101->70|103->72|107->76|107->76|107->76|108->77|108->77|108->77|109->78|109->78|109->78|110->79|111->80|111->80|111->80|112->81|112->81|112->81|113->82|114->83|141->110|142->111|143->112|145->114|146->115|148->117|150->119|154->123|157->126|158->127|161->130|162->131|163->132|164->133|167->136|168->137|169->138|172->141|175->144|177->146|178->147|179->148|180->149|184->153|188->157|189->158|190->159|192->161|195->164|198->167|200->169|200->169|200->169|201->170|201->170|203->172|205->174|206->175|207->176|210->179|214->183|216->185|217->186|217->186|218->187|221->190|222->191|225->194|226->195|227->196|228->197|231->200|232->201|233->202|234->203|236->205|237->206|241->210|241->210|247->216|249->218|255->224|258->227|264->233|267->236|269->238|270->239|273->242|274->243|276->245|276->245|276->245|277->246|277->246|279->248|281->250|282->251|283->252|286->255|287->256|289->258|289->258|289->258|290->259|290->259|292->261|294->263|295->264|296->265|299->268|300->269|302->271|302->271|302->271|303->272|303->272|305->274|312->281|312->281|312->281|313->282|313->282|313->282|313->282|313->282|313->282|313->282|313->282|313->282|313->282|314->283|314->283|314->283|315->284|315->284|315->284|315->284|315->284|315->284|315->284|315->284|315->284|316->285|317->286|321->290|322->291|323->292|326->295|328->297|329->298|331->300|333->302|333->302|334->303|336->305|338->307|340->309|344->313|346->315|347->316|348->317|349->318|353->322|357->326|358->327|359->328|363->332|368->337|371->340|372->341|373->342|375->344|375->344|377->346|379->348|383->352|387->356|389->358|393->362|394->363|398->367|399->368|399->368|402->371|406->375|407->376|411->380|412->381|415->384|418->387|419->388|421->390|421->390|421->390|422->391|422->391|424->393|426->395|427->396|428->397|431->400|432->401|434->403|434->403|434->403|435->404|435->404|437->406|439->408|440->409|441->410|447->416
+                    DATE: Thu Jun 14 14:04:05 CEST 2012
+                    SOURCE: C:/tutoPlay/KIND/app/views/editForm.scala.html
+                    HASH: 9e855b548fa9fa0bbff923e3567d6135c7304140
+                    MATRIX: 761->1|864->40|896->64|980->19|1008->38|1036->118|1075->123|1110->150|1149->152|1212->179|1226->184|1254->190|1339->239|1353->244|1381->250|1451->284|1465->289|1496->298|1562->328|1576->333|1609->344|1817->517|1857->541|1897->543|1957->567|1970->571|1995->574|2056->599|2069->603|2107->619|2149->625|2162->629|2189->634|2277->691|2406->785|2446->809|2486->811|2531->821|2569->850|2608->851|2678->890|2725->901|2770->930|2810->932|2866->952|2882->959|2907->962|2951->970|2964->974|2991->979|3046->998|3062->1005|3090->1011|3130->1015|3146->1022|3172->1026|3220->1042|3286->1077|3357->1113|3411->1151|3451->1153|3501->1167|3521->1178|3551->1186|3620->1220|3699->1290|3739->1292|3818->1335|3838->1346|3869->1355|3960->1410|3980->1421|4010->1429|4098->1481|4118->1492|4148->1500|4240->1561|4293->1579|4333->1603|4373->1605|4420->1616|4458->1645|4497->1646|4546->1659|4603->1707|4643->1709|4731->1761|4744->1765|4769->1768|4872->1834|4886->1838|4914->1843|4961->1872|4974->1877|5013->1878|5102->1931|5115->1935|5140->1938|5235->1996|5249->2000|5277->2005|5337->2033|5393->2057|5446->2074|5491->2103|5531->2105|5586->2124|5649->2178|5689->2180|5777->2232|5793->2239|5818->2242|5924->2311|5941->2318|5970->2324|6011->2328|6028->2335|6055->2339|6102->2368|6115->2373|6154->2374|6243->2427|6259->2434|6284->2437|6381->2497|6398->2504|6427->2510|6468->2514|6485->2521|6512->2525|6572->2553|6621->2570|6695->2612|6745->2631|6880->2731|6920->2755|6960->2757|7004->2766|7042->2795|7081->2796|7151->2830|7164->2834|7189->2837|7258->2875|7309->2890|7354->2919|7394->2921|7471->2962|7487->2969|7512->2972|7597->3025|7633->3030|8298->3647|8384->3685|8466->3719|8579->3785|8630->3789|8722->3833|8809->3873|8911->3927|9048->4016|9129->4049|9307->4180|9359->4185|9458->4236|9539->4269|9714->4397|9766->4402|9817->4406|9928->4469|10124->4617|10205->4651|10256->4655|10350->4701|10455->4758|10783->5038|11013->5221|11065->5226|11116->5230|11171->5238|11265->5284|11366->5338|11462->5386|11567->5443|11632->5471|11648->5477|11702->5508|11764->5522|11846->5556|11962->5624|12060->5675|12113->5681|12165->5686|12275->5748|12486->5911|12589->5967|12697->6027|12763->6045|12865->6099|13009->6195|13092->6230|13270->6361|13324->6368|13425->6421|13508->6456|13683->6584|13737->6591|13789->6596|13847->6607|13945->6657|14032->6696|14324->6941|14379->6948|14777->7299|14831->7306|14927->7354|15026->7406|15112->7445|15239->7524|15342->7580|15392->7583|15491->7635|15551->7647|15616->7675|15632->7681|15692->7718|15754->7732|15861->7791|15977->7859|16067->7902|16119->7907|16171->7912|16255->7949|16315->7961|16380->7989|16396->7995|16459->8035|16521->8049|16593->8073|16709->8141|16802->8187|16854->8192|16906->8197|16995->8239|17055->8251|17120->8279|17136->8285|17196->8322|17258->8336|17339->8369|17455->8437|17980->8926|18021->8950|18062->8952|18110->8964|18149->8993|18189->8994|18261->9029|18275->9033|18301->9036|18393->9090|18408->9094|18437->9099|18482->9110|18528->9120|18574->9149|18615->9151|18715->9214|18732->9221|18758->9224|18853->9281|18871->9288|18901->9294|18943->9298|18961->9305|18989->9309|19060->9348|19135->9391|19273->9482|19339->9501|19391->9506|19484->9551|19586->9605|19688->9659|19772->9695|19872->9748|19961->9790|20016->9797|20100->9833|20201->9887|20298->9937|20408->9999|20632->10175|20715->10211|20767->10216|20862->10263|20968->10321|21300->10605|21561->10819|21614->10825|21666->10830|21783->10899|21886->10954|21985->11006|22041->11015|22097->11024|22147->11027|22220->11052|22297->11081|22400->11137|22479->11168|22572->11213|22682->11276|22737->11283|22845->11344|22897->11349|22947->11352|23031->11388|23210->11519|23382->11643|23629->11843|23731->11897|23968->12087|24021->12093|24076->12100|24244->12220|24475->12404|24573->12454|24800->12634|24853->12640|24913->12653|25013->12706|25073->12718|25138->12746|25154->12752|25212->12787|25274->12801|25390->12869|25506->12937|25589->12973|25642->12979|25694->12984|25795->13038|25855->13050|25920->13078|25936->13084|25997->13122|26059->13136|26178->13207|26294->13275|26380->13314|26433->13320|26485->13325|26534->13342
+                    LINES: 27->1|30->5|30->5|31->1|33->4|34->5|37->8|37->8|37->8|39->10|39->10|39->10|42->13|42->13|42->13|43->14|43->14|43->14|44->15|44->15|44->15|52->23|52->23|52->23|53->24|53->24|53->24|53->24|53->24|53->24|53->24|53->24|53->24|54->25|57->28|57->28|57->28|58->29|58->29|58->29|60->31|61->32|61->32|61->32|62->33|62->33|62->33|62->33|62->33|62->33|62->33|62->33|62->33|62->33|62->33|62->33|63->34|64->35|68->39|68->39|68->39|69->40|69->40|69->40|70->41|70->41|70->41|71->42|71->42|71->42|73->44|73->44|73->44|74->45|74->45|74->45|75->46|77->48|77->48|77->48|78->49|78->49|78->49|79->50|79->50|79->50|80->51|80->51|80->51|80->51|80->51|80->51|81->52|81->52|81->52|82->53|82->53|82->53|82->53|82->53|82->53|83->54|85->56|86->57|86->57|86->57|87->58|87->58|87->58|88->59|88->59|88->59|88->59|88->59|88->59|88->59|88->59|88->59|89->60|89->60|89->60|90->61|90->61|90->61|90->61|90->61|90->61|90->61|90->61|90->61|91->62|92->63|93->64|95->66|100->71|100->71|100->71|101->72|101->72|101->72|102->73|102->73|102->73|103->74|104->75|104->75|104->75|105->76|105->76|105->76|106->77|107->78|137->108|138->109|139->110|141->112|142->113|144->115|146->117|150->121|153->124|154->125|157->128|158->129|159->130|160->131|163->134|164->135|165->136|168->139|171->142|173->144|174->145|175->146|176->147|180->151|184->155|185->156|186->157|188->159|190->161|193->164|196->167|199->170|201->172|201->172|201->172|202->173|202->173|204->175|206->177|207->178|208->179|211->182|216->187|218->189|219->190|219->190|220->191|223->194|224->195|227->198|228->199|229->200|230->201|233->204|234->205|235->206|237->208|239->210|240->211|245->216|245->216|251->222|253->224|259->230|264->235|270->241|273->244|275->246|276->247|279->250|280->251|282->253|282->253|282->253|283->254|283->254|285->256|287->258|288->259|289->260|292->263|293->264|295->266|295->266|295->266|296->267|296->267|298->269|300->271|301->272|302->273|305->276|306->277|308->279|308->279|308->279|309->280|309->280|311->282|318->289|318->289|318->289|319->290|319->290|319->290|319->290|319->290|319->290|319->290|319->290|319->290|319->290|320->291|320->291|320->291|321->292|321->292|321->292|321->292|321->292|321->292|321->292|321->292|321->292|322->293|323->294|327->298|328->299|329->300|332->303|333->304|334->305|335->306|337->308|339->310|339->310|340->311|342->313|344->315|346->317|350->321|352->323|353->324|354->325|355->326|359->330|363->334|364->335|365->336|367->338|369->340|371->342|372->343|374->345|375->346|379->350|381->352|385->356|387->358|389->360|391->362|391->362|393->364|395->366|396->367|401->372|405->376|407->378|411->382|412->383|416->387|417->388|417->388|420->391|424->395|425->396|429->400|430->401|433->404|436->407|437->408|439->410|439->410|439->410|440->411|440->411|442->413|444->415|445->416|446->417|449->420|450->421|452->423|452->423|452->423|453->424|453->424|455->426|457->428|458->429|459->430|465->436
                     -- GENERATED --
                 */
             

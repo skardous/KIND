@@ -46,46 +46,45 @@ Seq[Any](format.raw/*1.27*/("""
                 <div class="styleDates" >
                 Dates propos&eacute;es: <br/>
                 
-                <input type="hidden" id="hiddenDates"""),_display_(Seq[Any](/*20.54*/e/*20.55*/.id)),format.raw/*20.58*/("""" value=""""),_display_(Seq[Any](/*20.68*/e/*20.69*/.dates)),format.raw/*20.75*/("""">
-                <input type="hidden" id="hiddenHeures"""),_display_(Seq[Any](/*21.55*/e/*21.56*/.id)),format.raw/*21.59*/("""" value=""""),_display_(Seq[Any](/*21.69*/e/*21.70*/.heures)),format.raw/*21.77*/("""">
-                <input type="hidden" id="identifiants" value=""""),_display_(Seq[Any](/*22.64*/e/*22.65*/.id)),format.raw/*22.68*/("""">
-                <img id="image" src=""""),_display_(Seq[Any](/*23.39*/routes/*23.45*/.Assets.at("images/calendar.png"))),format.raw/*23.78*/(""""/>
+                
+                <input type="hidden" id="identifiants" value=""""),_display_(Seq[Any](/*21.64*/e/*21.65*/.id)),format.raw/*21.68*/("""">
+                <img id="image" src=""""),_display_(Seq[Any](/*22.39*/routes/*22.45*/.Assets.at("images/calendar.png"))),format.raw/*22.78*/(""""/>
                 
         		<ul>
-                """),_display_(Seq[Any](/*26.18*/for(jour <- e.jours) yield /*26.38*/ {_display_(Seq[Any](format.raw/*26.40*/("""
-                 <li><b>"""),_display_(Seq[Any](/*27.26*/jour/*27.30*/.date)),format.raw/*27.35*/("""</b> &nbsp;
+                """),_display_(Seq[Any](/*25.18*/for(jour <- e.jours) yield /*25.38*/ {_display_(Seq[Any](format.raw/*25.40*/("""
+                 <li><b>"""),_display_(Seq[Any](/*26.26*/jour/*26.30*/.date)),format.raw/*26.35*/("""</b> &nbsp;
                 	<ul>
-                	"""),_display_(Seq[Any](/*29.19*/for(horaire <- jour.horaires) yield /*29.48*/ {_display_(Seq[Any](format.raw/*29.50*/("""
-                	  <li><i class="icon-time"></i>  """),_display_(Seq[Any](/*30.52*/horaire/*30.59*/.debut)),format.raw/*30.65*/(""" - """),_display_(Seq[Any](/*30.69*/horaire/*30.76*/.fin)),format.raw/*30.80*/("""</li>
-                	""")))})),format.raw/*31.19*/("""
+                	"""),_display_(Seq[Any](/*28.19*/for(horaire <- jour.horaires) yield /*28.48*/ {_display_(Seq[Any](format.raw/*28.50*/("""
+                	  <li><i class="mesicones icon-time"></i>  """),_display_(Seq[Any](/*29.62*/horaire/*29.69*/.debut)),format.raw/*29.75*/(""" - """),_display_(Seq[Any](/*29.79*/horaire/*29.86*/.fin)),format.raw/*29.90*/("""</li>
+                	""")))})),format.raw/*30.19*/("""
                 	</ul>
                 	</li>
                  
-                """)))})),format.raw/*35.18*/("""
+                """)))})),format.raw/*34.18*/("""
                 </ul>
                 </div>         
                 
                 Participants:<br/>
-                """),_display_(Seq[Any](/*40.18*/if(e.participants.size > 0)/*40.45*/ {_display_(Seq[Any](format.raw/*40.47*/("""
+                """),_display_(Seq[Any](/*39.18*/if(e.participants.size > 0)/*39.45*/ {_display_(Seq[Any](format.raw/*39.47*/("""
 	                <ul>
-	                """),_display_(Seq[Any](/*42.19*/e/*42.20*/.participants.map/*42.37*/ { personne =>_display_(Seq[Any](format.raw/*42.51*/("""
-	                    <li><i class="icon-user"></i>&nbsp;"""),_display_(Seq[Any](/*43.58*/personne/*43.66*/.nom)),format.raw/*43.70*/("""</li>
-	                """)))})),format.raw/*44.19*/("""
+	                """),_display_(Seq[Any](/*41.19*/e/*41.20*/.participants.map/*41.37*/ { personne =>_display_(Seq[Any](format.raw/*41.51*/("""
+	                    <li><i class="mesicones icon-user"></i>&nbsp;"""),_display_(Seq[Any](/*42.68*/personne/*42.76*/.nom)),format.raw/*42.80*/("""</li>
+	                """)))})),format.raw/*43.19*/("""
 	            	</ul>
-            	""")))})),format.raw/*46.15*/(""" 
-            	"""),_display_(Seq[Any](/*47.15*/if(e.participants == null)/*47.41*/ {_display_(Seq[Any](format.raw/*47.43*/("""
-            		"""),_display_(Seq[Any](/*48.16*/e/*48.17*/.createur)),format.raw/*48.26*/("""
-            		""")))})),format.raw/*49.16*/("""
+            	""")))})),format.raw/*45.15*/(""" 
+            	"""),_display_(Seq[Any](/*46.15*/if(e.participants == null)/*46.41*/ {_display_(Seq[Any](format.raw/*46.43*/("""
+            		"""),_display_(Seq[Any](/*47.16*/e/*47.17*/.createur)),format.raw/*47.26*/("""
+            	""")))})),format.raw/*48.15*/("""
                 
-                 <!-- """),format.raw/*51.118*/("""  -->
-                 <a href=""""),_display_(Seq[Any](/*52.28*/routes/*52.34*/.Application.edit(e.id))),format.raw/*52.57*/("""">Editer evenement</a>         	
+                 <!-- """),format.raw/*50.118*/("""  -->
+                 <a href=""""),_display_(Seq[Any](/*51.28*/routes/*51.34*/.Application.edit(e.id))),format.raw/*51.57*/("""">Editer evenement</a>         	
                 
                 
-                """),_display_(Seq[Any](/*55.18*/form(routes.Application.deleteEvent(e.id))/*55.60*/ {_display_(Seq[Any](format.raw/*55.62*/("""
+                """),_display_(Seq[Any](/*54.18*/form(routes.Application.deleteEvent(e.id))/*54.60*/ {_display_(Seq[Any](format.raw/*54.62*/("""
                     <input type="submit" value="Supprimer evenement">
-                """)))})),format.raw/*57.18*/("""
+                """)))})),format.raw/*56.18*/("""
             </li>
-        """)))})),format.raw/*59.10*/("""
+        """)))})),format.raw/*58.10*/("""
     </ul>
     
     <script type="text/javascript" charset="utf-8">
@@ -104,11 +103,11 @@ Seq[Any](format.raw/*1.27*/("""
 }
                 /*
                     -- GENERATED --
-                    DATE: Mon Jun 11 08:37:35 CEST 2012
-                    SOURCE: C:/tutoPlay/doodle/app/views/eventlist.scala.html
-                    HASH: 63577047d75d1fbc157ca00785784094a789bf41
-                    MATRIX: 768->1|886->26|914->45|950->47|986->75|1025->77|1075->92|1089->98|1117->105|1200->152|1232->168|1272->170|1343->205|1353->206|1381->212|1465->260|1475->261|1506->270|1582->310|1592->311|1625->322|1840->501|1850->502|1875->505|1921->515|1931->516|1959->522|2052->579|2062->580|2087->583|2133->593|2143->594|2172->601|2274->667|2284->668|2309->671|2386->712|2401->718|2456->751|2545->804|2581->824|2621->826|2683->852|2696->856|2723->861|2811->913|2856->942|2896->944|2984->996|3000->1003|3028->1009|3068->1013|3084->1020|3110->1024|3166->1048|3280->1130|3440->1254|3476->1281|3516->1283|3593->1324|3603->1325|3629->1342|3681->1356|3775->1414|3792->1422|3818->1426|3874->1450|3941->1485|3993->1501|4028->1527|4068->1529|4120->1545|4130->1546|4161->1555|4209->1571|4278->1706|4347->1739|4362->1745|4407->1768|4527->1852|4578->1894|4618->1896|4738->1984|4798->2012
-                    LINES: 27->1|31->1|33->4|34->5|34->5|34->5|36->7|36->7|36->7|41->12|41->12|41->12|43->14|43->14|43->14|44->15|44->15|44->15|45->16|45->16|45->16|49->20|49->20|49->20|49->20|49->20|49->20|50->21|50->21|50->21|50->21|50->21|50->21|51->22|51->22|51->22|52->23|52->23|52->23|55->26|55->26|55->26|56->27|56->27|56->27|58->29|58->29|58->29|59->30|59->30|59->30|59->30|59->30|59->30|60->31|64->35|69->40|69->40|69->40|71->42|71->42|71->42|71->42|72->43|72->43|72->43|73->44|75->46|76->47|76->47|76->47|77->48|77->48|77->48|78->49|80->51|81->52|81->52|81->52|84->55|84->55|84->55|86->57|88->59
+                    DATE: Wed Jun 13 15:50:48 CEST 2012
+                    SOURCE: C:/tutoPlay/KIND/app/views/eventlist.scala.html
+                    HASH: 4330f5b3f273d6b3a16f6621db43e8deb68ceeb5
+                    MATRIX: 768->1|886->26|914->45|950->47|986->75|1025->77|1075->92|1089->98|1117->105|1200->152|1232->168|1272->170|1343->205|1353->206|1381->212|1465->260|1475->261|1506->270|1582->310|1592->311|1625->322|1867->528|1877->529|1902->532|1979->573|1994->579|2049->612|2138->665|2174->685|2214->687|2276->713|2289->717|2316->722|2404->774|2449->803|2489->805|2587->867|2603->874|2631->880|2671->884|2687->891|2713->895|2769->919|2883->1001|3043->1125|3079->1152|3119->1154|3196->1195|3206->1196|3232->1213|3284->1227|3388->1295|3405->1303|3431->1307|3487->1331|3554->1366|3606->1382|3641->1408|3681->1410|3733->1426|3743->1427|3774->1436|3821->1451|3890->1586|3959->1619|3974->1625|4019->1648|4139->1732|4190->1774|4230->1776|4350->1864|4410->1892
+                    LINES: 27->1|31->1|33->4|34->5|34->5|34->5|36->7|36->7|36->7|41->12|41->12|41->12|43->14|43->14|43->14|44->15|44->15|44->15|45->16|45->16|45->16|50->21|50->21|50->21|51->22|51->22|51->22|54->25|54->25|54->25|55->26|55->26|55->26|57->28|57->28|57->28|58->29|58->29|58->29|58->29|58->29|58->29|59->30|63->34|68->39|68->39|68->39|70->41|70->41|70->41|70->41|71->42|71->42|71->42|72->43|74->45|75->46|75->46|75->46|76->47|76->47|76->47|77->48|79->50|80->51|80->51|80->51|83->54|83->54|83->54|85->56|87->58
                     -- GENERATED --
                 */
             

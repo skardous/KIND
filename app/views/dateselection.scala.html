@@ -2,8 +2,6 @@
 
 @import helper._
 
-@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) } 
-
 
 @main("Selectionner les jours") {
     
@@ -11,22 +9,14 @@
     
            
 
-      <div class="control-group"><label class="control-label">TITRE:&nbsp;</label> @event.getTitre </div>  <br>  
+      TITRE:&nbsp; @event.titre <br>  
       
-        <label class="control-label">Date</label> <div class="controls" id="date"></div> 
+        Date:  <div class="controls" id="date"></div> 
 		
-   		<ul class="controls" id="altField"> </ul> 
-    	
-    	@input(eventForm("dates"), '_label -> "") { (id, name, value, args) =>
-		    <input type="hidden" name="@name" id="myDates" @toHtmlArgs(args)>
-		}
-		
-		@input(eventForm("heures"), '_label -> "") { (id, name, value, args) =>
-		    <input type="hidden" name="@name" id="myHours" @toHtmlArgs(args)>
-		}
+   		<ul class="controls" id="altField"> </ul>     	
 				
         
-        <a href="@routes.Application.heureSelection(event.getId)" class="btn btn-primary">Continuer</a>
+        <a href="@routes.Application.heureSelection(event.id)" class="btn btn-primary">Continuer</a>
         
     
     
@@ -37,71 +27,43 @@
 		var heuresList = new Array(); 
 	
 
-	$(function(){  
-		
-		$( "#date" ).multiDatesPicker();
-		
-		$("#date").multiDatesPicker({
-	   		onSelect: function(date) {
-	   		    var selectionType = $.inArray(date, $( "#date" ).multiDatesPicker('getDates'));
-	   		    var d = new Date(date);
-	   		    
-	   		    //var d = date.substring(1, 8);
-	   		    var dateText = d.toLocaleDateString();
-	   		    if (selectionType == -1) { // suppression de la date dans la liste
-	   		      var str = dateText.replace("/", "");
-	   		      str = str.replace("/", "");
-	   		      	   		      
-	   		      $("#"+str).remove();
-	   		    }
-	   		
-	   		  	$(".areload").html("");
-	   			$(".areload").html(
-	   			    "@for(jour <- event.jours) {"+
-	        	   		"<li>@jour.date &nbsp;"+
-	           		"</li>}"
-	   			    );
-	   			$.ajax({
-					type: "POST",
-					url: "@routes.Application.addDate(id)",
-					data: '{"date" : "' + dateText + '"}',
-					contentType: "application/json",
-					success : function(data) {
-					  if (selectionType != -1) {					
-						  ajouterDate(dateText);
-					  }
-					}               
-				});		
-	    	}
-		}); 
-	});
-	
+		$(function(){  
+
+			$( "#date" ).multiDatesPicker();
+
+			$("#date").multiDatesPicker({
+				onSelect: function(date) {
+					alert("select");
+	   		}
+	   	}); 
+		});
+
 	function ajouterDate(dateText) {
 	  var str = dateText.replace("/", "");//efface le premier slash de la date
 	  str = str.replace("/", "");//efface le premier slash de la date
-			$("#altField").append("<li id=\""+str+"\">"+ 
-		"<a class=\"linkDate\" name=\""+dateText+"\">"+
-		"<i class=\"icon-trash\"></i>&nbsp;"+
-		"</a>"+dateText+		
-		"</li>");
-	}	
+	  $("#altField").append("<li id=\""+str+"\">"+ 
+	  	"<a class=\"linkDate\" name=\""+dateText+"\">"+
+	  	"<i class=\"mesicones icon-trash\"></i>&nbsp;"+
+	  	"</a>"+dateText+		
+	  	"</li>");
+	}
 
 	$('.linkDate').live('click', function(e) {	  
-	   $("#date").multiDatesPicker('removeDates', $(this).attr("name")); //enleve la date dans l'affichage du datepicker
-	   $(this).parent().remove();
-	   /*SUPPRESSION DE DATE*/
-	   
-	   $.ajax({
-			type: "POST",
-			url: "@routes.Application.removeDate(id)",
-			data: '{"date" : "' + $(this).attr("name") + '"}',
-			contentType: "application/json",
-			success : function(data) {
-			  
-			}               
-		});	
-	   
-	});
+		   $("#date").multiDatesPicker('removeDates', $(this).attr("name")); //enleve la date dans l'affichage du datepicker
+		   $(this).parent().remove();
+		   /*SUPPRESSION DE DATE*/
+		   
+		   $.ajax({
+		   	type: "POST",
+		   	url: "@routes.Application.removeDate(id)",
+		   	data: '{"date" : "' + $(this).attr("name") + '"}',
+		   	contentType: "application/json",
+		   	success : function(data) {
+
+		   	}               
+		   });	
+
+		});
 
 
 	</script>
