@@ -2,68 +2,104 @@
 
 @import helper._
 
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) }
+
 
 @main("Selectionner les jours") {
-    
-    <h2>Selectionner les jours:</h2>
-    
-           
 
-      TITRE:&nbsp; @event.titre <br>  
-      
-        Date:  <div class="controls" id="date"></div> 
-		
-   		<ul class="controls" id="altField"> </ul>     	
-				
-        
-        <a href="@routes.Application.heureSelection(event.id)" class="btn btn-primary">Continuer</a>
-        
-    
-    
-	<script type="text/javascript" charset="utf-8">
+	<h2>Selectionner les jours:</h2>
 
-		var optionsHeures = "";
-		var optionsMinutes = "";
-		var heuresList = new Array(); 
-	
+	<div class="control-group"><label class="control-label">TITRE:&nbsp;</label> @event.titre </div> <br>
 
-		$(function(){  
+	<label class="control-label">Date</label> <div class="controls" id="date"></div>
 
-			$( "#date" ).multiDatesPicker();
+	<ul class="controls" id="altField"> </ul>
 
-			$("#date").multiDatesPicker({
-				onSelect: function(date) {
-					alert("select");
-	   		}
-	   	}); 
-		});
-
-	function ajouterDate(dateText) {
-	  var str = dateText.replace("/", "");//efface le premier slash de la date
-	  str = str.replace("/", "");//efface le premier slash de la date
-	  $("#altField").append("<li id=\""+str+"\">"+ 
-	  	"<a class=\"linkDate\" name=\""+dateText+"\">"+
-	  	"<i class=\"mesicones icon-trash\"></i>&nbsp;"+
-	  	"</a>"+dateText+		
-	  	"</li>");
+	@input(eventForm("dates"), '_label -> "") { (id, name, value, args) =>
+		<input type="hidden" name="@name" id="myDates" @toHtmlArgs(args)>
 	}
 
-	$('.linkDate').live('click', function(e) {	  
-		   $("#date").multiDatesPicker('removeDates', $(this).attr("name")); //enleve la date dans l'affichage du datepicker
-		   $(this).parent().remove();
-		   /*SUPPRESSION DE DATE*/
-		   
-		   $.ajax({
-		   	type: "POST",
-		   	url: "@routes.Application.removeDate(id)",
-		   	data: '{"date" : "' + $(this).attr("name") + '"}',
-		   	contentType: "application/json",
-		   	success : function(data) {
+	@input(eventForm("heures"), '_label -> "") { (id, name, value, args) =>
+		<input type="hidden" name="@name" id="myHours" @toHtmlArgs(args)>
+	}
 
-		   	}               
-		   });	
+	<a href="@routes.Application.heureSelection(event.id)" class="btn btn-primary">Continuer</a>
 
+
+
+	<script type="text/javascript" charset="utf-8">
+
+	var optionsHeures = "";
+	var optionsMinutes = "";
+	var heuresList = new Array();
+
+	$(function(){
+
+		$( "#date" ).multiDatesPicker();
+
+		$("#date").multiDatesPicker({
+			
+			onSelect: function(date) {
+				var selectionType = $.inArray(date, $( "#date" ).multiDatesPicker('getDates'));
+				var d = new Date(date);		
+				var dateText = d.toLocaleDateString();	
+				
+				if (selectionType != -1) {	
+					$.ajax({
+						type: "POST",
+						url: "@routes.Application.addDate(id)",
+						data: '{"date" : "' + dateText + '"}',
+						contentType: "application/json",
+						success : function(data) {											
+							ajouterDate(date, data.idJour);							
+						}
+					});	
+				} else {					
+					$.ajax({
+						type: "POST",
+						url: "@routes.Application.removeDate(id)",
+						data: '{"idDate" : "' + $("li:contains("+dateText+")").attr("id") + '"}',
+						contentType: "application/json",
+						success : function(data) {
+							
+						}
+					});	
+					$("li:contains("+dateText+")").remove();
+				} 
+			}
 		});
+	});
+
+	function ajouterDate(dateText, id) {
+		var str = dateText.replace("/", "");//efface le premier slash de la date
+		str = str.replace("/", "");//efface le 2e slash de la date
+		var d = new Date(dateText);		
+		var date = d.toLocaleDateString();
+		$("#altField").append(
+			"<li id=\""+id+"\">"+
+			"<a class=\"linkDate\" name=\""+dateText+"\">"+
+			"<i class=\"mesicones icon-trash\"></i>&nbsp;"+
+			"</a>"+date+	
+			"</li>"
+		);
+	}	
+
+	$('.linkDate').live('click', function(e) {	
+		$("#date").multiDatesPicker('removeDates', $(this).attr("name")); //enleve la date dans l'affichage du datepicker
+		$(this).parent().remove();
+		/*SUPPRESSION DE DATE*/
+		
+		$.ajax({
+			type: "POST",
+			url: "@routes.Application.removeDate(id)",
+			data: '{"idDate" : "' + $(this).parent().attr("id") + '"}',
+			contentType: "application/json",
+			success : function(data) {
+				
+			}
+		});	
+
+	});
 
 
 	</script>

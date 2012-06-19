@@ -41,7 +41,7 @@
 					@form(routes.Application.updatePersonne(event.id), 'id->"formPersonne") {
 						<input id="nom" type="text" value="@participant.getNom()" name="nom" readonly="readonly">	
 					
-						<a id="@participant.getId()" class="editPersonne btn">Editer</a>
+						<a id="@participant.getId()" class="editPersonne btn btn-info">Editer</a>
 						<a id="@participant.getId()" class="deletePersonne btn btn-danger"> Supprimer</a>
 					}</td>
 					
@@ -66,7 +66,7 @@
 			}
 		</tbody>
 		<tfoot>
-		<tr id="compte" style="display:none">
+		<tr id="compte" >
 			<td id=""><b>Compte: </b></td>
 			@for(jour <- event.jours) {
 			    @if(jour.horaires.size() == 0){		     
@@ -91,7 +91,7 @@
 		
 	</table>
 
-	Ajouter :		  
+	Ajouter un participant :		  
 	<input id="champ" type="text" value="">&nbsp;<a id="ajouter" class="btn">Ajouter</a><br>
 
 	<br>
@@ -99,11 +99,16 @@
 
 	<div class="selectDate">
 	<textarea id="mailsArea" rows="4" style="color:grey">Entrez ici les adresses mail séparées par une virgule ...</textarea>
-	<a id="envoiLien" class="btn btn-info">Envoyer Lien</a>
+	<a id="envoiLien" class="btn btn-primary">Envoyer Lien</a>
 	</div>
 
 	<script type="text/javascript" charset="utf-8">
+	
+	var color1 = "#FFFF99";
+	var color2 = "gold";
+	var color3 = "steelblue";
 
+	$("table.datesTable td").css("background-color", color3);
 
 	$(function(){ 
 		$('.checkbox').each(function (i) {
@@ -137,20 +142,20 @@
 
 		var max = 0;
 		$("#compte").children().each( function() {
-			$(this).css("background-color", "#A0A0A0") //gris
-			$('.titres').children().css("background-color","#A0A0A0");		
+			$(this).css("background-color", color1) //gris
+			$('.titres').children().css("background-color",color1);		
 			if ($(this).html() > max) {			
 				max = $(this).html();
 			}
 		})
 		$("#compte").children().each( function() {		
 			if ($(this).html() == max && $(this).html() != 0) {			
-				$(this).css("background-color", "black");
-				//alert("classe : "+$(this).attr("class")+" id : "+$(this).attr("id"));
-				$('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').css("background-color", "black");
+				$(this).css("background-color", color2);
+				
+				$('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').css("background-color", color2);
 				if($(this).attr("class") == "horaire") {
 					var day = $('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').attr("day");				
-					$("td:contains('"+day+"')").css("background-color", "black");
+					$("td:contains('"+day+"')").css("background-color", color2);
 					
 				}
 			}
@@ -213,16 +218,43 @@
 	      $(this).attr("class", "editPersonne btn btn-success");
 	      $(this).siblings("input").removeAttr("readonly");
 	      $(this).parent().parent().parent().children("td").children().removeAttr("disabled");
+	      $(this).parent().parent().parent().children("td").css("border", "solid black 2px");
+	      $(".hoverable").off();
+	      $(".hoverable").off();
+	      $(this).parent().parent().parent().children(".checktd").attr("class", "checktd hoverable");
+	      refreshHoverable();
 	    } else {
 	      $(this).html("Editer");
-	      $(this).attr("class", "editPersonne btn");
+	      $(this).attr("class", "editPersonne btn btn-info");
 	      $(this).siblings("input").attr("readonly", "readonly");
 	      $(this).parent().parent().parent().children("td").children('input[type="checkbox"]').attr("disabled","true"); 
+	      $(this).parent().parent().parent().children("td").css("border", "none");
+	      $(".hoverable").off();	      
+	      $(this).parent().parent().parent().children(".checktd").attr("class", "checktd");
+	      refreshHoverable();
 	      editPersonne($(this).attr('id'), $(this).siblings("input").attr("value"));
 	    }
 	  
 	})
+	
+	function refreshHoverable() {
+		
+		$(".hoverable").on({
 
+			mouseenter: function () {
+				$(this).css("background-color", "lightgreen");
+			}, 
+
+			mouseleave: function () {
+				if ($(this).children().is(':checked')){	 
+			    	$(this).css("background-color", "#66CC99");
+			    } else {
+			    	$(this).css("background-color", color3);
+			    }
+			}
+		});
+
+	}
 
 
 
@@ -284,17 +316,18 @@
 					"<form id=\"formPersonne\">"+
 					"<input id=\"nom\" type=\"text\" value=\""+nomParticipant+"\" name=\"nom\" readonly=\"readonly\">&nbsp;"+
 					"<a id=\""+data.idPersonne+"\" class=\"editPersonne btn btn-success\">OK</a>&nbsp;"+
-					"<a id=\""+data.idPersonne+"\" class=\"deletePersonne btn btn-danger\">Supprimer<i class=\"mesicones icon-trash\"></i></a>"+				  
+					"<a id=\""+data.idPersonne+"\" class=\"deletePersonne btn btn-danger\">Supprimer</a>"+				  
 					"</form></td>"+
 					"@for(jour <- event.jours) {"+  
-					"@if(jour.horaires.size() == 0){<td class=\"checktd\"><input id=\"@jour.id\" type=\"checkbox\" class=\"jour checkbox\" value=\"@jour.date\" /></td>}"+
+					"@if(jour.horaires.size() == 0){<td class=\"checktd hoverable\" style=\"border: solid black 2px\"><input id=\"@jour.id\" type=\"checkbox\" class=\"jour checkbox\" value=\"@jour.date\" /></td>}"+
 					"@for(horaire <- jour.horaires) {"+	                		
-					"<td class=\"checktd\"><input id=\"@horaire.id\" type=\"checkbox\" class=\"horaire checkbox\" value=\"@horaire.debut - @horaire.fin\" /></td>"+			                
+					"<td class=\"checktd hoverable\" style=\"border: solid black 2px\"><input id=\"@horaire.id\" type=\"checkbox\" class=\"horaire checkbox\" value=\"@horaire.debut - @horaire.fin\" /></td>"+			                
 					"}"+                	                
 					"}" +
 					"</tr>")
 				$('#champ').attr('value', '')
 				$('.titres').attr('style','');
+				refreshHoverable();
 			}               
 		});
 	}
@@ -315,8 +348,8 @@
 			}
 			var max = 0;
 			$("#compte").children().each( function() {
-				$(this).css("background-color", "#A0A0A0") //gris
-				$('.titres').children().css("background-color","#A0A0A0");
+				$(this).css("background-color", color1) //gris
+				$('.titres').children().css("background-color",color1);
 				$('.footer').html("");
 				if ($(this).html() > max) {			
 					max = $(this).html();
@@ -324,12 +357,12 @@
 			})
 			$("#compte").children().each( function() {		
 				if ($(this).html() == max && $(this).html() != 0) {			
-					$(this).css("background-color", "black");
+					$(this).css("background-color", color2);
 					//alert("classe : "+$(this).attr("class")+" id : "+$(this).attr("id"));
-					$('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').css("background-color", "black");
+					$('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').css("background-color", color2);
 					if($(this).attr("class") == "horaire") {
 						var day = $('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').attr("day");				
-						$("td:contains('"+day+"')").css("background-color", "black");
+						$("td:contains('"+day+"')").css("background-color", color2);
 						//$('.footer').append(day);
 					}
 				}
@@ -337,7 +370,7 @@
 			$('.populaires').html("");
 			$('.titres td').each( function() {
 
-				if ($(this).css('background-color') == "black") {
+				if ($(this).css('background-color') == color2) {
 					$('.populaires').append($(this).html());
 				}				
 			})
@@ -346,25 +379,7 @@
 	});
 
 
-
-	$(".checktd").on({
-
-		mouseenter: function () {
-
-			$(this).css("background-color", "lightgreen");
-
-		}, 
-
-		mouseleave: function () {
-
-		  if ($(this).children().is(':checked')){	 
-			    	$(this).css("background-color", "#66CC99");
-			    } else {
-			    	$(this).css("background-color", "#A0A0A0");
-			    }
-
-		}
-	});
+	
 
  
 
@@ -387,7 +402,7 @@
 			   }
 	   } else {
 	     
-	     box.parent().css("background-color", "#A0A0A0")//gris
+	     box.parent().css("background-color", color1)//gris
 	     if (box.attr('class') == 'horaire checkbox') {
 		     var increment = $('#compte').children('.horaire[id="'+idtime+'"]');
 		     increment.html(parseInt(increment.html())-1);

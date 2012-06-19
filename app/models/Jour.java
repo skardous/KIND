@@ -23,7 +23,7 @@ public class Jour extends Model {
 	public String date;
 	
 	@Valid
-	@ManyToMany
+	@ManyToMany(cascade=CascadeType.ALL)
 	public List<Horaire> horaires = new ArrayList<Horaire>();
 
 	public static Finder<Long, Jour> findJour = new Finder(Long.class,
@@ -36,8 +36,19 @@ public class Jour extends Model {
 	}		
 	
 	public static void delete(Long id) {
-		System.out.println(findJour.ref(id).toString());
-		findJour.ref(id).delete();
+		Jour jour = findJour.ref(id);
+		List<Horaire> tempHoraire = new ArrayList<Horaire>();
+
+		for (Horaire h : jour.horaires) {
+			tempHoraire.add(h);			
+		}	
+		for (Horaire hr : tempHoraire) {
+			jour.horaires.remove(hr);			
+			jour.saveManyToManyAssociations("horaires");	
+			hr.delete();		
+		}
+
+		jour.delete();
 	}
 	
 	public void setDate(String date) {

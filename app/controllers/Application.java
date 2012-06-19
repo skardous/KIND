@@ -198,7 +198,7 @@ public class Application extends Controller {
 		JsonNode json = request().body().asJson();
 		String jour = json.findPath("jour").getTextValue();	
 		Long idjour = Long.valueOf(jour);
-		String horaire = json.findPath("horaire").getTextValue();	
+		String horaire = json.findPath("horaire").getTextValue();
 		Long idhoraire = Long.valueOf(horaire);
 
 		Evenement.deleteHoraire(idjour, idhoraire);
@@ -213,20 +213,22 @@ public class Application extends Controller {
 		String date = json.findPath("date").getTextValue();
 
 		Evenement evenement = Evenement.findEvt.byId(id);
-		System.out.println("date ajoutée à: " + evenement.titre);
-		Evenement.addJour(evenement, id, date);
-		return redirect(routes.Application.eventlist());
+		Long jourid = Evenement.addJour(evenement, id, date);
+		ObjectNode result = Json.newObject();
+		result.put("idJour",""+jourid+"");
+		return ok(result);
 
 	}
 
 	@BodyParser.Of(BodyParser.Json.class)
 	public static Result removeDate(Long id) {
 		JsonNode json = request().body().asJson();
-		String date = json.findPath("date").getTextValue();
+		String date = json.findPath("idDate").getTextValue();
+		Long idDate = Long.valueOf(date);
 
 		Evenement evenement = Evenement.findEvt.byId(id);
 		System.out.println("date enlevee à: " + evenement.titre);
-		Evenement.removeJour(id, date);
+		Evenement.removeJour(id, idDate);
 		return redirect(routes.Application.eventlist());
 
 	}

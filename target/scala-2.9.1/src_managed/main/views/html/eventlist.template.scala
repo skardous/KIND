@@ -41,43 +41,43 @@ Seq[Any](format.raw/*1.27*/("""
         """),_display_(Seq[Any](/*12.10*/for(e <- events) yield /*12.26*/ {_display_(Seq[Any](format.raw/*12.28*/("""
             <li>
                 """),_display_(Seq[Any](/*14.18*/e/*14.19*/.titre)),format.raw/*14.25*/(""" &nbsp;&nbsp; <br/>par:       
-                """),_display_(Seq[Any](/*15.18*/e/*15.19*/.createur)),format.raw/*15.28*/(""" &nbsp;&nbsp; <br/>
-                <i>"""),_display_(Seq[Any](/*16.21*/e/*16.22*/.descriptif)),format.raw/*16.33*/("""</i>&nbsp;<br/><br/>
-                <div class="styleDates" >
-                Dates propos&eacute;es: <br/>
+                """),_display_(Seq[Any](/*15.18*/e/*15.19*/.createur)),format.raw/*15.28*/(""" &nbsp;&nbsp; 
                 
-                
-                <input type="hidden" id="identifiants" value=""""),_display_(Seq[Any](/*21.64*/e/*21.65*/.id)),format.raw/*21.68*/("""">
-                <img id="image" src=""""),_display_(Seq[Any](/*22.39*/routes/*22.45*/.Assets.at("images/calendar.png"))),format.raw/*22.78*/(""""/>
-                
-        		<ul>
-                """),_display_(Seq[Any](/*25.18*/for(jour <- e.jours) yield /*25.38*/ {_display_(Seq[Any](format.raw/*25.40*/("""
-                 <li><b>"""),_display_(Seq[Any](/*26.26*/jour/*26.30*/.date)),format.raw/*26.35*/("""</b> &nbsp;
-                	<ul>
-                	"""),_display_(Seq[Any](/*28.19*/for(horaire <- jour.horaires) yield /*28.48*/ {_display_(Seq[Any](format.raw/*28.50*/("""
-                	  <li><i class="mesicones icon-time"></i>  """),_display_(Seq[Any](/*29.62*/horaire/*29.69*/.debut)),format.raw/*29.75*/(""" - """),_display_(Seq[Any](/*29.79*/horaire/*29.86*/.fin)),format.raw/*29.90*/("""</li>
-                	""")))})),format.raw/*30.19*/("""
-                	</ul>
-                	</li>
-                 
-                """)))})),format.raw/*34.18*/("""
-                </ul>
-                </div>         
-                
-                Participants:<br/>
-                """),_display_(Seq[Any](/*39.18*/if(e.participants.size > 0)/*39.45*/ {_display_(Seq[Any](format.raw/*39.47*/("""
-	                <ul>
-	                """),_display_(Seq[Any](/*41.19*/e/*41.20*/.participants.map/*41.37*/ { personne =>_display_(Seq[Any](format.raw/*41.51*/("""
-	                    <li><i class="mesicones icon-user"></i>&nbsp;"""),_display_(Seq[Any](/*42.68*/personne/*42.76*/.nom)),format.raw/*42.80*/("""</li>
-	                """)))})),format.raw/*43.19*/("""
-	            	</ul>
-            	""")))})),format.raw/*45.15*/(""" 
-            	"""),_display_(Seq[Any](/*46.15*/if(e.participants == null)/*46.41*/ {_display_(Seq[Any](format.raw/*46.43*/("""
-            		"""),_display_(Seq[Any](/*47.16*/e/*47.17*/.createur)),format.raw/*47.26*/("""
-            	""")))})),format.raw/*48.15*/("""
-                
+                <a class="expandLink"><i class="mesicones icon-plus"></i></a><br>
+                <div class="expandEvt" style="display:none">
+                    <div class="styleDates" >
+                    Dates propos&eacute;es: <br/>
+                    
+                    
+                    <input type="hidden" id="identifiants" value=""""),_display_(Seq[Any](/*23.68*/e/*23.69*/.id)),format.raw/*23.72*/("""">
+                    <img id="image" src=""""),_display_(Seq[Any](/*24.43*/routes/*24.49*/.Assets.at("images/calendar.png"))),format.raw/*24.82*/(""""/>
+                    
+            		<ul>
+                    """),_display_(Seq[Any](/*27.22*/for(jour <- e.jours) yield /*27.42*/ {_display_(Seq[Any](format.raw/*27.44*/("""
+                     <li><b>"""),_display_(Seq[Any](/*28.30*/jour/*28.34*/.date)),format.raw/*28.39*/("""</b> &nbsp;
+                    	<ul>
+                    	"""),_display_(Seq[Any](/*30.23*/for(horaire <- jour.horaires) yield /*30.52*/ {_display_(Seq[Any](format.raw/*30.54*/("""
+                    	  <li><i class="mesicones icon-time"></i>  """),_display_(Seq[Any](/*31.66*/horaire/*31.73*/.debut)),format.raw/*31.79*/(""" - """),_display_(Seq[Any](/*31.83*/horaire/*31.90*/.fin)),format.raw/*31.94*/("""</li>
+                    	""")))})),format.raw/*32.23*/("""
+                    	</ul>
+                    	</li>
+                     
+                    """)))})),format.raw/*36.22*/("""
+                    </ul>
+                    </div>         
+                    
+                    Participants:<br/>
+                    """),_display_(Seq[Any](/*41.22*/if(e.participants.size > 0)/*41.49*/ {_display_(Seq[Any](format.raw/*41.51*/("""
+    	                <ul>
+    	                """),_display_(Seq[Any](/*43.23*/e/*43.24*/.participants.map/*43.41*/ { personne =>_display_(Seq[Any](format.raw/*43.55*/("""
+    	                    <li><i class="mesicones icon-user"></i>&nbsp;"""),_display_(Seq[Any](/*44.72*/personne/*44.80*/.nom)),format.raw/*44.84*/("""</li>
+    	                """)))})),format.raw/*45.23*/("""
+    	            	</ul>
+                	""")))})),format.raw/*47.19*/(""" 
+            	
+                </div>
                  <!-- """),format.raw/*50.118*/("""  -->
-                 <a href=""""),_display_(Seq[Any](/*51.28*/routes/*51.34*/.Application.edit(e.id))),format.raw/*51.57*/("""">Editer evenement</a>         	
+                 <a href=""""),_display_(Seq[Any](/*51.28*/routes/*51.34*/.Application.edit(e.id))),format.raw/*51.57*/("""">Editer evenement</a> <br>        	
                 
                 
                 """),_display_(Seq[Any](/*54.18*/form(routes.Application.deleteEvent(e.id))/*54.60*/ {_display_(Seq[Any](format.raw/*54.62*/("""
@@ -88,7 +88,15 @@ Seq[Any](format.raw/*1.27*/("""
     </ul>
     
     <script type="text/javascript" charset="utf-8">
-    	
+    	$(".expandLink").live("click", function() """),format.raw("""{"""),format.raw/*62.49*/("""
+            if ($(this).siblings(".expandEvt").attr("style") == "display:none") """),format.raw("""{"""),format.raw/*63.82*/("""
+                $(this).siblings(".expandEvt").removeAttr("style");
+                $(this).html("<i class=\"mesicones icon-minus\"></i>")
+            """),format.raw("""}"""),format.raw/*66.14*/(""" else """),format.raw("""{"""),format.raw/*66.21*/("""
+                $(this).siblings(".expandEvt").attr("style", "display:none");
+                $(this).html("<i class=\"mesicones icon-plus\"></i>")
+            """),format.raw("""}"""),format.raw/*69.14*/("""
+        """),format.raw("""}"""),format.raw/*70.10*/(""")
     
     </script>
 """)))})))}
@@ -103,11 +111,11 @@ Seq[Any](format.raw/*1.27*/("""
 }
                 /*
                     -- GENERATED --
-                    DATE: Wed Jun 13 15:50:48 CEST 2012
+                    DATE: Fri Jun 15 09:17:05 CEST 2012
                     SOURCE: C:/tutoPlay/KIND/app/views/eventlist.scala.html
-                    HASH: 4330f5b3f273d6b3a16f6621db43e8deb68ceeb5
-                    MATRIX: 768->1|886->26|914->45|950->47|986->75|1025->77|1075->92|1089->98|1117->105|1200->152|1232->168|1272->170|1343->205|1353->206|1381->212|1465->260|1475->261|1506->270|1582->310|1592->311|1625->322|1867->528|1877->529|1902->532|1979->573|1994->579|2049->612|2138->665|2174->685|2214->687|2276->713|2289->717|2316->722|2404->774|2449->803|2489->805|2587->867|2603->874|2631->880|2671->884|2687->891|2713->895|2769->919|2883->1001|3043->1125|3079->1152|3119->1154|3196->1195|3206->1196|3232->1213|3284->1227|3388->1295|3405->1303|3431->1307|3487->1331|3554->1366|3606->1382|3641->1408|3681->1410|3733->1426|3743->1427|3774->1436|3821->1451|3890->1586|3959->1619|3974->1625|4019->1648|4139->1732|4190->1774|4230->1776|4350->1864|4410->1892
-                    LINES: 27->1|31->1|33->4|34->5|34->5|34->5|36->7|36->7|36->7|41->12|41->12|41->12|43->14|43->14|43->14|44->15|44->15|44->15|45->16|45->16|45->16|50->21|50->21|50->21|51->22|51->22|51->22|54->25|54->25|54->25|55->26|55->26|55->26|57->28|57->28|57->28|58->29|58->29|58->29|58->29|58->29|58->29|59->30|63->34|68->39|68->39|68->39|70->41|70->41|70->41|70->41|71->42|71->42|71->42|72->43|74->45|75->46|75->46|75->46|76->47|76->47|76->47|77->48|79->50|80->51|80->51|80->51|83->54|83->54|83->54|85->56|87->58
+                    HASH: 9805fe14eb28fa3c8f367571345dbc959e46efb8
+                    MATRIX: 768->1|886->26|914->45|950->47|986->75|1025->77|1075->92|1089->98|1117->105|1200->152|1232->168|1272->170|1343->205|1353->206|1381->212|1465->260|1475->261|1506->270|1922->650|1932->651|1957->654|2038->699|2053->705|2108->738|2209->803|2245->823|2285->825|2351->855|2364->859|2391->864|2487->924|2532->953|2572->955|2674->1021|2690->1028|2718->1034|2758->1038|2774->1045|2800->1049|2860->1077|2990->1175|3170->1319|3206->1346|3246->1348|3331->1397|3341->1398|3367->1415|3419->1429|3527->1501|3544->1509|3570->1513|3630->1541|3705->1584|3795->1740|3864->1773|3879->1779|3924->1802|4048->1890|4099->1932|4139->1934|4259->2022|4319->2050|4482->2166|4611->2248|4811->2401|4865->2408|5074->2570|5131->2580
+                    LINES: 27->1|31->1|33->4|34->5|34->5|34->5|36->7|36->7|36->7|41->12|41->12|41->12|43->14|43->14|43->14|44->15|44->15|44->15|52->23|52->23|52->23|53->24|53->24|53->24|56->27|56->27|56->27|57->28|57->28|57->28|59->30|59->30|59->30|60->31|60->31|60->31|60->31|60->31|60->31|61->32|65->36|70->41|70->41|70->41|72->43|72->43|72->43|72->43|73->44|73->44|73->44|74->45|76->47|79->50|80->51|80->51|80->51|83->54|83->54|83->54|85->56|87->58|91->62|92->63|95->66|95->66|98->69|99->70
                     -- GENERATED --
                 */
             

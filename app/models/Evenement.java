@@ -37,11 +37,11 @@ public class Evenement extends Model {
 	public String mail;	
 
 	@Valid
-	@ManyToMany
+	@ManyToMany(cascade=CascadeType.ALL)
 	public List<Personne> participants = new ArrayList<Personne>();
 	
 	@Valid
-	@ManyToMany
+	@ManyToMany(cascade=CascadeType.ALL)
 	public List<Jour> jours = new ArrayList<Jour>();
 
 	public static Finder<Long, Evenement> findEvt = new Finder(Long.class,
@@ -56,17 +56,23 @@ public class Evenement extends Model {
 		evt.save();
 	}
 
-	public static Long addPersonne(Evenement evt, Long id, String name) {
-		Personne p = new Personne(name);
-		evt.participants.add(p);
-		p.save();
-		
+	
+	
+	
+	public static void updateElement(Evenement evt, Long id) {
+
+		// System.out.println(Personne.findPers.byId(arg0));
+
+		for (Personne participant : evt.participants) {
+			participant.save();
+		}
 		evt.update(id);
 		Ebean.saveManyToManyAssociations(evt, "participants");
-		return p.getId();
 	}
-	
-	public static void addJour(Evenement evt, Long id, String date) {
+
+	//Manipulation de Jours
+
+	public static Long addJour(Evenement evt, Long id, String date) {
 		Boolean exists = false;
 		if (evt.jours != null) {
 			for (Jour j : evt.jours) {
@@ -84,28 +90,27 @@ public class Evenement extends Model {
 		}
 		evt.update(id);
 		Ebean.saveManyToManyAssociations(evt, "jours");
+		return (evt.jours.get(evt.jours.size() - 1)).id;
 	}
 
-	public static void updateElement(Evenement evt, Long id) {
+	
+	public static void removeJour(Long eventId, Long idDate) {
+		Evenement evt = Evenement.findEvt.ref(eventId);
+		
+		evt.jours.remove(Jour.findJour.ref(idDate));
+		evt.saveManyToManyAssociations("jours");		
+	}
 
-		// System.out.println(Personne.findPers.byId(arg0));
+	//Manupilation de Personnes
 
-		for (Personne participant : evt.participants) {
-			participant.save();
-		}
+	public static Long addPersonne(Evenement evt, Long id, String name) {
+		Personne p = new Personne(name);
+		evt.participants.add(p);
+		p.save();
+		
 		evt.update(id);
 		Ebean.saveManyToManyAssociations(evt, "participants");
-	}
-	
-	public static void removeJour(Long eventId, String date) {
-		Evenement evt = Evenement.findEvt.ref(eventId);
-		for (Jour j : evt.jours) {
-			if (j.date.equals(date)) {	
-				evt.jours.remove(Jour.findJour.ref(j.id));
-				evt.saveManyToManyAssociations("jours");				
-				break;
-			}			
-		}
+		return p.getId();
 	}
 
 	public static void removeParticipant(Long eventId, Long participId) {
@@ -139,13 +144,7 @@ public class Evenement extends Model {
 		//e.jours.clear();
 		
 		//e.saveManyToManyAssociations("jours");
-		for (Jour j : e.jours) {
-			tempJour.add(j);			
-		}	
-		for (Jour jr : tempJour) {
-			e.jours.remove(jr);			
-			e.saveManyToManyAssociations("jours");			
-		}
+
 		
 		for (Personne p : e.participants) {
 			tempPersonne.add(p);			
@@ -153,7 +152,16 @@ public class Evenement extends Model {
 		for (Personne p : tempPersonne) {
 			e.participants.remove(p);			
 			e.saveManyToManyAssociations("participants");
-			p.delete();
+			p.delete();			
+		}
+
+		for (Jour j : e.jours) {
+			tempJour.add(j);			
+		}	
+		for (Jour jr : tempJour) {
+			e.jours.remove(jr);			
+			e.saveManyToManyAssociations("jours");	
+			jr.delete();		
 		}
 		
 		e.delete();

@@ -12,43 +12,43 @@
         @for(e <- events) {
             <li>
                 @e.titre &nbsp;&nbsp; <br/>par:       
-                @e.createur &nbsp;&nbsp; <br/>
-                <i>@e.descriptif</i>&nbsp;<br/><br/>
-                <div class="styleDates" >
-                Dates propos&eacute;es: <br/>
+                @e.createur &nbsp;&nbsp; 
                 
-                
-                <input type="hidden" id="identifiants" value="@e.id">
-                <img id="image" src="@routes.Assets.at("images/calendar.png")"/>
-                
-        		<ul>
-                @for(jour <- e.jours) {
-                 <li><b>@jour.date</b> &nbsp;
-                	<ul>
-                	@for(horaire <- jour.horaires) {
-                	  <li><i class="mesicones icon-time"></i>  @horaire.debut - @horaire.fin</li>
-                	}
-                	</ul>
-                	</li>
-                 
-                }
-                </ul>
-                </div>         
-                
-                Participants:<br/>
-                @if(e.participants.size > 0) {
-	                <ul>
-	                @e.participants.map { personne =>
-	                    <li><i class="mesicones icon-user"></i>&nbsp;@personne.nom</li>
-	                }
-	            	</ul>
-            	} 
-            	@if(e.participants == null) {
-            		@e.createur
-            	}
-                
+                <a class="expandLink"><i class="mesicones icon-plus"></i></a><br>
+                <div class="expandEvt" style="display:none">
+                    <div class="styleDates" >
+                    Dates propos&eacute;es: <br/>
+                    
+                    
+                    <input type="hidden" id="identifiants" value="@e.id">
+                    <img id="image" src="@routes.Assets.at("images/calendar.png")"/>
+                    
+            		<ul>
+                    @for(jour <- e.jours) {
+                     <li><b>@jour.date</b> &nbsp;
+                    	<ul>
+                    	@for(horaire <- jour.horaires) {
+                    	  <li><i class="mesicones icon-time"></i>  @horaire.debut - @horaire.fin</li>
+                    	}
+                    	</ul>
+                    	</li>
+                     
+                    }
+                    </ul>
+                    </div>         
+                    
+                    Participants:<br/>
+                    @if(e.participants.size > 0) {
+    	                <ul>
+    	                @e.participants.map { personne =>
+    	                    <li><i class="mesicones icon-user"></i>&nbsp;@personne.nom</li>
+    	                }
+    	            	</ul>
+                	} 
+            	
+                </div>
                  <!-- @** <input type="submit" action="@routes.Application.edit(e.id)" value="Editer evenement">   *@  -->
-                 <a href="@routes.Application.edit(e.id)">Editer evenement</a>         	
+                 <a href="@routes.Application.edit(e.id)">Editer evenement</a> <br>        	
                 
                 
                 @form(routes.Application.deleteEvent(e.id)) {
@@ -59,7 +59,15 @@
     </ul>
     
     <script type="text/javascript" charset="utf-8">
-    	
+    	$(".expandLink").live("click", function() {
+            if ($(this).siblings(".expandEvt").attr("style") == "display:none") {
+                $(this).siblings(".expandEvt").removeAttr("style");
+                $(this).html("<i class=\"mesicones icon-minus\"></i>")
+            } else {
+                $(this).siblings(".expandEvt").attr("style", "display:none");
+                $(this).html("<i class=\"mesicones icon-plus\"></i>")
+            }
+        })
     
     </script>
 }
