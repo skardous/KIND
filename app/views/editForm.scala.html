@@ -279,9 +279,9 @@
 	function envoiPersonne(self)
 	{
 	    var vide = "";	    
-	    var nom = self.attr("value").trim();
+	    var nom = $.trim(self.attr("value"));
 	    if (vide != nom) {      
-			addPersonne($("#champ").attr('value').trim());			
+			addPersonne($.trim($("#champ").attr('value')));			
 		}
 	}
 
