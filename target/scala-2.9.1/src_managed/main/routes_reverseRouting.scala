@@ -1,6 +1,6 @@
 // @SOURCE:C:/tutoPlay/KIND/conf/routes
-// @HASH:39e0689e7d1650f953e32a8f1b4e21ebf83f6567
-// @DATE:Tue Jun 12 14:45:23 CEST 2012
+// @HASH:916df99928080a73f421b262ad223b502176f606
+// @DATE:Thu Jun 21 15:35:51 CEST 2012
 
 import play.core._
 import play.core.Router._
@@ -79,85 +79,85 @@ class ReverseApplication {
  
 // @LINE:24
 def newHoraire(id:Long) = {
-   Call("POST", "/events/" + implicitly[PathBindable[Long]].unbind("id", id) + "/newHoraire")
+   Call("POST", "/newevent/" + implicitly[PathBindable[Long]].unbind("id", id) + "/newHoraire")
 }
                                                         
  
 // @LINE:39
 def sendMail(id:Long) = {
-   Call("POST", "/eventsEdit/" + implicitly[PathBindable[Long]].unbind("id", id) + "/sendmail")
+   Call("POST", "/eventEdit/" + implicitly[PathBindable[Long]].unbind("id", id) + "/sendmail")
 }
                                                         
  
 // @LINE:25
 def deleteHoraire(id:Long) = {
-   Call("POST", "/events/" + implicitly[PathBindable[Long]].unbind("id", id) + "/deleteHoraire")
+   Call("POST", "/newevent/" + implicitly[PathBindable[Long]].unbind("id", id) + "/deleteHoraire")
 }
                                                         
  
 // @LINE:19
 def addDate(id:Long) = {
-   Call("POST", "/events/" + implicitly[PathBindable[Long]].unbind("id", id) + "/addDate")
+   Call("POST", "/newevent/" + implicitly[PathBindable[Long]].unbind("id", id) + "/addDate")
 }
                                                         
  
 // @LINE:31
 def updatePersonne(id:Long) = {
-   Call("POST", "/eventsEdit/" + implicitly[PathBindable[Long]].unbind("id", id) + "/updatePersonne")
+   Call("POST", "/eventEdit/" + implicitly[PathBindable[Long]].unbind("id", id) + "/updatePersonne")
 }
                                                         
  
 // @LINE:15
 def newEvent() = {
-   Call("POST", "/events")
+   Call("POST", "/newevent")
 }
                                                         
  
 // @LINE:12
 def events() = {
-   Call("GET", "/events")
+   Call("GET", "/newevent")
 }
                                                         
  
 // @LINE:23
 def heureSelection(id:Long) = {
-   Call("GET", "/events/" + implicitly[PathBindable[Long]].unbind("id", id) + "/heureSelection")
+   Call("GET", "/newevent/" + implicitly[PathBindable[Long]].unbind("id", id) + "/heureSelection")
 }
                                                         
  
 // @LINE:16
 def deleteEvent(id:Long) = {
-   Call("GET", "/events/" + implicitly[PathBindable[Long]].unbind("id", id) + "/delete")
+   Call("GET", "/newevent/" + implicitly[PathBindable[Long]].unbind("id", id) + "/delete")
 }
                                                         
  
 // @LINE:21
 def dateChanged(id:Long) = {
-   Call("POST", "/events/" + implicitly[PathBindable[Long]].unbind("id", id) + "/datechanged")
+   Call("POST", "/newevent/" + implicitly[PathBindable[Long]].unbind("id", id) + "/datechanged")
 }
                                                         
  
 // @LINE:37
 def checkBoxJour(id:Long) = {
-   Call("POST", "/eventsEdit/" + implicitly[PathBindable[Long]].unbind("id", id) + "/checkBoxJour")
+   Call("POST", "/eventEdit/" + implicitly[PathBindable[Long]].unbind("id", id) + "/checkBoxJour")
 }
                                                         
  
 // @LINE:29
 def update(id:Long) = {
-   Call("POST", "/eventsEdit/" + implicitly[PathBindable[Long]].unbind("id", id))
+   Call("POST", "/eventEdit/" + implicitly[PathBindable[Long]].unbind("id", id))
 }
                                                         
  
 // @LINE:36
 def checkBoxHoraire(id:Long) = {
-   Call("POST", "/eventsEdit/" + implicitly[PathBindable[Long]].unbind("id", id) + "/checkBoxHoraire")
+   Call("POST", "/eventEdit/" + implicitly[PathBindable[Long]].unbind("id", id) + "/checkBoxHoraire")
 }
                                                         
  
 // @LINE:33
 def addParticipant(id:Long) = {
-   Call("POST", "/eventsEdit/" + implicitly[PathBindable[Long]].unbind("id", id) + "/addParticip")
+   Call("POST", "/eventEdit/" + implicitly[PathBindable[Long]].unbind("id", id) + "/addParticip")
 }
                                                         
  
@@ -169,19 +169,19 @@ def index() = {
  
 // @LINE:20
 def removeDate(id:Long) = {
-   Call("POST", "/events/" + implicitly[PathBindable[Long]].unbind("id", id) + "/removeDate")
+   Call("POST", "/newevent/" + implicitly[PathBindable[Long]].unbind("id", id) + "/removeDate")
 }
                                                         
  
 // @LINE:28
 def edit(id:Long) = {
-   Call("GET", "/eventsEdit/" + implicitly[PathBindable[Long]].unbind("id", id))
+   Call("GET", "/eventEdit/" + implicitly[PathBindable[Long]].unbind("id", id))
 }
                                                         
  
 // @LINE:18
 def dateSelection(id:Long) = {
-   Call("GET", "/events/" + implicitly[PathBindable[Long]].unbind("id", id) + "/dateSelection")
+   Call("GET", "/newevent/" + implicitly[PathBindable[Long]].unbind("id", id) + "/dateSelection")
 }
                                                         
  
@@ -193,7 +193,7 @@ def eventlist() = {
  
 // @LINE:34
 def deleteParticipant(id:Long) = {
-   Call("POST", "/eventsEdit/" + implicitly[PathBindable[Long]].unbind("id", id) + "/delParticip")
+   Call("POST", "/eventEdit/" + implicitly[PathBindable[Long]].unbind("id", id) + "/delParticip")
 }
                                                         
 
@@ -280,7 +280,7 @@ def newHoraire = JavascriptReverseRoute(
    "controllers.Application.newHoraire",
    """
       function(id) {
-      return _wA({method:"POST", url:"/events/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id) + "/newHoraire"})
+      return _wA({method:"POST", url:"/newevent/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id) + "/newHoraire"})
       }
    """
 )
@@ -291,7 +291,7 @@ def sendMail = JavascriptReverseRoute(
    "controllers.Application.sendMail",
    """
       function(id) {
-      return _wA({method:"POST", url:"/eventsEdit/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id) + "/sendmail"})
+      return _wA({method:"POST", url:"/eventEdit/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id) + "/sendmail"})
       }
    """
 )
@@ -302,7 +302,7 @@ def deleteHoraire = JavascriptReverseRoute(
    "controllers.Application.deleteHoraire",
    """
       function(id) {
-      return _wA({method:"POST", url:"/events/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id) + "/deleteHoraire"})
+      return _wA({method:"POST", url:"/newevent/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id) + "/deleteHoraire"})
       }
    """
 )
@@ -313,7 +313,7 @@ def addDate = JavascriptReverseRoute(
    "controllers.Application.addDate",
    """
       function(id) {
-      return _wA({method:"POST", url:"/events/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id) + "/addDate"})
+      return _wA({method:"POST", url:"/newevent/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id) + "/addDate"})
       }
    """
 )
@@ -324,7 +324,7 @@ def updatePersonne = JavascriptReverseRoute(
    "controllers.Application.updatePersonne",
    """
       function(id) {
-      return _wA({method:"POST", url:"/eventsEdit/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id) + "/updatePersonne"})
+      return _wA({method:"POST", url:"/eventEdit/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id) + "/updatePersonne"})
       }
    """
 )
@@ -335,7 +335,7 @@ def newEvent = JavascriptReverseRoute(
    "controllers.Application.newEvent",
    """
       function() {
-      return _wA({method:"POST", url:"/events"})
+      return _wA({method:"POST", url:"/newevent"})
       }
    """
 )
@@ -346,7 +346,7 @@ def events = JavascriptReverseRoute(
    "controllers.Application.events",
    """
       function() {
-      return _wA({method:"GET", url:"/events"})
+      return _wA({method:"GET", url:"/newevent"})
       }
    """
 )
@@ -357,7 +357,7 @@ def heureSelection = JavascriptReverseRoute(
    "controllers.Application.heureSelection",
    """
       function(id) {
-      return _wA({method:"GET", url:"/events/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id) + "/heureSelection"})
+      return _wA({method:"GET", url:"/newevent/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id) + "/heureSelection"})
       }
    """
 )
@@ -368,7 +368,7 @@ def deleteEvent = JavascriptReverseRoute(
    "controllers.Application.deleteEvent",
    """
       function(id) {
-      return _wA({method:"GET", url:"/events/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id) + "/delete"})
+      return _wA({method:"GET", url:"/newevent/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id) + "/delete"})
       }
    """
 )
@@ -379,7 +379,7 @@ def dateChanged = JavascriptReverseRoute(
    "controllers.Application.dateChanged",
    """
       function(id) {
-      return _wA({method:"POST", url:"/events/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id) + "/datechanged"})
+      return _wA({method:"POST", url:"/newevent/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id) + "/datechanged"})
       }
    """
 )
@@ -390,7 +390,7 @@ def checkBoxJour = JavascriptReverseRoute(
    "controllers.Application.checkBoxJour",
    """
       function(id) {
-      return _wA({method:"POST", url:"/eventsEdit/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id) + "/checkBoxJour"})
+      return _wA({method:"POST", url:"/eventEdit/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id) + "/checkBoxJour"})
       }
    """
 )
@@ -401,7 +401,7 @@ def update = JavascriptReverseRoute(
    "controllers.Application.update",
    """
       function(id) {
-      return _wA({method:"POST", url:"/eventsEdit/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id)})
+      return _wA({method:"POST", url:"/eventEdit/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id)})
       }
    """
 )
@@ -412,7 +412,7 @@ def checkBoxHoraire = JavascriptReverseRoute(
    "controllers.Application.checkBoxHoraire",
    """
       function(id) {
-      return _wA({method:"POST", url:"/eventsEdit/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id) + "/checkBoxHoraire"})
+      return _wA({method:"POST", url:"/eventEdit/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id) + "/checkBoxHoraire"})
       }
    """
 )
@@ -423,7 +423,7 @@ def addParticipant = JavascriptReverseRoute(
    "controllers.Application.addParticipant",
    """
       function(id) {
-      return _wA({method:"POST", url:"/eventsEdit/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id) + "/addParticip"})
+      return _wA({method:"POST", url:"/eventEdit/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id) + "/addParticip"})
       }
    """
 )
@@ -445,7 +445,7 @@ def removeDate = JavascriptReverseRoute(
    "controllers.Application.removeDate",
    """
       function(id) {
-      return _wA({method:"POST", url:"/events/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id) + "/removeDate"})
+      return _wA({method:"POST", url:"/newevent/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id) + "/removeDate"})
       }
    """
 )
@@ -456,7 +456,7 @@ def edit = JavascriptReverseRoute(
    "controllers.Application.edit",
    """
       function(id) {
-      return _wA({method:"GET", url:"/eventsEdit/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id)})
+      return _wA({method:"GET", url:"/eventEdit/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id)})
       }
    """
 )
@@ -467,7 +467,7 @@ def dateSelection = JavascriptReverseRoute(
    "controllers.Application.dateSelection",
    """
       function(id) {
-      return _wA({method:"GET", url:"/events/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id) + "/dateSelection"})
+      return _wA({method:"GET", url:"/newevent/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id) + "/dateSelection"})
       }
    """
 )
@@ -489,7 +489,7 @@ def deleteParticipant = JavascriptReverseRoute(
    "controllers.Application.deleteParticipant",
    """
       function(id) {
-      return _wA({method:"POST", url:"/eventsEdit/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id) + "/delParticip"})
+      return _wA({method:"POST", url:"/eventEdit/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id) + "/delParticip"})
       }
    """
 )

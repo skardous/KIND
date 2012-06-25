@@ -9,7 +9,7 @@ create table evenement (
   lieu                      varchar(255),
   descriptif                varchar(255),
   createur                  varchar(255),
-  mail                      varchar(255),
+  email                     varchar(255),
   constraint pk_evenement primary key (id))
 ;
 

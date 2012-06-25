@@ -20,14 +20,20 @@ public class Global extends GlobalSettings {
                 
                 Map<String,List<Object>> all = (Map<String,List<Object>>)Yaml.load("initial-data.yml");
                 
-                Ebean.save(all.get("horaire"));
+                if(Ebean.find(Horaire.class).findRowCount() == 0) {
+                	Ebean.save(all.get("horaire"));
+                }
                
-                Ebean.save(all.get("jour"));
-                for(Object project: all.get("jour")) {                    
-                    Ebean.saveManyToManyAssociations(project, "horaires");
+                if(Ebean.find(Jour.class).findRowCount() == 0) {
+	                Ebean.save(all.get("jour"));
+	                for(Object project: all.get("jour")) {                    
+	                    Ebean.saveManyToManyAssociations(project, "horaires");
+	                }
                 }
                 
-                Ebean.save(all.get("personne"));
+                if(Ebean.find(Personne.class).findRowCount() == 0) {
+                	Ebean.save(all.get("personne"));
+                }
                 
                 Ebean.save(all.get("evenement"));
                 for(Object project: all.get("evenement")) {

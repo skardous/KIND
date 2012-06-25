@@ -34,21 +34,20 @@ public class Evenement extends Model {
 	public String createur;	
 	
 	@Email
-	public String mail;	
+	public String email;	
 
 	@Valid
-	@ManyToMany(cascade=CascadeType.ALL)
+	@ManyToMany(cascade=CascadeType.REMOVE)
 	public List<Personne> participants = new ArrayList<Personne>();
 	
 	@Valid
-	@ManyToMany(cascade=CascadeType.ALL)
+	@ManyToMany(cascade=CascadeType.REMOVE)
 	public List<Jour> jours = new ArrayList<Jour>();
 
 	public static Finder<Long, Evenement> findEvt = new Finder(Long.class,
 			Evenement.class);
 
-	public static List<Evenement> all() {
-		// Evenement.datesList = Arrays.asList(Evenement.dates.split(","));
+	public static List<Evenement> all() {		
 		return findEvt.all();
 	}
 
@@ -59,9 +58,7 @@ public class Evenement extends Model {
 	
 	
 	
-	public static void updateElement(Evenement evt, Long id) {
-
-		// System.out.println(Personne.findPers.byId(arg0));
+	public static void updateElement(Evenement evt, Long id) {		
 
 		for (Personne participant : evt.participants) {
 			participant.save();
@@ -137,14 +134,28 @@ public class Evenement extends Model {
 	public static void delete(Long id) {
 		Evenement e = findEvt.ref(id);
 		
-		List<Jour> tempJour = new ArrayList<Jour>();
-		List<Horaire> tempHoraire = new ArrayList<Horaire>();
+		List<Jour> tempJourEvt = new ArrayList<Jour>();
+		List<Jour> tempJourPersonne = new ArrayList<Jour>();
+		List<Horaire> tempHoraireJour = new ArrayList<Horaire>();
+		List<Horaire> tempHorairePersonne = new ArrayList<Horaire>();
 		List<Personne> tempPersonne = new ArrayList<Personne>();
 		
-		//e.jours.clear();
+		for (Jour j : e.jours) {
+			tempJourEvt.add(j);			
+		}	
+		for (Jour jr : tempJourEvt) {
+			e.jours.remove(jr);			
+			e.saveManyToManyAssociations("jours");	
+			for (Horaire h : jr.horaires) {
+				tempHoraireJour.add(h);			
+			}	
+			for (Horaire hr : tempHoraireJour) {
+				jr.horaires.remove(hr);			
+				jr.saveManyToManyAssociations("horaires");					
+			}
+				
+		}
 		
-		//e.saveManyToManyAssociations("jours");
-
 		
 		for (Personne p : e.participants) {
 			tempPersonne.add(p);			
@@ -152,17 +163,46 @@ public class Evenement extends Model {
 		for (Personne p : tempPersonne) {
 			e.participants.remove(p);			
 			e.saveManyToManyAssociations("participants");
-			p.delete();			
+			
+			for (Horaire h : p.inscriptionsHoraires) {
+				tempHorairePersonne.add(h);			
+			}	
+			for (Horaire hr : tempHorairePersonne) {
+				p.inscriptionsHoraires.remove(hr);			
+				p.saveManyToManyAssociations("inscriptionsHoraires");					
+			}
+			
+			for (Jour j : p.inscriptionsJours) {
+				tempJourPersonne.add(j);			
+			}
+			for (Jour j : tempJourPersonne) {
+				p.inscriptionsJours.remove(j);			
+				p.saveManyToManyAssociations("inscriptionsJours");
+			}
+			
+			p.delete();
+		}
+		
+		
+		for (Horaire hr : tempHoraireJour) {
+			hr.delete();
+		}
+		for (Horaire hr : tempHorairePersonne) {
+			if (!tempHoraireJour.contains(hr)) {
+				hr.delete();
+			}
+		}
+		
+		for (Jour j: tempJourEvt) {
+			j.delete();
+		}
+		for (Jour jr: tempJourPersonne) {
+			if (!tempJourEvt.contains(jr)) {
+				jr.delete();
+			}
 		}
 
-		for (Jour j : e.jours) {
-			tempJour.add(j);			
-		}	
-		for (Jour jr : tempJour) {
-			e.jours.remove(jr);			
-			e.saveManyToManyAssociations("jours");	
-			jr.delete();		
-		}
+		
 		
 		e.delete();
 
@@ -188,19 +228,17 @@ public class Evenement extends Model {
 		hr.save();		
 		j.saveManyToManyAssociations("horaires");
 		
-		return hr.getId();		
+		return hr.getId();	
 	}
 
 	public static void deleteHoraire(Long idjour, Long idhoraire) {
 		Jour j = Jour.findJour.ref(idjour);
+
+		j.horaires.remove(Horaire.findHoraire.where().idEq(idhoraire).findUnique());
+		j.saveManyToManyAssociations("horaires");
+
+		(Horaire.findHoraire.where().idEq(idhoraire).findUnique()).delete();		
 		
-		for (Horaire h : j.horaires) {
-			if (h.getId().equals(idhoraire)) {	
-				j.horaires.remove(Horaire.findHoraire.ref(idhoraire));
-				j.saveManyToManyAssociations("horaires");				
-				break;
-			}			
-		}
 	}
 
 }

@@ -12,11 +12,13 @@
 	
 	Titre de l'&eacute;venement : <b>@event.titre</b> <br/>
 	Cr&eacute;ateur : <b>@event.createur</b> <br/>
-	Description : <i>@event.descriptif</i> <br/>			
+
+	@if(event.descriptif != "") {
+	Description : <i>@event.descriptif</i> <br/>	
+	}			
 	
-
-
-
+	<a class="btn btn-danger" href="@routes.Application.deleteEvent(event.id)">Supprimer l'evenement</a>
+	
 	<table class="datesTable" cellspacing="5" cellpadding="5">
 		<tbody>
 			<tr class="titres" style="display:none"><td style="visibility:hidden"></td>
@@ -66,7 +68,8 @@
 			}
 		</tbody>
 		<tfoot>
-		<tr id="compte" >
+		<tr id="compte" class="titres"
+		 @if(event.participants.size() == 0){ style="display:none"}>
 			<td id=""><b>Compte: </b></td>
 			@for(jour <- event.jours) {
 			    @if(jour.horaires.size() == 0){		     
@@ -98,7 +101,7 @@
 	<h3>Inviter des personnes à l'évenement</h3>
 
 	<div class="selectDate">
-	<textarea id="mailsArea" rows="4" style="color:grey">Entrez ici les adresses mail séparées par une virgule ...</textarea>
+	<textarea id="mailsArea" rows="4" style="color:grey" placeholder="Entrez ici les adresses mail séparées par une virgule ..."></textarea>
 	<a id="envoiLien" class="btn btn-primary">Envoyer Lien</a>
 	</div>
 
@@ -257,13 +260,17 @@
 	}
 
 
+	$("#ajouter").live('click', function(e){	  
+	    envoiPersonne($("#champ"));	    	    
+	});
 
+	$("#champ").keypress(function(e) {
+		var code = (e.keyCode ? e.keyCode : e.which);
+		if(code == 13) { //Enter keycode
+			envoiPersonne($("#champ"));	
+			$("#champ").focus();
+ 		}
 
-	$("#ajouter").live('click', function(e){
-	  
-	    envoiPersonne($("#champ"));	    
-
-	    
 	});
 
 
@@ -271,10 +278,10 @@
 
 	function envoiPersonne(self)
 	{
-	    var vide = "";
-	    var nom = self.attr("value");
+	    var vide = "";	    
+	    var nom = self.attr("value").trim();
 	    if (vide != nom) {      
-			addPersonne($("#champ").attr('value'));			
+			addPersonne($("#champ").attr('value').trim());			
 		}
 	}
 
@@ -314,7 +321,7 @@
 			success : function(data) {		  
 				$("tbody").append("<tr id=\""+data.idPersonne+"\"><td class=\"infoPersonne\">"+
 					"<form id=\"formPersonne\">"+
-					"<input id=\"nom\" type=\"text\" value=\""+nomParticipant+"\" name=\"nom\" readonly=\"readonly\">&nbsp;"+
+					"<input id=\"nom\" type=\"text\" value=\""+nomParticipant+"\" name=\"nom\">&nbsp;"+
 					"<a id=\""+data.idPersonne+"\" class=\"editPersonne btn btn-success\">OK</a>&nbsp;"+
 					"<a id=\""+data.idPersonne+"\" class=\"deletePersonne btn btn-danger\">Supprimer</a>"+				  
 					"</form></td>"+
@@ -327,7 +334,7 @@
 					"</tr>")
 				$('#champ').attr('value', '')
 				$('.titres').attr('style','');
-				refreshHoverable();
+				refreshHoverable();				
 			}               
 		});
 	}
@@ -373,8 +380,7 @@
 				if ($(this).css('background-color') == color2) {
 					$('.populaires').append($(this).html());
 				}				
-			})
-			
+			})			
 		}
 	});
 
@@ -414,8 +420,6 @@
 		    requeteAjaxJour(idtime, idParticipant);
 	     }
 	   }
-	   
-	   
 	}
 
 	function requeteAjaxJour(idtime, idParticipant)

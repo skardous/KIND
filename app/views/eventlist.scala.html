@@ -60,10 +60,10 @@
     
     <script type="text/javascript" charset="utf-8">
     	$(".expandLink").live("click", function() {
-            if ($(this).siblings(".expandEvt").attr("style") == "display:none") {
+            if ($(this).siblings(".expandEvt").css("display") == "none") {                
                 $(this).siblings(".expandEvt").removeAttr("style");
                 $(this).html("<i class=\"mesicones icon-minus\"></i>")
-            } else {
+            } else {                
                 $(this).siblings(".expandEvt").attr("style", "display:none");
                 $(this).html("<i class=\"mesicones icon-plus\"></i>")
             }

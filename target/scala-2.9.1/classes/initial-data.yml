@@ -72,6 +72,8 @@ evenement:
                         id: 2
                     - !!models.Personne    
                         id: 3
+                    - !!models.Personne    
+                        id: 4
                 jours:
                     - !!models.Jour    
                         id: 1

@@ -74,7 +74,7 @@ public class Application extends Controller {
 					InternetAddress.parse(mails));
 			message.setSubject("Invitation a "+e.titre);
 			message.setText("Lien d'invitation,"
-					+ "\n\n http://localhost:9000/eventsEdit/"+idevt);
+					+ "\n\n http://localhost:9000/eventEdit/"+idevt);
 			transport = session.getTransport();
 			transport.connect(username, password);
 			transport.sendMessage(message, message.getAllRecipients());

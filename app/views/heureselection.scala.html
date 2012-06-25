@@ -12,17 +12,15 @@
     
     @for(jour <- event.jours) {
 		<div class="control-group selectDate" id="@jour.id">
-		  @form(routes.Application.updatePersonne(id), 'id->"formJour") {
-			  @jour.date
-			 
-			<a class="linkPlus btn btn-success" ><i class="mesicones icon-plus"></i></a>
-		
+		  	@form(routes.Application.updatePersonne(id), 'id->"formJour") {
+				@jour.date			 
+				<a class="linkPlus btn btn-success" ><i class="mesicones icon-plus"></i></a>		
 			  
-		  }
+		  	}
 		</div>
-		}
+	}
     
-    <a class="btn btn-primary" href="@routes.Application.eventlist()">Terminé</a>
+    <a class="btn btn-primary" href="@routes.Application.edit(event.id)">Terminé</a>
 	
     
 	<script type="text/javascript" charset="utf-8">
@@ -46,9 +44,9 @@
 			    button.parent().append("<div id=\""+data.idHoraire+"\">"+
 					"<input type=\"text\" id=\"amount"+data.idHoraire+"\" value=\"8h - 17h\" style=\"border:0; color:#f6931f; font-weight:bold;\" />"+
 					"&nbsp;<a class=\"linkMinus btn btn-danger\" >"+
-					"<i class=\"mesicones icon-minus\"></i></a></div>"+
+					"<i class=\"mesicones icon-minus\"></i></a>"+
 					
-					"<div class=\"slider-range\"></div>"
+					"<div class=\"slider-range\"></div></div>"
 				);
 			    $( ".slider-range" ).slider({
 			    	range: true,
@@ -97,42 +95,14 @@
 			contentType: "application/json",
 			success : function(data) {
 			    button.parent().remove();
+			    alert("ok");
 			}               
 		});	
 	});	
 
 
 	$(function(){	   
-	  for (i=0;i<24;i++) {
-			if (i < 10) {
-				if (i != 8) {
-					optionsHeuresDebut = optionsHeuresDebut+"<option value=\""+"0"+i+"\">"+"0"+i+"</option>";
-				} else {
-				    optionsHeuresDebut = optionsHeuresDebut+"<option selected value=\""+"0"+i+"\">"+"0"+i+"</option>";
-				}
-				
-				optionsHeuresFin = optionsHeuresFin+"<option value=\""+"0"+i+"\">"+"0"+i+"</option>";
-				
-				
-			} else {
-				optionsHeuresDebut = optionsHeuresDebut+"<option value=\""+i+"\">"+i+"</option>";
-				
-				if (i != 17) {
-					optionsHeuresFin = optionsHeuresFin+"<option value=\""+i+"\">"+i+"</option>";
-				} else {
-				    optionsHeuresFin = optionsHeuresFin+"<option selected value=\""+i+"\">"+i+"</option>";
-				}
-			}
-		}
-		
-		for (j=0;j<60;j+=15) {
-			if (j < 10) {
-				optionsMinutes = optionsMinutes+"<option value=\""+"0"+j+"\">"+"0"+j+"</option>";
-			} else {
-				optionsMinutes = optionsMinutes+"<option value=\""+j+"\">"+j+"</option>";
-			}
-		}
-		
+	 
 	});
 	
 

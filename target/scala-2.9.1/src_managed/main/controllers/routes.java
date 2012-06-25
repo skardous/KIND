@@ -1,6 +1,6 @@
 // @SOURCE:C:/tutoPlay/KIND/conf/routes
-// @HASH:39e0689e7d1650f953e32a8f1b4e21ebf83f6567
-// @DATE:Tue Jun 12 14:45:23 CEST 2012
+// @HASH:916df99928080a73f421b262ad223b502176f606
+// @DATE:Thu Jun 21 15:35:51 CEST 2012
 
 package controllers;
 

@@ -40,11 +40,11 @@ public class Personne extends Model {
 	}
 	
 	@Valid
-	@ManyToMany(cascade=CascadeType.ALL)
+	@ManyToMany(cascade=CascadeType.REMOVE)
 	public List<Horaire> inscriptionsHoraires = new ArrayList<Horaire>();
 	
 	@Valid
-	@ManyToMany(cascade=CascadeType.ALL)
+	@ManyToMany(cascade=CascadeType.REMOVE)
 	public List<Jour> inscriptionsJours = new ArrayList<Jour>();
 
 	public static Finder<Long, Personne> findPers = new Finder(Long.class,
