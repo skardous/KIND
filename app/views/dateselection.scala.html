@@ -29,10 +29,6 @@
 
 	<script type="text/javascript" charset="utf-8">
 
-		var optionsHeures = "";
-		var optionsMinutes = "";
-		var heuresList = new Array();
-
 		$(function(){
 
 			$( "#date" ).multiDatesPicker();
@@ -72,9 +68,7 @@
 			});
 		});
 
-		function ajouterDate(dateText, id) {
-			var str = dateText.replace("/", "");//efface le premier slash de la date
-			str = str.replace("/", "");//efface le 2e slash de la date
+		function ajouterDate(dateText, id) {			
 			var d = new Date(dateText);		
 			var date = d.toLocaleDateString();
 			$("#altField").append(
@@ -89,8 +83,8 @@
 		$('.linkDate').live('click', function(e) {	
 			$("#date").multiDatesPicker('removeDates', $(this).attr("name")); //enleve la date dans l'affichage du datepicker
 			$(this).parent().remove();
-			/*SUPPRESSION DE DATE*/
-			
+
+			/*SUPPRESSION DE DATE*/			
 			$.ajax({
 				type: "POST",
 				url: "@routes.Application.removeDate(id)",

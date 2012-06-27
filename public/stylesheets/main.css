@@ -88,3 +88,10 @@ table.datesTable tr:hover
    
 }
 	
+.navbar {background:#333333;}
+.nav-collapse {width:auto;}
+.nav li {display:inline;}
+.nav li a {padding:10px;display:block;width:auto;float:left;color:#cccccc;}
+.nav li a:hover {color:#ffffff;}
+.nav-pills li a {color:#08C;}
+.nav-pills li a:hover {color:#005580;}

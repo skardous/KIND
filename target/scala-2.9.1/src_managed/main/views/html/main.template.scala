@@ -35,18 +35,17 @@ Seq[Any](format.raw/*1.32*/("""
 <!DOCTYPE html>
 
 <html>
-    <head>
+  <head>
         <title>"""),_display_(Seq[Any](/*10.17*/title)),format.raw/*10.22*/("""</title>
         <link rel="shortcut icon" type="image/png" href=""""),_display_(Seq[Any](/*11.59*/routes/*11.65*/.Assets.at("images/favicon.png"))),format.raw/*11.97*/(""""> 
         <link type="text/css" href=""""),_display_(Seq[Any](/*12.38*/routes/*12.44*/.Assets.at("stylesheets/ui-lightness/jquery-ui-1.7.3.custom.css"))),format.raw/*12.109*/("""" rel="stylesheet" />
         <link rel="stylesheet" media="screen" href=""""),_display_(Seq[Any](/*13.54*/routes/*13.60*/.Assets.at("stylesheets/twitter-bootstrap-b261f97/docs/assets/css/bootstrap.css"))),format.raw/*13.141*/("""">	
         <link rel="stylesheet" media="screen" href=""""),_display_(Seq[Any](/*14.54*/routes/*14.60*/.Assets.at("stylesheets/main.css"))),format.raw/*14.94*/("""">
-		<script type="text/javascript" src=""""),_display_(Seq[Any](/*15.40*/routes/*15.46*/.Assets.at("javascripts/jquery-1.3.2.min.js"))),format.raw/*15.91*/(""""></script>
-		<script type="text/javascript" src=""""),_display_(Seq[Any](/*16.40*/routes/*16.46*/.Assets.at("javascripts/jquery-ui-1.7.3.custom.min.js"))),format.raw/*16.101*/(""""></script>
-		<script type="text/javascript" src=""""),_display_(Seq[Any](/*17.40*/routes/*17.46*/.Assets.at("javascripts/jquery-ui.multidatespicker.js"))),format.raw/*17.101*/(""""></script>
-		<script type="text/javascript" src=""""),_display_(Seq[Any](/*18.40*/routes/*18.46*/.Assets.at("javascripts/eventForm.js"))),format.raw/*18.84*/(""""></script>
-    
-    </head>
+    		<script type="text/javascript" src=""""),_display_(Seq[Any](/*15.44*/routes/*15.50*/.Assets.at("javascripts/jquery-1.3.2.min.js"))),format.raw/*15.95*/(""""></script>
+    		<script type="text/javascript" src=""""),_display_(Seq[Any](/*16.44*/routes/*16.50*/.Assets.at("javascripts/jquery-ui-1.7.3.custom.min.js"))),format.raw/*16.105*/(""""></script>
+    		<script type="text/javascript" src=""""),_display_(Seq[Any](/*17.44*/routes/*17.50*/.Assets.at("javascripts/jquery-ui.multidatespicker.js"))),format.raw/*17.105*/(""""></script>
+    		<script type="text/javascript" src=""""),_display_(Seq[Any](/*18.44*/routes/*18.50*/.Assets.at("javascripts/eventForm.js"))),format.raw/*18.88*/(""""></script>    
+  </head>
     
     
     <body>
@@ -57,14 +56,14 @@ Seq[Any](format.raw/*1.32*/("""
       <div class="navbar-inner">
         <div class="container">
          <ul class="nav">
-           <li><a href=""""),_display_(Seq[Any](/*31.26*/routes/*31.32*/.Application.events())),format.raw/*31.53*/("""">Creer un evenement</a></li>
-           <li><a href=""""),_display_(Seq[Any](/*32.26*/routes/*32.32*/.Application.eventlist())),format.raw/*32.56*/("""">Liste des evenements</a></li>
+           <li><a href=""""),_display_(Seq[Any](/*30.26*/routes/*30.32*/.Application.events())),format.raw/*30.53*/("""">Creer un evenement</a></li>
+           <li><a href=""""),_display_(Seq[Any](/*31.26*/routes/*31.32*/.Application.eventlist())),format.raw/*31.56*/("""">Liste des evenements</a></li>
          </ul>			  
        </div>
      </div>	
    </div>
    
-      """),_display_(Seq[Any](/*38.8*/content)),format.raw/*38.15*/("""
+      """),_display_(Seq[Any](/*37.8*/content)),format.raw/*37.15*/("""
 
  </body>
 </html>
@@ -80,11 +79,11 @@ Seq[Any](format.raw/*1.32*/("""
 }
                 /*
                     -- GENERATED --
-                    DATE: Tue Jun 19 11:30:55 CEST 2012
+                    DATE: Tue Jun 26 09:41:05 CEST 2012
                     SOURCE: C:/tutoPlay/KIND/app/views/main.scala.html
-                    HASH: fb343dba840a60702c946a4ba949dedd1a7f0483
-                    MATRIX: 759->1|899->31|927->67|1016->120|1043->125|1146->192|1161->198|1215->230|1292->271|1307->277|1395->342|1506->417|1521->423|1625->504|1718->561|1733->567|1789->601|1867->643|1882->649|1949->694|2036->745|2051->751|2129->806|2216->857|2231->863|2309->918|2396->969|2411->975|2471->1013|2702->1208|2717->1214|2760->1235|2851->1290|2866->1296|2912->1320|3047->1420|3076->1427
-                    LINES: 27->1|31->1|33->4|39->10|39->10|40->11|40->11|40->11|41->12|41->12|41->12|42->13|42->13|42->13|43->14|43->14|43->14|44->15|44->15|44->15|45->16|45->16|45->16|46->17|46->17|46->17|47->18|47->18|47->18|60->31|60->31|60->31|61->32|61->32|61->32|67->38|67->38
+                    HASH: a1513686682c4bbe014fc946ff004265f4d03502
+                    MATRIX: 759->1|899->31|927->67|1014->118|1041->123|1144->190|1159->196|1213->228|1290->269|1305->275|1393->340|1504->415|1519->421|1623->502|1716->559|1731->565|1787->599|1869->645|1884->651|1951->696|2042->751|2057->757|2135->812|2226->867|2241->873|2319->928|2410->983|2425->989|2485->1027|2713->1219|2728->1225|2771->1246|2862->1301|2877->1307|2923->1331|3058->1431|3087->1438
+                    LINES: 27->1|31->1|33->4|39->10|39->10|40->11|40->11|40->11|41->12|41->12|41->12|42->13|42->13|42->13|43->14|43->14|43->14|44->15|44->15|44->15|45->16|45->16|45->16|46->17|46->17|46->17|47->18|47->18|47->18|59->30|59->30|59->30|60->31|60->31|60->31|66->37|66->37
                     -- GENERATED --
                 */
             
