@@ -41,10 +41,13 @@ Seq[Any](format.raw/*1.32*/("""
         <link type="text/css" href=""""),_display_(Seq[Any](/*12.38*/routes/*12.44*/.Assets.at("stylesheets/ui-lightness/jquery-ui-1.7.3.custom.css"))),format.raw/*12.109*/("""" rel="stylesheet" />
         <link rel="stylesheet" media="screen" href=""""),_display_(Seq[Any](/*13.54*/routes/*13.60*/.Assets.at("stylesheets/twitter-bootstrap-b261f97/docs/assets/css/bootstrap.css"))),format.raw/*13.141*/("""">	
         <link rel="stylesheet" media="screen" href=""""),_display_(Seq[Any](/*14.54*/routes/*14.60*/.Assets.at("stylesheets/main.css"))),format.raw/*14.94*/("""">
-    		<script type="text/javascript" src=""""),_display_(Seq[Any](/*15.44*/routes/*15.50*/.Assets.at("javascripts/jquery-1.3.2.min.js"))),format.raw/*15.95*/(""""></script>
-    		<script type="text/javascript" src=""""),_display_(Seq[Any](/*16.44*/routes/*16.50*/.Assets.at("javascripts/jquery-ui-1.7.3.custom.min.js"))),format.raw/*16.105*/(""""></script>
-    		<script type="text/javascript" src=""""),_display_(Seq[Any](/*17.44*/routes/*17.50*/.Assets.at("javascripts/jquery-ui.multidatespicker.js"))),format.raw/*17.105*/(""""></script>
-    		<script type="text/javascript" src=""""),_display_(Seq[Any](/*18.44*/routes/*18.50*/.Assets.at("javascripts/eventForm.js"))),format.raw/*18.88*/(""""></script>    
+        <link rel='stylesheet' type='text/css' href=""""),_display_(Seq[Any](/*15.55*/routes/*15.61*/.Assets.at("stylesheets/fullcalendar.css"))),format.raw/*15.103*/("""" >
+        <link rel='stylesheet' type='text/css' href=""""),_display_(Seq[Any](/*16.55*/routes/*16.61*/.Assets.at("stylesheets/fullcalendar.print.css"))),format.raw/*16.109*/("""" media='print' >
+    		<script type="text/javascript" src=""""),_display_(Seq[Any](/*17.44*/routes/*17.50*/.Assets.at("javascripts/jquery-1.7.1.min.js"))),format.raw/*17.95*/(""""></script>
+    		<script type="text/javascript" src=""""),_display_(Seq[Any](/*18.44*/routes/*18.50*/.Assets.at("javascripts/jquery-ui-1.8.17.custom.min.js"))),format.raw/*18.106*/(""""></script>
+    		<script type="text/javascript" src=""""),_display_(Seq[Any](/*19.44*/routes/*19.50*/.Assets.at("javascripts/jquery-ui.multidatespicker.js"))),format.raw/*19.105*/(""""></script>
+    		<script type="text/javascript" src=""""),_display_(Seq[Any](/*20.44*/routes/*20.50*/.Assets.at("javascripts/eventForm.js"))),format.raw/*20.88*/(""""></script>    
+        <script type="text/javascript" src=""""),_display_(Seq[Any](/*21.46*/routes/*21.52*/.Assets.at("javascripts/fullcalendar/fullcalendar.js"))),format.raw/*21.106*/(""""></script>  
   </head>
     
     
@@ -56,14 +59,14 @@ Seq[Any](format.raw/*1.32*/("""
       <div class="navbar-inner">
         <div class="container">
          <ul class="nav">
-           <li><a href=""""),_display_(Seq[Any](/*30.26*/routes/*30.32*/.Application.events())),format.raw/*30.53*/("""">Creer un evenement</a></li>
-           <li><a href=""""),_display_(Seq[Any](/*31.26*/routes/*31.32*/.Application.eventlist())),format.raw/*31.56*/("""">Liste des evenements</a></li>
+           <li><a href=""""),_display_(Seq[Any](/*33.26*/routes/*33.32*/.Application.events())),format.raw/*33.53*/("""">Creer un evenement</a></li>
+           <li><a href=""""),_display_(Seq[Any](/*34.26*/routes/*34.32*/.Application.eventlist())),format.raw/*34.56*/("""">Liste des evenements</a></li>
          </ul>			  
        </div>
      </div>	
    </div>
    
-      """),_display_(Seq[Any](/*37.8*/content)),format.raw/*37.15*/("""
+      """),_display_(Seq[Any](/*40.8*/content)),format.raw/*40.15*/("""
 
  </body>
 </html>
@@ -79,11 +82,11 @@ Seq[Any](format.raw/*1.32*/("""
 }
                 /*
                     -- GENERATED --
-                    DATE: Tue Jun 26 09:41:05 CEST 2012
+                    DATE: Wed Jun 27 15:01:25 CEST 2012
                     SOURCE: C:/tutoPlay/KIND/app/views/main.scala.html
-                    HASH: a1513686682c4bbe014fc946ff004265f4d03502
-                    MATRIX: 759->1|899->31|927->67|1014->118|1041->123|1144->190|1159->196|1213->228|1290->269|1305->275|1393->340|1504->415|1519->421|1623->502|1716->559|1731->565|1787->599|1869->645|1884->651|1951->696|2042->751|2057->757|2135->812|2226->867|2241->873|2319->928|2410->983|2425->989|2485->1027|2713->1219|2728->1225|2771->1246|2862->1301|2877->1307|2923->1331|3058->1431|3087->1438
-                    LINES: 27->1|31->1|33->4|39->10|39->10|40->11|40->11|40->11|41->12|41->12|41->12|42->13|42->13|42->13|43->14|43->14|43->14|44->15|44->15|44->15|45->16|45->16|45->16|46->17|46->17|46->17|47->18|47->18|47->18|59->30|59->30|59->30|60->31|60->31|60->31|66->37|66->37
+                    HASH: 4d7f152ad4c462d1f496f3f42871bbfb28c32b24
+                    MATRIX: 759->1|899->31|927->67|1014->118|1041->123|1144->190|1159->196|1213->228|1290->269|1305->275|1393->340|1504->415|1519->421|1623->502|1716->559|1731->565|1787->599|1880->656|1895->662|1960->704|2054->762|2069->768|2140->816|2237->877|2252->883|2319->928|2410->983|2425->989|2504->1045|2595->1100|2610->1106|2688->1161|2779->1216|2794->1222|2854->1260|2951->1321|2966->1327|3043->1381|3269->1571|3284->1577|3327->1598|3418->1653|3433->1659|3479->1683|3614->1783|3643->1790
+                    LINES: 27->1|31->1|33->4|39->10|39->10|40->11|40->11|40->11|41->12|41->12|41->12|42->13|42->13|42->13|43->14|43->14|43->14|44->15|44->15|44->15|45->16|45->16|45->16|46->17|46->17|46->17|47->18|47->18|47->18|48->19|48->19|48->19|49->20|49->20|49->20|50->21|50->21|50->21|62->33|62->33|62->33|63->34|63->34|63->34|69->40|69->40
                     -- GENERATED --
                 */
             

@@ -69,12 +69,12 @@ public class Application extends Controller {
 		try {
 			Session session = Session.getInstance(props, authenticator);
 			MimeMessage message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("doodle@chu-rouen.fr"));
+			message.setFrom(new InternetAddress("kind@chu-rouen.fr"));
 			message.setRecipients(Message.RecipientType.TO,
 					InternetAddress.parse(mails));
 			message.setSubject("Invitation a "+e.titre);
 			message.setText("Lien d'invitation,"
-					+ "\n\n http://localhost:9000/eventEdit/"+idevt);
+					+ "\n\n http://intranet2:9000/eventEdit/"+idevt);
 			transport = session.getTransport();
 			transport.connect(username, password);
 			transport.sendMessage(message, message.getAllRecipients());
