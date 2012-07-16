@@ -18,25 +18,26 @@ public class Personne extends Model {
 
 	@Id
 	@Formats.NonEmpty
-	public Long id;
-
-	public Long getId() {
-		return id;
-	}
+	public Long id;	
 
 	public String nom;
 
+	public Boolean obligatoire;
+	
+	public Boolean locked;
+	
+	public String password;
+	
 	public void setNom(String nom) {
 		this.nom = nom;
-	}
+	}	
 
-	public String getNom() {
-		return nom;
-	}
-
-	public Personne(String nom) {
+	public Personne(String nom, String locked, String pwd) {
 		super();
 		this.nom = nom;
+		this.obligatoire = false;
+		this.locked = Boolean.valueOf(locked).booleanValue();
+		this.password = pwd;
 	}
 	
 	@Valid
@@ -48,9 +49,7 @@ public class Personne extends Model {
 	public List<Jour> inscriptionsJours = new ArrayList<Jour>();
 
 	public static Finder<Long, Personne> findPers = new Finder(Long.class,
-			Personne.class);
-
-	
+			Personne.class);	
 
 	public static void delete(Long id) {
 		System.out.println(findPers.ref(id).toString());
@@ -78,6 +77,18 @@ public class Personne extends Model {
 			p.inscriptionsJours.add(j);
 		}
 		p.saveManyToManyAssociations("inscriptionsJours");
+		
+	}
+
+	public static void changeObligatoire(Long idpersonne) {
+		Personne p = findPers.ref(idpersonne);
+		
+		if (p.obligatoire) {
+			p.obligatoire = false;
+		} else {
+			p.obligatoire = true;
+		}
+		p.update();
 		
 	}
 

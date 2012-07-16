@@ -29,6 +29,9 @@ create table jour (
 create table personne (
   id                        bigint auto_increment not null,
   nom                       varchar(255),
+  obligatoire               tinyint(1) default 0,
+  locked                    tinyint(1) default 0,
+  password                  varchar(255),
   constraint pk_personne primary key (id))
 ;
 

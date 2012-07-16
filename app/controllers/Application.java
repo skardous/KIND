@@ -74,7 +74,7 @@ public class Application extends Controller {
 					InternetAddress.parse(mails));
 			message.setSubject("Invitation a "+e.titre);
 			message.setText("Lien d'invitation,"
-					+ "\n\n http://intranet2:9000/eventEdit/"+idevt);
+					+ "\n\n http://localhost:9000/eventEdit/"+idevt);
 			transport = session.getTransport();
 			transport.connect(username, password);
 			transport.sendMessage(message, message.getAllRecipients());
@@ -87,7 +87,7 @@ public class Application extends Controller {
 
 
 
-		System.out.println("message envoyé");
+		
 		return ok(views.html.eventlist.render(Evenement.all()));
 
 	}
@@ -170,10 +170,12 @@ public class Application extends Controller {
 	public static Result addParticipant(Long id) {
 		JsonNode json = request().body().asJson();
 		String name = json.findPath("nom").getTextValue();
+		String locked = json.findPath("locked").getTextValue();
+		String pwd = json.findPath("pwd").getTextValue();
 
 		Evenement evenement = Evenement.findEvt.byId(id);
 		System.out.println("titre: " + evenement.titre);
-		Long retId = Evenement.addPersonne(evenement, id, name);
+		Long retId = Evenement.addPersonne(evenement, id, name, locked, pwd);
 		ObjectNode result = Json.newObject();
 		result.put("idPersonne",""+retId+"");
 		return ok(result);
@@ -284,11 +286,38 @@ public class Application extends Controller {
 		String personne = json.findPath("idpersonne").getTextValue();
 		Long idpersonne = Long.valueOf(personne);
 
-		Evenement evenement = Evenement.findEvt.byId(id);
-		System.out.println("titre: " + evenement.titre);
+		Evenement evenement = Evenement.findEvt.byId(id);		
 		Personne.addChoixJour(idpersonne, idjour);
 
 		return ok();
+
+	}
+
+	@BodyParser.Of(BodyParser.Json.class)
+	public static Result changeObligatoire(Long id) {
+		JsonNode json = request().body().asJson();		
+		String personne = json.findPath("idpersonne").getTextValue();
+		Long idpersonne = Long.valueOf(personne);		
+		
+		Personne.changeObligatoire(idpersonne);
+
+		return ok();
+
+	}
+
+	@BodyParser.Of(BodyParser.Json.class)
+	public static Result getPass() {
+		JsonNode json = request().body().asJson();		
+		String personne = json.findPath("idpers").getTextValue();
+		
+		//System.out.println("personnepwd:"+personne);
+		Long idpersonne = Long.valueOf(personne);		
+		
+		Personne p = Personne.findPers.ref(idpersonne);		
+
+		ObjectNode result = Json.newObject();
+		result.put("pass",""+p.password+"");
+		return ok(result);
 
 	}
 }

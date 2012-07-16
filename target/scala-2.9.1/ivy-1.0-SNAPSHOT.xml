@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ivy-module version="2.0" xmlns:e="http://ant.apache.org/ivy/extra">
-	<info organisation="draft" module="draft_2.9.1" revision="1.0-SNAPSHOT" status="release" publication="20120613142637">
+	<info organisation="draft" module="draft_2.9.1" revision="1.0-SNAPSHOT" status="release" publication="20120705130703">
 		<description>
 		draft
 		</description>
@@ -20,6 +20,7 @@
 		<conf name="pom" visibility="public" description=""/>
 	</configurations>
 	<publications>
+		<artifact name="draft_2.9.1" type="war" ext="war" conf="compile,runtime,test,provided,optional,sources,docs,pom"/>
 		<artifact name="draft_2.9.1" type="pom" ext="pom" conf="pom"/>
 		<artifact name="draft_2.9.1" type="jar" ext="jar" conf="compile"/>
 		<artifact name="draft_2.9.1" type="src" ext="jar" conf="sources" e:classifier="sources"/>
@@ -31,6 +32,7 @@
 		<dependency org="play" name="play-test_2.9.1" rev="2.0.1" conf="test->default(compile)"/>
 		<dependency org="javax.mail" name="mail" rev="1.4.5" conf="compile->default(compile)"/>
 		<dependency org="mysql" name="mysql-connector-java" rev="5.1.18" conf="compile->default(compile)"/>
+		<dependency org="com.github.play2war" name="play2-war-core_2.9.1" rev="0.5" conf="compile->default(compile)"/>
 		<exclude org="org.scala-lang" module="scala-library" artifact="*" type="jar" ext="*" matcher="exact"/>
 		<exclude org="org.scala-lang" module="scala-compiler" artifact="*" type="jar" ext="*" matcher="exact"/>
 		<override org="org.scala-lang" module="scala-library" matcher="exact" rev="2.9.1"/>

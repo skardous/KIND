@@ -60,16 +60,15 @@ form {
 	display:inline;
 }
 
-table.datesTable tr
+/*table.datesTable tr
 {
-    /* Seules la couleur du texte et les dimensions
-    de nos paragraphes auront une transition. */
+   
     -moz-transition-property: width, height;
     
-    /* La transition durera trois secondes. */
+    
     -moz-transition-duration: 1s;
 
-    /* On stylise un peu plus nos paragraphes. */    
+    / 
     
     
     width:auto;
@@ -77,16 +76,16 @@ table.datesTable tr
     border: 2px solid #000;
     margin: auto;
     text-align: center;
-}
+}*/
 
 /* Style lors du passage de la souris
 (= état final). */
-table.datesTable tr:hover
+/*table.datesTable tr:hover
 {
    width:auto;
    height: 75px;
    
-}
+}*/
 	
 .navbar {background:#333333;}
 .nav-collapse {width:auto;}

@@ -23,14 +23,14 @@ public class Evenement extends Model {
 	@Id
 	public Long id;	
 
-	@Required
+	@Required(message = "Vous devez saisir un titre.") 
 	public String titre;	
 
 	public String lieu;
 
 	public String descriptif;	
 
-	@Required
+	@Required(message = "Vous devez saisir un nom de créateur.") 
 	public String createur;	
 	
 	@Email
@@ -100,20 +100,21 @@ public class Evenement extends Model {
 
 	//Manupilation de Personnes
 
-	public static Long addPersonne(Evenement evt, Long id, String name) {
-		Personne p = new Personne(name);
+	public static Long addPersonne(Evenement evt, Long id, String name, String locked, String pwd) {
+		Personne p = new Personne(name, locked, pwd);
 		evt.participants.add(p);
 		p.save();
 		
 		evt.update(id);
 		Ebean.saveManyToManyAssociations(evt, "participants");
-		return p.getId();
+		return p.id;
 	}
 
 	public static void removeParticipant(Long eventId, Long participId) {
 		Evenement e = Evenement.findEvt.ref(eventId);
-		e.participants.remove(Personne.findPers.ref(participId));
+		e.participants.remove(Personne.findPers.ref(participId));		
 		e.saveManyToManyAssociations("participants");
+		Personne.findPers.ref(participId).delete();
 	}
 	
 	public static void updateParticipant(Long eventId, Long participId, String participNom) {
@@ -184,13 +185,15 @@ public class Evenement extends Model {
 		}
 		
 		
-		for (Horaire hr : tempHoraireJour) {
-			hr.delete();
-		}
+		
 		for (Horaire hr : tempHorairePersonne) {
 			if (!tempHoraireJour.contains(hr)) {
 				hr.delete();
 			}
+		}
+		
+		for (Horaire hr : tempHoraireJour) {
+			hr.delete();
 		}
 		
 		for (Jour j: tempJourEvt) {

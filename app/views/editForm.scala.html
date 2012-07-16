@@ -39,12 +39,20 @@
 			              
 			
 			@for(participant <- event.participants) {
-				<tr id="@participant.getId()"><td class="infoPersonne">
+				<tr title="@participant.nom" id="@participant.id"><td class="infoPersonne">
 					@form(routes.Application.updatePersonne(event.id), 'id->"formPersonne") {
-						<input id="nom" type="text" value="@participant.getNom()" name="nom" readonly="readonly">	
-					
-						<a id="@participant.getId()" class="editPersonne btn btn-info">Editer</a>
-						<a id="@participant.getId()" class="deletePersonne btn btn-danger"> Supprimer</a>
+						@if(participant.locked){
+							<i class="mesicones icon-lock"></i>
+						}
+						@if(participant.obligatoire){							
+							<a id="obligatoire" class="obligatoirecb btn btn-inverse">Obligatoire</a>
+						} else {								
+							<a id="obligatoire" class="obligatoirecb btn ">Facultatif</a>
+						}
+
+						<input id="nom" size="10" type="text" value="@participant.nom" name="nom" readonly="readonly">							
+						<a id="@participant.id" title="Editer le participant" class="editPersonne"><i class="mesicones icon-pencil"></i></a>
+						<a id="@participant.id" title="Supprimer le participant" class="deletePersonne"> <i class="mesicones icon-trash"></i></a>
 					}</td>
 					
 					@for(jour <- event.jours) {
@@ -94,8 +102,8 @@
 		
 	</table>
 	
-	<!--<a class="calButton btn btn-info" >Vue calendrier</a>
-	<div id="calendar"></div>-->
+	
+	
 
 	Ajouter un participant :		  
 	<input id="champ" type="text" value="">&nbsp;<a id="ajouter" class="btn">Ajouter</a><br>
@@ -104,8 +112,9 @@
 	<h3>Inviter des personnes à l'évenement</h3>
 
 	<div class="selectDate">
-	<textarea id="mailsArea" rows="4" style="color:grey" placeholder="Entrez ici les adresses mail séparées par une virgule ..."></textarea>
-	<a id="envoiLien" class="btn btn-primary">Envoyer Lien</a>
+	<textarea id="mailsArea" title="Adresses email s&eacute;par&eacute;es par une virgule" rows="4" style="color:grey" placeholder="Entrez ici les adresses mail séparées par une virgule ..."></textarea>
+	<i class="checkmail mesicones icon-remove"></i>
+	<a id="envoiLien" disabled="true" class="btn btn-primary">Envoyer Lien</a>
 	</div>
 
 	<script type="text/javascript" charset="utf-8">
@@ -116,69 +125,61 @@
 
 	$("table.datesTable td").css("background-color", color3);
 
-	$(function(){ 
+	$("#mailsArea").live("keyup", function() {
+		if (bonmail($(this).val())) {
+			$(".checkmail").attr("class", "checkmail mesicones icon-ok");
+			$("#envoiLien").removeAttr("disabled");
+		} else {
+			$(".checkmail").attr("class", "checkmail mesicones icon-remove");
+			$("#envoiLien").attr("disabled", "true");
+		}
+	})
 
-		var date = new Date();
-		var d = date.getDate();
-		var m = date.getMonth();
-		var y = date.getFullYear();
+	function bonmail(mailtest)
+	{
+		var reg = new RegExp('^([a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*@@[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6}){1}(\,[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*@@[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6})*$', 'i');
+
+		if(reg.test(mailtest))
+		{
+			return(true);
+		}
+		else
+		{
+			return(false);
+		}
+	}
+
+	$(function(){ //Lancé au chargement/rafraichissement de la page	
 		
-		$('#calendar').fullCalendar({
-			header: {
-				left: 'prev,next today',
-				center: 'title',
-				right: 'month,basicWeek,basicDay'
-			},
-			editable: true,
-			events: [
-				{
-					title: 'All Day Event',
-					start: new Date(y, m, 1)
-				},
-				{
-					title: 'Long Event',
-					start: new Date(y, m, d-5),
-					end: new Date(y, m, d-2)
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: new Date(y, m, d-3, 16, 0),
-					allDay: false
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: new Date(y, m, d+4, 16, 0),
-					allDay: false
-				},
-				{
-					title: 'Meeting',
-					start: new Date(y, m, d, 10, 30),
-					allDay: false
-				},
-				{
-					title: 'Lunch',
-					start: new Date(y, m, d, 12, 0),
-					end: new Date(y, m, d, 14, 0),
-					allDay: false
-				},
-				{
-					title: 'Birthday Party',
-					start: new Date(y, m, d+1, 19, 0),
-					end: new Date(y, m, d+1, 22, 30),
-					allDay: false
-				},
-				{
-					title: 'Click for Google',
-					start: new Date(y, m, 28),
-					end: new Date(y, m, 29),
-					url: 'http://google.com/'
-				}
-			]
-		});
+		$(".checkbox").attr("disabled", "true"); 
 
-		$('.checkbox').each(function (i) {
+		refreshObligatoire(); 
+		
+
+		$(".obligatoirecb").live("click", function() { //click sur la cherckbox "obligatoire" : mise à jour des classes sur la ligne, ajout de la propriété obligatoire dans la bdd
+			
+			var idParticipant = $(this).parent().parent().parent().attr("id");
+			if ($(this).html() == "Obligatoire") {
+				$(this).html("Facultatif");
+				$(this).attr("class", "obligatoirecb btn");
+			} else {
+				$(this).html("Obligatoire");
+				$(this).attr("class", "obligatoirecb btn btn-inverse");
+			}
+			$.ajax({
+				type: "POST",
+				url: "@routes.Application.changeObligatoire(event.id)",
+				data: '{"idpersonne" : "' + idParticipant + '"}',
+				contentType: "application/json",
+				success : function(data) {
+				  affichagePopulaire();
+				}
+	   		});
+	   		refreshObligatoire();
+
+		})
+
+		$('.checkbox').each(function (i) { // coloration des box checkées
 		  	if ($(this).is(':checked')){
 		  		$(this).parent().css("background-color", "#66CC99");
 		  	}
@@ -188,56 +189,12 @@
 		  	$('.titres').attr('style','');
 		});
 
+		refreshCount(); // maj de la ligne de compteurs
 
-
-		$('input[type="checkbox"]').each(function(i) {
-			var iden = $(this).attr('id');
-
-			if ($(this).attr('class') == 'horaire checkbox') {
-				if ($(this).is(':checked')){
-			    	var increment = $('#compte').children('.horaire[id="'+iden+'"]');
-					increment.html(parseInt(increment.html())+1);
-				}
-			}
-			if ($(this).attr('class') == 'jour checkbox') {
-				if ($(this).is(':checked')){
-			    	var increment = $('#compte').children('.jour[id="'+iden+'"]');
-					increment.html(parseInt(increment.html())+1);
-				}
-			}
-		});
-
-		var max = 0;
-		$("#compte").children().each( function() {
-			$(this).css("background-color", color1) //gris
-			$('.titres').children().css("background-color",color1);		
-			if ($(this).html() > max) {			
-				max = $(this).html();
-			}
-		})
-		$("#compte").children().each( function() {		
-			if ($(this).html() == max && $(this).html() != 0) {			
-				$(this).css("background-color", color2);
-				
-				$('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').css("background-color", color2);
-				if($(this).attr("class") == "horaire") {
-					var day = $('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').attr("day");				
-					$("td:contains('"+day+"')").css("background-color", color2);
-					
-				}
-			}
-		})
+		affichagePopulaire(); // maj des surbrillances
 	  
 	});
-
-	$('.calButton').live('click', function(e) {
-		if ($("#calendar").css("display") == "none") {
-			$("#calendar").css("display", "block");
-		} else {
-			$("#calendar").css("display", "none");
-		}
-	});
-
+	
 	$("textarea").live('click', function(e) {
 		$(this).html("");
 		$(this).removeAttr("style");
@@ -245,17 +202,20 @@
 
 
 	$('#envoiLien').live('click', function(e) {
-	  var mailsList = $("#mailsArea").val();
-	  
-		$.ajax({
-			type: "POST",
-			url: "@routes.Application.sendMail(event.id)",
-			data: '{"mailslist" : "' + mailsList + '"}',
-			contentType: "application/json",
-			success : function(data) {
-			  alert("Mail(s) envoye(s) a "+mailsList);
-			}
-	   });
+
+		if ($(this).attr("disabled") != "disabled") {
+		  	var mailsList = $("#mailsArea").val();
+		  
+			$.ajax({
+				type: "POST",
+				url: "@routes.Application.sendMail(event.id)",
+				data: '{"mailslist" : "' + mailsList + '"}',
+				contentType: "application/json",
+				success : function(data) {
+				  alert("Mail(s) envoye(s) a "+mailsList);
+				}
+		   });
+		}
 	});
 		  
 		  
@@ -268,40 +228,38 @@
 	    	$('.titres').attr('style','display:none');
 	    }
 	    $('#compte').children('td[id!=""]').each(function(i) {$(this).html("0")});
-	    $('input[type="checkbox"]').each(function(i) {
-	    var iden = $(this).attr('id');
-	  
-	    if ($(this).attr('class') == 'horaire checkbox') {
-	    	if ($(this).is(':checked')){
-		    	var increment = $('#compte').children('.horaire[id="'+iden+'"]');
-				increment.html(parseInt(increment.html())+1);
-	    	}
-	    }
-	    if ($(this).attr('class') == 'jour checkbox') {
-	    	if ($(this).is(':checked')){
-		    	var increment = $('#compte').children('.jour[id="'+iden+'"]');
-				increment.html(parseInt(increment.html())+1);
-	    	}
-	    }
-	  });
+
+	    refreshCount();
 	    
 	})
 
 	$('.editPersonne').live('click', function(e) {
-	    if($(this).html() == "Editer")  {
-	      $(this).html("OK");
-	      $(this).attr("class", "editPersonne btn btn-success");
-	      $(this).siblings("input").removeAttr("readonly");
-	      $(this).parent().parent().parent().children("td").children().removeAttr("disabled");
-	      $(this).parent().parent().parent().children("td").css("border", "solid black 2px");
-	      $(".hoverable").off();
-	      $(".hoverable").off();
-	      $(this).parent().parent().parent().children(".checktd").attr("class", "checktd hoverable");
-	      refreshHoverable();
+		
+	    if(!$(this).parents("tr").hasClass("editable"))  {	    	
+	    	if ($(this).siblings("i").hasClass("icon-lock")){
+				var pass = prompt('Entrez votre mot de passe','Mot_de_passe');
+				var thisse = $(this);
+				$.ajax({
+					type: "POST",
+					url: "@routes.Application.getPass()",
+					data: '{ "idpers" : "'+$(this).parents("tr").attr("id")+'" }',
+					contentType: "application/json",
+					success : function(data) {
+					  if (pass == data.pass) {
+					  	edition(thisse);
+					  } else {
+					  	alert("mot de passe incorrect");
+					  }
+					}
+			   });
+			} else {
+				edition($(this));
+			}
+		  
 	    } else {
-	      $(this).html("Editer");
-	      $(this).attr("class", "editPersonne btn btn-info");
-	      $(this).siblings("input").attr("readonly", "readonly");
+	      $(this).html("<i class=\"mesicones icon-pencil\"></i>");
+	      $(this).parents("tr").removeClass("editable");
+	      $(this).siblings('input[type="text"]').attr("readonly", "readonly");
 	      $(this).parent().parent().parent().children("td").children('input[type="checkbox"]').attr("disabled","true"); 
 	      $(this).parent().parent().parent().children("td").css("border", "none");
 	      $(".hoverable").off();	      
@@ -309,8 +267,20 @@
 	      refreshHoverable();
 	      editPersonne($(this).attr('id'), $(this).siblings("input").attr("value"));
 	    }
+	
 	  
 	})
+
+	function edition(elem) {
+		elem.html("<i class=\"mesicones icon-ok\"></i>");
+		elem.parents("tr").addClass("editable");
+		elem.siblings('input[type="text"]').removeAttr("readonly");
+		elem.parent().parent().parent().children("td").children().removeAttr("disabled");
+		elem.parent().parent().parent().children("td").css("border", "solid black 2px");
+		$(".hoverable").off();		  
+		elem.parent().parent().parent().children(".checktd").attr("class", "checktd hoverable");
+		refreshHoverable();
+	}
 	
 	function refreshHoverable() {
 		
@@ -331,30 +301,81 @@
 
 	}
 
+	function refreshObligatoire() {
+		$(".checktd").removeClass("obligatoire");
+		$(".checkbox").removeClass("obligatoire");
+			$(".obligatoirecb").each(function () {
+				//alert("test");
+				//alert($(this).parent().parent().siblings(".checktd").html());
+				if($(this).html() == "Obligatoire") {					
+					$(this).parent().parent().siblings(".checktd").addClass("obligatoire");
+					$(this).parent().parent().siblings(".checktd").children().addClass("obligatoire");
+				}
 
-	$("#ajouter").live('click', function(e){	  
-	    envoiPersonne($("#champ"));	    	    
+			})
+	}
+
+	$("#ajouter").live('click', function(e){
+		
+
+	    var vide = "";	    
+	    var nom = $.trim($("#champ").attr("value"));
+	    if (nom != vide) {  
+	    	var s;
+		    var answer = confirm ("Voulez-vous sécuriser vos informations?");
+			if (answer) {
+		    	s=prompt('Entrez votre mot de passe','Mot_de_passe');
+		    	addPersonne($.trim(nom), "true", s);	    
+		    } else {
+		    	addPersonne($.trim(nom), "false", "");
+		    }    
+						
+		}
+
+	    	    
 	});
 
 	$("#champ").keypress(function(e) {
 		var code = (e.keyCode ? e.keyCode : e.which);
 		if(code == 13) { //Enter keycode
-			envoiPersonne($("#champ"));	
+			var vide = "";	    
+		    var nom = $.trim($("#champ").attr("value"));
+		    if (nom != vide) {  
+		    	var s;
+			    var answer = confirm ("Voulez-vous sécuriser vos informations?");
+				if (answer) {
+			    	s=prompt('Entrez votre mot de passe','Mot_de_passe');
+			    	addPersonne($.trim(nom), "true", s);	    
+			    } else {
+			    	addPersonne($.trim(nom), "false", "");
+			    }    
+							
+			}
 			$("#champ").focus();
  		}
 
 	});
 
-
-
-
-	function envoiPersonne(self)
-	{
-	    var vide = "";	    
-	    var nom = $.trim(self.attr("value"));
-	    if (vide != nom) {      
-			addPersonne($.trim($("#champ").attr('value')));			
-		}
+	function refreshCount() {
+		$('input[type="checkbox"].horaire.checkbox').each(function(i) {
+			var iden = $(this).attr('id');
+			
+			if ($(this).is(':checked')){
+		    	var increment = $('#compte').children('.horaire[id="'+iden+'"]');
+				increment.html(parseInt(increment.html())+1);
+			}
+			
+		});
+			
+		$('input[type="checkbox"].jour.checkbox').each(function(i) {
+			var iden = $(this).attr('id');			
+				
+			if ($(this).is(':checked')){
+		    	var increment = $('#compte').children('.jour[id="'+iden+'"]');
+				increment.html(parseInt(increment.html())+1);
+			}			
+			
+		});
 	}
 
 	function editPersonne(personneId, personneNom)
@@ -383,19 +404,25 @@
 	  });
 	}
 
-	function addPersonne(nomParticipant)
+	function addPersonne(nomParticipant, locked, pwd)
 	{	
 		$.ajax({
 			type: "POST",
 			url: "@routes.Application.addParticipant(event.id)",
-			data: '{"nom" : "' + nomParticipant + '"}',
+			data: '{"nom" : "' + nomParticipant + '", "locked" : "' + locked + '", "pwd" : "' + pwd + '"}',
 			contentType: "application/json",
-			success : function(data) {		  
-				$("tbody").append("<tr id=\""+data.idPersonne+"\"><td class=\"infoPersonne\">"+
+			success : function(data) {
+				var lock ="";		
+				if(locked == "true"){
+					lock = "<i class=\"mesicones icon-lock\"></i>&nbsp;";
+				}  
+				$("tbody").append("<tr title=\""+nomParticipant+"\" class=\"editable\" id=\""+data.idPersonne+"\"><td class=\"infoPersonne\">"+
 					"<form id=\"formPersonne\">"+
-					"<input id=\"nom\" type=\"text\" value=\""+nomParticipant+"\" name=\"nom\">&nbsp;"+
-					"<a id=\""+data.idPersonne+"\" class=\"editPersonne btn btn-success\">OK</a>&nbsp;"+
-					"<a id=\""+data.idPersonne+"\" class=\"deletePersonne btn btn-danger\">Supprimer</a>"+				  
+					lock+
+					"<a id=\"obligatoire\" class=\"obligatoirecb btn\">Facultatif</a>&nbsp;"+
+					"<input id=\"nom\" type=\"text\" value=\""+nomParticipant+"\" name=\"nom\">&nbsp;"+	
+					"<a id=\""+data.idPersonne+"\" title=\"editer le participant\" class=\"editPersonne\"><i class=\"mesicones icon-ok\"></i></a>"+
+					"<a id=\""+data.idPersonne+"\" title=\"supprimer le participant\" class=\"deletePersonne\"> <i class=\"mesicones icon-trash\"></i</a>"+		  
 					"</form></td>"+
 					"@for(jour <- event.jours) {"+  
 					"@if(jour.horaires.size() == 0){<td class=\"checktd hoverable\" style=\"border: solid black 2px\"><input id=\"@jour.id\" type=\"checkbox\" class=\"jour checkbox\" value=\"@jour.date\" /></td>}"+
@@ -406,7 +433,8 @@
 					"</tr>")
 				$('#champ').attr('value', '')
 				$('.titres').attr('style','');
-				refreshHoverable();				
+				refreshHoverable();
+						
 			}               
 		});
 	}
@@ -425,40 +453,57 @@
 				}        
 				changeCheck($(this).children());
 			}
-			var max = 0;
-			$("#compte").children().each( function() {
-				$(this).css("background-color", color1) //gris
-				$('.titres').children().css("background-color",color1);
-				$('.footer').html("");
-				if ($(this).html() > max) {			
-					max = $(this).html();
-				}
-			})
-			$("#compte").children().each( function() {		
-				if ($(this).html() == max && $(this).html() != 0) {			
-					$(this).css("background-color", color2);
-					//alert("classe : "+$(this).attr("class")+" id : "+$(this).attr("id"));
-					$('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').css("background-color", color2);
-					if($(this).attr("class") == "horaire") {
-						var day = $('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').attr("day");				
-						$("td:contains('"+day+"')").css("background-color", color2);
-						//$('.footer').append(day);
-					}
-				}
-			})
-			$('.populaires').html("");
-			$('.titres td').each( function() {
 
+			affichagePopulaire();
+
+			//$('.populaires').html("");
+			$('.titres td').each( function() {
 				if ($(this).css('background-color') == color2) {
 					$('.populaires').append($(this).html());
 				}				
 			})			
 		}
 	});
-
-
 	
-
+	function affichagePopulaire() {
+		var max = 0;
+		$("#compte").children(".horaire, .jour").each( function() { // récupération de la valeur maximale dans les comptes
+			$(this).css("background-color", color1) 
+			$('.titres').children().css("background-color",color1);
+			//$('.footer').html("");
+			if (checkobligatoire($(this).attr("id"), $(this).attr("class"))) {			
+				if ($(this).html() > max) {			
+					max = $(this).html();
+				}
+			}		
+		})
+		$("#compte").children().each( function() {
+			
+			if ($(this).html() == max && $(this).html() != 0 && checkobligatoire($(this).attr("id"), $(this).attr("class"))) {			
+				$(this).css("background-color", color2);
+				//alert("classe : "+$(this).attr("class")+" id : "+$(this).attr("id"));
+				$('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').css("background-color", color2);
+				if($(this).attr("class") == "horaire") {
+					var day = $('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').attr("day");				
+					$("td:contains('"+day+"')").css("background-color", color2);
+					
+				}
+			}
+		})
+	}
+	
+	function checkobligatoire(idtime, type) {//fonction qui renvoie true si tous les participants obligatoires sont présents.
+		//alert(idtime);
+		var ret = true;
+		//alert("type :"+type + " " + idtime)
+		$('.obligatoire.'+type+'[id="'+idtime+'"]').each(function() {			
+			if(!($(this).is(":checked"))) {
+				//alert("id:"+$(this).attr("id"));
+				ret = false;
+			}
+		})
+		return ret;
+	}
  
 
 
@@ -466,31 +511,31 @@
 	   var idtime = box.attr('id');
 	   var idParticipant = box.parent().parent().attr('id');   
 	   
-	   if (box.is(':checked')){	   		
+	   if (box.is(':checked')){	 //Action de valider une horaire  		
 	       		box.parent().css("background-color", "#66CC99")//vert
-		   		if (box.attr('class') == 'horaire checkbox') {
-		           var increment = $('#compte').children('.horaire[id="'+idtime+'"]');
-			   	   increment.html(parseInt(increment.html())+1);
-		       	   requeteAjaxHeure(idtime, idParticipant);
+		   		if (box.attr('class').indexOf('horaire') != -1) {
+		            var increment = $('#compte').children('.horaire[id="'+idtime+'"]');
+			   	    increment.html(parseInt(increment.html())+1);
+		       	    requeteAjaxHeure(idtime, idParticipant);
 			    }
-	       		if (box.attr('class') == 'jour checkbox') {	
-	    	   	   var increment = $('#compte').children('.jour[id="'+idtime+'"]');
-			   	   increment.html(parseInt(increment.html())+1);
-				   requeteAjaxJour(idtime, idParticipant);
+	       		if (box.attr('class').indexOf('jour') != -1) {	
+	    	   	    var increment = $('#compte').children('.jour[id="'+idtime+'"]');
+			   	    increment.html(parseInt(increment.html())+1);
+				    requeteAjaxJour(idtime, idParticipant);
 			   }
-	   } else {
+	   } else { //Action de dévalider une horaires
 	     
-	     box.parent().css("background-color", color1)//gris
-	     if (box.attr('class') == 'horaire checkbox') {
-		     var increment = $('#compte').children('.horaire[id="'+idtime+'"]');
-		     increment.html(parseInt(increment.html())-1);
-		     requeteAjaxHeure(idtime, idParticipant);
-	     }
-	     if (box.attr('class') == 'jour checkbox') {
-	        var increment = $('#compte').children('.jour[id="'+idtime+'"]');
-		    increment.html(parseInt(increment.html())-1);
-		    requeteAjaxJour(idtime, idParticipant);
-	     }
+		    box.parent().css("background-color", color3) //
+		    if (box.attr('class').indexOf('horaire') != -1) {
+			    var increment = $('#compte').children('.horaire[id="'+idtime+'"]');
+			    increment.html(parseInt(increment.html())-1);
+			    requeteAjaxHeure(idtime, idParticipant);
+		    }
+		    if (box.attr('class').indexOf('jour') != -1) {
+		        var increment = $('#compte').children('.jour[id="'+idtime+'"]');
+			    increment.html(parseInt(increment.html())-1);
+			    requeteAjaxJour(idtime, idParticipant);
+		    }
 	   }
 	}
 

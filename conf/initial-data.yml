@@ -44,19 +44,23 @@ personne:
     
     - !!models.Personne    
         id: 1
-        nom: John        
+        nom: John   
+        obligatoire: false     
                         
     - !!models.Personne    
         id: 2
         nom: Kevin  
+        obligatoire: true 
 
     - !!models.Personne    
         id: 3
         nom: Billy  
+        obligatoire: false 
 
     - !!models.Personne    
         id: 4
         nom: Ned  
+        obligatoire: false 
             
 
 evenement:

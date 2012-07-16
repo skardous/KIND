@@ -13,15 +13,14 @@
 
 	<label class="control-label"><b>Date</b></label> <div class="controls" id="date"></div>
 
+	OU<br>
+
+	Ajouter une date particulière: (ex: tous les jeudis)<br>
+	<input class="particuliere" type="text"> <a id="okParticuliere" class="btn btn-success"> OK </a>
+
 	<ul class="controls" id="altField"> </ul>
 
-	@input(eventForm("dates"), '_label -> "") { (id, name, value, args) =>
-		<input type="hidden" name="@name" id="myDates" @toHtmlArgs(args)>
-	}
-
-	@input(eventForm("heures"), '_label -> "") { (id, name, value, args) =>
-		<input type="hidden" name="@name" id="myHours" @toHtmlArgs(args)>
-	}
+	
 
 	<a href="@routes.Application.heureSelection(event.id)" class="btn btn-primary">Continuer</a>
 
@@ -67,6 +66,24 @@
 				}
 			});
 		});
+
+		$("#okParticuliere").live("click", function() {
+			$.ajax({
+				type: "POST",
+				url: "@routes.Application.addDate(id)",
+				data: '{"date" : "' + $(".particuliere").val() + '"}',
+				contentType: "application/json",
+				success : function(data) {											
+					$("#altField").append(
+						"<li id=\""+data.idJour+"\">"+
+						"<a class=\"linkDate\" name=\""+$(".particuliere").val()+"\">"+
+						"<i class=\"mesicones icon-trash\"></i>&nbsp;"+
+						"</a>"+$(".particuliere").val()+	
+						"</li>"
+					);						
+				}
+			});	
+		})
 
 		function ajouterDate(dateText, id) {			
 			var d = new Date(dateText);		
