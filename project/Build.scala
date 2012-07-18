@@ -9,8 +9,7 @@ object ApplicationBuild extends Build {
 
     val appDependencies = Seq(
       "javax.mail" % "mail" % "1.4.5",
-      "mysql" % "mysql-connector-java" % "5.1.18",
-      "com.github.play2war" %% "play2-war-core" % "0.5"
+      "mysql" % "mysql-connector-java" % "5.1.18"
     )
 
     val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
