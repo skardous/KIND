@@ -59,89 +59,95 @@ Seq[Any](format.raw/*1.58*/("""
 
 		$(function()"""),format.raw("""{"""),format.raw/*31.16*/("""
 
+
+
 			$( "#date" ).multiDatesPicker();
 
 			$( "#date" ).datepicker( "option", "minDate", 0);
 
-			$("#date").multiDatesPicker("""),format.raw("""{"""),format.raw/*37.33*/("""				
-				onSelect: function(date) """),format.raw("""{"""),format.raw/*38.31*/("""
+			$("#date").multiDatesPicker("""),format.raw("""{"""),format.raw/*39.33*/("""				
+				onSelect: function(date) """),format.raw("""{"""),format.raw/*40.31*/("""
 					$( "#date" ).datepicker( "option", "minDate", 0);
 					var selectionType = $.inArray(date, $( "#date" ).multiDatesPicker('getDates'));
+					//alert(date);
 					var d = new Date(date);		
 					var dateText = d.toLocaleDateString();	
 					
-					if (selectionType != -1) """),format.raw("""{"""),format.raw/*44.32*/("""	
-						$.ajax("""),format.raw("""{"""),format.raw/*45.15*/("""
+					if (selectionType != -1) """),format.raw("""{"""),format.raw/*47.32*/("""	
+						$.ajax("""),format.raw("""{"""),format.raw/*48.15*/("""
 							type: "POST",
-							url: """"),_display_(Seq[Any](/*47.15*/routes/*47.21*/.Application.addDate(id))),format.raw/*47.45*/("""",
-							data: '"""),format.raw("""{"""),format.raw/*48.16*/(""""date" : "' + dateText + '""""),format.raw("""}"""),format.raw/*48.44*/("""',
+							url: """"),_display_(Seq[Any](/*50.15*/routes/*50.21*/.Application.addDate(id))),format.raw/*50.45*/("""",
+							data: '"""),format.raw("""{"""),format.raw/*51.16*/(""""date" : "' + dateText + '""""),format.raw("""}"""),format.raw/*51.44*/("""',
 							contentType: "application/json",
-							success : function(data) """),format.raw("""{"""),format.raw/*50.34*/("""											
+							success : function(data) """),format.raw("""{"""),format.raw/*53.34*/("""											
 								ajouterDate(date, data.idJour);							
-							"""),format.raw("""}"""),format.raw/*52.9*/("""
-						"""),format.raw("""}"""),format.raw/*53.8*/(""");	
-					"""),format.raw("""}"""),format.raw/*54.7*/(""" else """),format.raw("""{"""),format.raw/*54.14*/("""					
-						$.ajax("""),format.raw("""{"""),format.raw/*55.15*/("""
+							"""),format.raw("""}"""),format.raw/*55.9*/("""
+						"""),format.raw("""}"""),format.raw/*56.8*/(""");	
+					"""),format.raw("""}"""),format.raw/*57.7*/(""" else """),format.raw("""{"""),format.raw/*57.14*/("""					
+						$.ajax("""),format.raw("""{"""),format.raw/*58.15*/("""
 							type: "POST",
-							url: """"),_display_(Seq[Any](/*57.15*/routes/*57.21*/.Application.removeDate(id))),format.raw/*57.48*/("""",
-							data: '"""),format.raw("""{"""),format.raw/*58.16*/(""""idDate" : "' + $("li:contains("+dateText+")").attr("id") + '""""),format.raw("""}"""),format.raw/*58.79*/("""',
+							url: """"),_display_(Seq[Any](/*60.15*/routes/*60.21*/.Application.removeDate(id))),format.raw/*60.48*/("""",
+							data: '"""),format.raw("""{"""),format.raw/*61.16*/(""""idDate" : "' + $("li:contains("+dateText+")").attr("id") + '""""),format.raw("""}"""),format.raw/*61.79*/("""',
 							contentType: "application/json",
-							success : function(data) """),format.raw("""{"""),format.raw/*60.34*/("""
+							success : function(data) """),format.raw("""{"""),format.raw/*63.34*/("""
 								
-							"""),format.raw("""}"""),format.raw/*62.9*/("""
-						"""),format.raw("""}"""),format.raw/*63.8*/(""");	
+							"""),format.raw("""}"""),format.raw/*65.9*/("""
+						"""),format.raw("""}"""),format.raw/*66.8*/(""");	
 						$("li:contains("+dateText+")").remove();
-					"""),format.raw("""}"""),format.raw/*65.7*/(""" 
-				"""),format.raw("""}"""),format.raw/*66.6*/("""
-			"""),format.raw("""}"""),format.raw/*67.5*/(""");
-		"""),format.raw("""}"""),format.raw/*68.4*/(""");
+					"""),format.raw("""}"""),format.raw/*68.7*/(""" 
+				"""),format.raw("""}"""),format.raw/*69.6*/("""
+			"""),format.raw("""}"""),format.raw/*70.5*/(""");
+		"""),format.raw("""}"""),format.raw/*71.4*/(""");
 
-		$("#okParticuliere").live("click", function() """),format.raw("""{"""),format.raw/*70.50*/("""
-			$.ajax("""),format.raw("""{"""),format.raw/*71.12*/("""
+		$("#okParticuliere").live("click", function() """),format.raw("""{"""),format.raw/*73.50*/("""
+			$.ajax("""),format.raw("""{"""),format.raw/*74.12*/("""
 				type: "POST",
-				url: """"),_display_(Seq[Any](/*73.12*/routes/*73.18*/.Application.addDate(id))),format.raw/*73.42*/("""",
-				data: '"""),format.raw("""{"""),format.raw/*74.13*/(""""date" : "' + $(".particuliere").val() + '""""),format.raw("""}"""),format.raw/*74.57*/("""',
+				url: """"),_display_(Seq[Any](/*76.12*/routes/*76.18*/.Application.addDate(id))),format.raw/*76.42*/("""",
+				data: '"""),format.raw("""{"""),format.raw/*77.13*/(""""date" : "' + $(".particuliere").val() + '""""),format.raw("""}"""),format.raw/*77.57*/("""',
 				contentType: "application/json",
-				success : function(data) """),format.raw("""{"""),format.raw/*76.31*/("""											
+				success : function(data) """),format.raw("""{"""),format.raw/*79.31*/("""											
 					$("#altField").append(
 						"<li id=\""+data.idJour+"\">"+
 						"<a class=\"linkDate\" name=\""+$(".particuliere").val()+"\">"+
 						"<i class=\"mesicones icon-trash\"></i>&nbsp;"+
 						"</a>"+$(".particuliere").val()+	
 						"</li>"
-					);						
-				"""),format.raw("""}"""),format.raw/*84.6*/("""
-			"""),format.raw("""}"""),format.raw/*85.5*/(""");	
-		"""),format.raw("""}"""),format.raw/*86.4*/(""")
+					);	
 
-		function ajouterDate(dateText, id) """),format.raw("""{"""),format.raw/*88.39*/("""			
+				"""),format.raw("""}"""),format.raw/*88.6*/("""
+			"""),format.raw("""}"""),format.raw/*89.5*/(""");	
+		"""),format.raw("""}"""),format.raw/*90.4*/(""")
+
+		function ajouterDate(dateText, id) """),format.raw("""{"""),format.raw/*92.39*/("""			
 			var d = new Date(dateText);		
 			var date = d.toLocaleDateString();
 			$("#altField").append(
 				"<li id=\""+id+"\">"+
-				"<a class=\"linkDate\" name=\""+dateText+"\">"+
+				"<a class=\"linkDate datepicker\" name=\""+dateText+"\">"+
 				"<i class=\"mesicones icon-trash\"></i>&nbsp;"+
 				"</a>"+date+	
 				"</li>"
 			);
-		"""),format.raw("""}"""),format.raw/*98.4*/("""	
+		"""),format.raw("""}"""),format.raw/*102.4*/("""	
 
-		$('.linkDate').live('click', function(e) """),format.raw("""{"""),format.raw/*100.45*/("""	
-			$("#date").multiDatesPicker('removeDates', $(this).attr("name")); //enleve la date dans l'affichage du datepicker
+		$('.linkDate').live('click', function(e) """),format.raw("""{"""),format.raw/*104.45*/("""	
+			if ($(this).hasClass("datepicker")) """),format.raw("""{"""),format.raw/*105.41*/("""
+				$("#date").multiDatesPicker('removeDates', $(this).attr("name")); //enleve la date dans l'affichage du datepicker
+			"""),format.raw("""}"""),format.raw/*107.5*/("""
 			$(this).parent().remove();
 
 			/*SUPPRESSION DE DATE*/			
-			$.ajax("""),format.raw("""{"""),format.raw/*105.12*/("""
+			$.ajax("""),format.raw("""{"""),format.raw/*111.12*/("""
 				type: "POST",
-				url: """"),_display_(Seq[Any](/*107.12*/routes/*107.18*/.Application.removeDate(id))),format.raw/*107.45*/("""",
-				data: '"""),format.raw("""{"""),format.raw/*108.13*/(""""idDate" : "' + $(this).parent().attr("id") + '""""),format.raw("""}"""),format.raw/*108.62*/("""',
+				url: """"),_display_(Seq[Any](/*113.12*/routes/*113.18*/.Application.removeDate(id))),format.raw/*113.45*/("""",
+				data: '"""),format.raw("""{"""),format.raw/*114.13*/(""""idDate" : "' + $(this).parent().attr("id") + '""""),format.raw("""}"""),format.raw/*114.62*/("""',
 				contentType: "application/json",
-				success : function(data) """),format.raw("""{"""),format.raw/*110.31*/("""
+				success : function(data) """),format.raw("""{"""),format.raw/*116.31*/("""
 					
-				"""),format.raw("""}"""),format.raw/*112.6*/("""
-			"""),format.raw("""}"""),format.raw/*113.5*/(""");	
+				"""),format.raw("""}"""),format.raw/*118.6*/("""
+			"""),format.raw("""}"""),format.raw/*119.5*/(""");	
 
-		"""),format.raw("""}"""),format.raw/*115.4*/(""");
+		"""),format.raw("""}"""),format.raw/*121.4*/(""");
 
 	</script>
     
@@ -158,11 +164,11 @@ Seq[Any](format.raw/*1.58*/("""
 }
                 /*
                     -- GENERATED --
-                    DATE: Mon Jul 09 09:09:39 CEST 2012
+                    DATE: Mon Jul 16 10:20:04 CEST 2012
                     SOURCE: C:/tutoPlay/KIND/app/views/dateselection.scala.html
-                    HASH: 69613a43cea319a594d16d7c65c82286d1284f53
-                    MATRIX: 787->1|928->78|960->102|1044->57|1072->76|1100->156|1138->160|1176->190|1215->192|1374->315|1388->320|1416->326|1780->654|1795->660|1854->697|2009->805|2181->930|2263->965|2564->1219|2627->1235|2699->1271|2714->1277|2760->1301|2825->1319|2900->1347|3023->1423|3136->1490|3190->1498|3246->1508|3300->1515|3367->1535|3439->1571|3454->1577|3503->1604|3568->1622|3678->1685|3801->1761|3865->1779|3919->1787|4022->1844|4075->1851|4126->1856|4178->1862|4278->1915|4337->1927|4403->1957|4418->1963|4464->1987|4526->2002|4617->2046|4734->2116|5054->2390|5105->2395|5158->2402|5246->2443|5562->2713|5657->2760|5896->2951|5963->2981|5979->2987|6029->3014|6092->3029|6189->3078|6307->3148|6366->3160|6418->3165|6473->3173
-                    LINES: 27->1|30->5|30->5|31->1|33->4|34->5|37->8|37->8|37->8|41->12|41->12|41->12|54->25|54->25|54->25|60->31|66->37|67->38|73->44|74->45|76->47|76->47|76->47|77->48|77->48|79->50|81->52|82->53|83->54|83->54|84->55|86->57|86->57|86->57|87->58|87->58|89->60|91->62|92->63|94->65|95->66|96->67|97->68|99->70|100->71|102->73|102->73|102->73|103->74|103->74|105->76|113->84|114->85|115->86|117->88|127->98|129->100|134->105|136->107|136->107|136->107|137->108|137->108|139->110|141->112|142->113|144->115
+                    HASH: abc9accfec8919447d65ac2f8e3bf25306e3b5cf
+                    MATRIX: 787->1|928->78|960->102|1044->57|1072->76|1100->156|1138->160|1176->190|1215->192|1374->315|1388->320|1416->326|1780->654|1795->660|1854->697|2009->805|2183->932|2265->967|2586->1241|2649->1257|2721->1293|2736->1299|2782->1323|2847->1341|2922->1369|3045->1445|3158->1512|3212->1520|3268->1530|3322->1537|3389->1557|3461->1593|3476->1599|3525->1626|3590->1644|3700->1707|3823->1783|3887->1801|3941->1809|4044->1866|4097->1873|4148->1878|4200->1884|4300->1937|4359->1949|4425->1979|4440->1985|4486->2009|4548->2024|4639->2068|4756->2138|5072->2408|5123->2413|5176->2420|5264->2461|5592->2742|5687->2789|5777->2831|5947->2954|6068->3027|6135->3057|6151->3063|6201->3090|6264->3105|6361->3154|6479->3224|6538->3236|6590->3241|6645->3249
+                    LINES: 27->1|30->5|30->5|31->1|33->4|34->5|37->8|37->8|37->8|41->12|41->12|41->12|54->25|54->25|54->25|60->31|68->39|69->40|76->47|77->48|79->50|79->50|79->50|80->51|80->51|82->53|84->55|85->56|86->57|86->57|87->58|89->60|89->60|89->60|90->61|90->61|92->63|94->65|95->66|97->68|98->69|99->70|100->71|102->73|103->74|105->76|105->76|105->76|106->77|106->77|108->79|117->88|118->89|119->90|121->92|131->102|133->104|134->105|136->107|140->111|142->113|142->113|142->113|143->114|143->114|145->116|147->118|148->119|150->121
                     -- GENERATED --
                 */
             

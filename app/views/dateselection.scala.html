@@ -30,6 +30,8 @@
 
 		$(function(){
 
+
+
 			$( "#date" ).multiDatesPicker();
 
 			$( "#date" ).datepicker( "option", "minDate", 0);
@@ -38,6 +40,7 @@
 				onSelect: function(date) {
 					$( "#date" ).datepicker( "option", "minDate", 0);
 					var selectionType = $.inArray(date, $( "#date" ).multiDatesPicker('getDates'));
+					//alert(date);
 					var d = new Date(date);		
 					var dateText = d.toLocaleDateString();	
 					
@@ -80,7 +83,8 @@
 						"<i class=\"mesicones icon-trash\"></i>&nbsp;"+
 						"</a>"+$(".particuliere").val()+	
 						"</li>"
-					);						
+					);	
+
 				}
 			});	
 		})
@@ -90,7 +94,7 @@
 			var date = d.toLocaleDateString();
 			$("#altField").append(
 				"<li id=\""+id+"\">"+
-				"<a class=\"linkDate\" name=\""+dateText+"\">"+
+				"<a class=\"linkDate datepicker\" name=\""+dateText+"\">"+
 				"<i class=\"mesicones icon-trash\"></i>&nbsp;"+
 				"</a>"+date+	
 				"</li>"
@@ -98,7 +102,9 @@
 		}	
 
 		$('.linkDate').live('click', function(e) {	
-			$("#date").multiDatesPicker('removeDates', $(this).attr("name")); //enleve la date dans l'affichage du datepicker
+			if ($(this).hasClass("datepicker")) {
+				$("#date").multiDatesPicker('removeDates', $(this).attr("name")); //enleve la date dans l'affichage du datepicker
+			}
 			$(this).parent().remove();
 
 			/*SUPPRESSION DE DATE*/			

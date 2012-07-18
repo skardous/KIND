@@ -17,7 +17,7 @@
 	Description : <i>@event.descriptif</i> <br/>	
 	}			
 	
-	<a class="btn btn-danger" href="@routes.Application.deleteEvent(event.id)">Supprimer l'evenement</a>
+	<!--<a class="btn btn-danger" href="@routes.Application.deleteEvent(event.id)">Supprimer l'evenement</a>-->
 	
 	<table class="datesTable" cellspacing="5" cellpadding="5">
 		<tbody>
@@ -117,24 +117,89 @@
 	<a id="envoiLien" disabled="true" class="btn btn-primary">Envoyer Lien</a>
 	</div>
 
+	<div id="dialog-new-pwd" title="Créez le mot de passe">		
+
+		<form>
+		<fieldset>			
+			<label for="password">Mot de passe créé :</label>
+			<input type="password" name="password" id="password-new" value="" class="text ui-widget-content ui-corner-all" />
+		</fieldset>
+		</form>
+	</div>
+
+	<div id="dialog-question-securise" title="Créez le mot de passe">		
+
+		<form>
+		<fieldset>			
+			<label>Sécuriser les informations de ce participant avec un mot de passe ?</label>
+			
+		</fieldset>
+		</form>
+	</div>
+
+	<div id="dialog-check-pwd" title="Entrez le mot de passe pour ce participant">		
+
+				
+			<label for="password">Mot de passe du participant :</label>
+			<input type="password" name="password" id="password-check" value="" class="text ui-widget-content ui-corner-all" />
+		
+	</div>
+
+	<!--<script type="text/javascript" src="@routes.Assets.at("javascripts/sendMail.js")"></script>  -->
+	<!--<script type="text/javascript" src="@routes.Assets.at("javascripts/editPersonne.js")"></script> -->
+
 	<script type="text/javascript" charset="utf-8">
 	
 	var color1 = "#FFFF99";
 	var color2 = "gold";
 	var color3 = "steelblue";
+	var mdp = "";
 
-	$("table.datesTable td").css("background-color", color3);
 
-	$("#mailsArea").live("keyup", function() {
-		if (bonmail($(this).val())) {
+
+	/*Code concernant les mails et l'envoi*/
+
+	$(function(){
+		if (bonmail($("#mailsArea").val())) {
 			$(".checkmail").attr("class", "checkmail mesicones icon-ok");
 			$("#envoiLien").removeAttr("disabled");
 		} else {
 			$(".checkmail").attr("class", "checkmail mesicones icon-remove");
 			$("#envoiLien").attr("disabled", "true");
 		}
-	})
+	});
 
+	$('#envoiLien').live('click', function(e) {
+
+		if ($(this).attr("disabled") != "disabled") {
+			var mailsList = $("#mailsArea").val();
+
+			$.ajax({
+				type: "POST",
+				url: "@routes.Application.sendMail(event.id)",
+				data: '{"mailslist" : "' + mailsList + '"}',
+				contentType: "application/json",
+				success : function(data) {
+					alert("Mail(s) envoye(s) a "+mailsList);
+				}
+			});
+		}
+	});
+
+
+	$("#mailsArea").live("keyup", function() {
+
+		if (bonmail($(this).val())) {
+			
+			$(".checkmail").attr("class", "checkmail mesicones icon-ok");
+			$("#envoiLien").removeAttr("disabled");
+		} else {
+			
+			$(".checkmail").attr("class", "checkmail mesicones icon-remove");
+			$("#envoiLien").attr("disabled", "true");
+		}
+	})
+	
 	function bonmail(mailtest)
 	{
 		var reg = new RegExp('^([a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*@@[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6}){1}(\,[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*@@[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6})*$', 'i');
@@ -149,35 +214,26 @@
 		}
 	}
 
-	$(function(){ //Lancé au chargement/rafraichissement de la page	
-		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/*Code de style*/
+
+	$(function(){
+		$("table.datesTable td").css("background-color", color3);
 		$(".checkbox").attr("disabled", "true"); 
-
-		refreshObligatoire(); 
-		
-
-		$(".obligatoirecb").live("click", function() { //click sur la cherckbox "obligatoire" : mise à jour des classes sur la ligne, ajout de la propriété obligatoire dans la bdd
-			
-			var idParticipant = $(this).parent().parent().parent().attr("id");
-			if ($(this).html() == "Obligatoire") {
-				$(this).html("Facultatif");
-				$(this).attr("class", "obligatoirecb btn");
-			} else {
-				$(this).html("Obligatoire");
-				$(this).attr("class", "obligatoirecb btn btn-inverse");
-			}
-			$.ajax({
-				type: "POST",
-				url: "@routes.Application.changeObligatoire(event.id)",
-				data: '{"idpersonne" : "' + idParticipant + '"}',
-				contentType: "application/json",
-				success : function(data) {
-				  affichagePopulaire();
-				}
-	   		});
-	   		refreshObligatoire();
-
-		})
 
 		$('.checkbox').each(function (i) { // coloration des box checkées
 		  	if ($(this).is(':checked')){
@@ -186,103 +242,20 @@
 		});
 
 		$('.infoPersonne').each(function (i) {
-		  	$('.titres').attr('style','');
+			$('.titres').attr('style','');
 		});
 
 		refreshCount(); // maj de la ligne de compteurs
 
 		affichagePopulaire(); // maj des surbrillances
-	  
-	});
-	
+	})
+
 	$("textarea").live('click', function(e) {
 		$(this).html("");
 		$(this).removeAttr("style");
 	})
 
-
-	$('#envoiLien').live('click', function(e) {
-
-		if ($(this).attr("disabled") != "disabled") {
-		  	var mailsList = $("#mailsArea").val();
-		  
-			$.ajax({
-				type: "POST",
-				url: "@routes.Application.sendMail(event.id)",
-				data: '{"mailslist" : "' + mailsList + '"}',
-				contentType: "application/json",
-				success : function(data) {
-				  alert("Mail(s) envoye(s) a "+mailsList);
-				}
-		   });
-		}
-	});
-		  
-		  
-	$('.deletePersonne').live('click', function(e) {    
-	    $(this).parent().parent().parent().remove();
-	    
-	    
-	    deletePersonne($(this).attr('id'));
-	    if($('td[class="infoPersonne"]').html() == null) {
-	    	$('.titres').attr('style','display:none');
-	    }
-	    $('#compte').children('td[id!=""]').each(function(i) {$(this).html("0")});
-
-	    refreshCount();
-	    
-	})
-
-	$('.editPersonne').live('click', function(e) {
-		
-	    if(!$(this).parents("tr").hasClass("editable"))  {	    	
-	    	if ($(this).siblings("i").hasClass("icon-lock")){
-				var pass = prompt('Entrez votre mot de passe','Mot_de_passe');
-				var thisse = $(this);
-				$.ajax({
-					type: "POST",
-					url: "@routes.Application.getPass()",
-					data: '{ "idpers" : "'+$(this).parents("tr").attr("id")+'" }',
-					contentType: "application/json",
-					success : function(data) {
-					  if (pass == data.pass) {
-					  	edition(thisse);
-					  } else {
-					  	alert("mot de passe incorrect");
-					  }
-					}
-			   });
-			} else {
-				edition($(this));
-			}
-		  
-	    } else {
-	      $(this).html("<i class=\"mesicones icon-pencil\"></i>");
-	      $(this).parents("tr").removeClass("editable");
-	      $(this).siblings('input[type="text"]').attr("readonly", "readonly");
-	      $(this).parent().parent().parent().children("td").children('input[type="checkbox"]').attr("disabled","true"); 
-	      $(this).parent().parent().parent().children("td").css("border", "none");
-	      $(".hoverable").off();	      
-	      $(this).parent().parent().parent().children(".checktd").attr("class", "checktd");
-	      refreshHoverable();
-	      editPersonne($(this).attr('id'), $(this).siblings("input").attr("value"));
-	    }
-	
-	  
-	})
-
-	function edition(elem) {
-		elem.html("<i class=\"mesicones icon-ok\"></i>");
-		elem.parents("tr").addClass("editable");
-		elem.siblings('input[type="text"]').removeAttr("readonly");
-		elem.parent().parent().parent().children("td").children().removeAttr("disabled");
-		elem.parent().parent().parent().children("td").css("border", "solid black 2px");
-		$(".hoverable").off();		  
-		elem.parent().parent().parent().children(".checktd").attr("class", "checktd hoverable");
-		refreshHoverable();
-	}
-	
-	function refreshHoverable() {
+	function refreshHoverable() { //coloration des cases quand on passe la souris dessus
 		
 		$(".hoverable").on({
 
@@ -301,62 +274,9 @@
 
 	}
 
-	function refreshObligatoire() {
-		$(".checktd").removeClass("obligatoire");
-		$(".checkbox").removeClass("obligatoire");
-			$(".obligatoirecb").each(function () {
-				//alert("test");
-				//alert($(this).parent().parent().siblings(".checktd").html());
-				if($(this).html() == "Obligatoire") {					
-					$(this).parent().parent().siblings(".checktd").addClass("obligatoire");
-					$(this).parent().parent().siblings(".checktd").children().addClass("obligatoire");
-				}
+	
 
-			})
-	}
-
-	$("#ajouter").live('click', function(e){
-		
-
-	    var vide = "";	    
-	    var nom = $.trim($("#champ").attr("value"));
-	    if (nom != vide) {  
-	    	var s;
-		    var answer = confirm ("Voulez-vous sécuriser vos informations?");
-			if (answer) {
-		    	s=prompt('Entrez votre mot de passe','Mot_de_passe');
-		    	addPersonne($.trim(nom), "true", s);	    
-		    } else {
-		    	addPersonne($.trim(nom), "false", "");
-		    }    
-						
-		}
-
-	    	    
-	});
-
-	$("#champ").keypress(function(e) {
-		var code = (e.keyCode ? e.keyCode : e.which);
-		if(code == 13) { //Enter keycode
-			var vide = "";	    
-		    var nom = $.trim($("#champ").attr("value"));
-		    if (nom != vide) {  
-		    	var s;
-			    var answer = confirm ("Voulez-vous sécuriser vos informations?");
-				if (answer) {
-			    	s=prompt('Entrez votre mot de passe','Mot_de_passe');
-			    	addPersonne($.trim(nom), "true", s);	    
-			    } else {
-			    	addPersonne($.trim(nom), "false", "");
-			    }    
-							
-			}
-			$("#champ").focus();
- 		}
-
-	});
-
-	function refreshCount() {
+	function refreshCount() { // met à jour l'affichage du compte des participants par horaire
 		$('input[type="checkbox"].horaire.checkbox').each(function(i) {
 			var iden = $(this).attr('id');
 			
@@ -378,31 +298,132 @@
 		});
 	}
 
-	function editPersonne(personneId, personneNom)
-	{
-	  $.ajax({
-			type: "POST",
-			url: "@routes.Application.updatePersonne(event.id)",
-			data: '{"id" : "' + personneId + '", "nom" : "' + personneNom + '"}',
-			contentType: "application/json",
-			success : function(data) {
-			  //alert("Participant edit\351");
-			}
-	  });
-	}
+	
 
-	function deletePersonne(persId)
-	{
-	  $.ajax({
-			type: "POST",
-			url: "@routes.Application.deleteParticipant(event.id)",
-			data: '{"id" : "' + persId + '"}',
-			contentType: "application/json",
-			success : function(data) {
-			  //alert("Participant supprim\351");
-			}
-	  });
-	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/*Code sur les mots de passe*/
+
+	$( "#dialog:ui-dialog" ).dialog( "destroy" ); 
+		
+	
+	var pass = "";
+	var goodPass = "";
+	var currentEditButton;
+
+	$( "#dialog-question-securise" ).dialog({  // boite de dialogue personnalisée
+		autoOpen: false,
+		height: 200,
+		width: 275,
+		modal: true,
+		buttons: {
+			"Oui": function() {				    	
+			    $( "#dialog-new-pwd" ).dialog( "open" );  
+			    $( this ).dialog( "close" );
+			},
+			"Non": function() {
+				addPersonne($.trim($("#champ").attr("value")), "false", "");
+				$( this ).dialog( "close" );
+			}				
+		},
+		
+	});
+			
+	
+	$( "#dialog-new-pwd" ).dialog({  // boite de dialogue personnalisée
+		autoOpen: false,
+		height: 200,
+		width: 275,
+		modal: true,
+		buttons: {
+			"OK": function() {
+				var bValid = true;									
+
+				if ( bValid ) {
+					mdp = $("#password-new").val();
+					addPersonne($.trim($("#champ").attr("value")), "true", mdp);
+					$( "#password-new" ).attr("value", "");
+					$( this ).dialog( "close" );
+				}
+			}				
+		},
+		
+	});
+
+	$( "#dialog-check-pwd" ).dialog({  // boite de dialogue personnalisée
+		autoOpen: false,
+		height: 200,
+		width: 275,
+		modal: true,
+		buttons: {
+			"OK": function() {				
+								
+				pass = $("#password-check").val();	
+				if (pass == goodPass) {
+				  	edition(currentEditButton);
+				} else {
+				  	alert("mot de passe incorrect");
+				}				
+				$( "#password-check" ).attr("value", "");
+				$( this ).dialog( "close" );
+				
+			},
+
+			"Annuler": function() {							
+				$( this ).dialog( "close" );				
+			}				
+		},
+		
+	});
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/*Code sur l'ajout*/
 
 	function addPersonne(nomParticipant, locked, pwd)
 	{	
@@ -439,6 +460,116 @@
 		});
 	}
 
+	$("#ajouter").live('click', function(e){
+		
+
+	    var vide = "";	    
+	    var nom = $("#champ").attr("value");
+	    if (nom != vide) {  
+	    	$( "#dialog-question-securise" ).dialog( "open" );	
+	    	
+						
+		}
+
+	    	    
+	});
+
+	$("#champ").keypress(function(e) {
+		var code = (e.keyCode ? e.keyCode : e.which);
+		if(code == 13) { //Enter keycode
+			var vide = "";	    
+		    var nom = $.trim($("#champ").attr("value"));
+		    if (nom != vide) {  
+		    	$( "#dialog-question-securise" ).dialog( "open" );	
+							
+			}
+			$("#champ").focus();
+ 		}
+
+	});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/*Code sur l'édition*/
+
+	$('.editPersonne').live('click', function(e) {
+		
+	    if(!$(this).parents("tr").hasClass("editable"))  {	    	
+	    	if ($(this).siblings("i").hasClass("icon-lock")){
+	    		currentEditButton = $(this);
+	    		$.ajax({
+					type: "POST",
+					url: "@routes.Application.getPass()",
+					data: '{ "idpers" : "'+$(this).parents("tr").attr("id")+'" }',
+					contentType: "application/json",
+					success : function(data) {
+						goodPass = data.pass;
+
+						$( "#dialog-check-pwd" ).dialog( "open" );	
+											  
+					}
+			   });			
+				
+			} else {
+				edition($(this));
+			}
+		  
+	    } else {
+	      $(this).html("<i class=\"mesicones icon-pencil\"></i>");
+	      $(this).parents("tr").removeClass("editable");
+	      $(this).siblings('input[type="text"]').attr("readonly", "readonly");
+	      $(this).parent().parent().parent().children("td").children('input[type="checkbox"]').attr("disabled","true"); 
+	      $(this).parent().parent().parent().children("td").css("border", "none");
+	      $(".hoverable").off();	      
+	      $(this).parent().parent().parent().children(".checktd").attr("class", "checktd");
+	      refreshHoverable();
+	      editPersonne($(this).attr('id'), $(this).siblings("input").attr("value"));
+	    }
+	
+	  
+	})
+
+	function edition(elem) {
+		elem.html("<i class=\"mesicones icon-ok\"></i>");
+		elem.parents("tr").addClass("editable");
+		elem.siblings('input[type="text"]').removeAttr("readonly");
+		elem.parent().parent().parent().children("td").children().removeAttr("disabled");
+		elem.parent().parent().parent().children("td").css("border", "solid black 2px");
+		$(".hoverable").off();		  
+		elem.parent().parent().parent().children(".checktd").attr("class", "checktd hoverable");
+		refreshHoverable();
+	}
+
+	function editPersonne(personneId, personneNom)
+	{
+	  $.ajax({
+			type: "POST",
+			url: "@routes.Application.updatePersonne(event.id)",
+			data: '{"id" : "' + personneId + '", "nom" : "' + personneNom + '"}',
+			contentType: "application/json",
+			success : function(data) {
+			  //alert("Participant edit\351");
+			}
+	  });
+	}
 
 	$('.checktd').live('click', function(e) {
 		if ($(this).children().prop("disabled") == false) {
@@ -464,50 +595,8 @@
 			})			
 		}
 	});
-	
-	function affichagePopulaire() {
-		var max = 0;
-		$("#compte").children(".horaire, .jour").each( function() { // récupération de la valeur maximale dans les comptes
-			$(this).css("background-color", color1) 
-			$('.titres').children().css("background-color",color1);
-			//$('.footer').html("");
-			if (checkobligatoire($(this).attr("id"), $(this).attr("class"))) {			
-				if ($(this).html() > max) {			
-					max = $(this).html();
-				}
-			}		
-		})
-		$("#compte").children().each( function() {
-			
-			if ($(this).html() == max && $(this).html() != 0 && checkobligatoire($(this).attr("id"), $(this).attr("class"))) {			
-				$(this).css("background-color", color2);
-				//alert("classe : "+$(this).attr("class")+" id : "+$(this).attr("id"));
-				$('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').css("background-color", color2);
-				if($(this).attr("class") == "horaire") {
-					var day = $('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').attr("day");				
-					$("td:contains('"+day+"')").css("background-color", color2);
-					
-				}
-			}
-		})
-	}
-	
-	function checkobligatoire(idtime, type) {//fonction qui renvoie true si tous les participants obligatoires sont présents.
-		//alert(idtime);
-		var ret = true;
-		//alert("type :"+type + " " + idtime)
-		$('.obligatoire.'+type+'[id="'+idtime+'"]').each(function() {			
-			if(!($(this).is(":checked"))) {
-				//alert("id:"+$(this).attr("id"));
-				ret = false;
-			}
-		})
-		return ret;
-	}
- 
 
-
-	function changeCheck(box) {   
+	function changeCheck(box) {   // gestion des clics sur les checkboxes
 	   var idtime = box.attr('id');
 	   var idParticipant = box.parent().parent().attr('id');   
 	   
@@ -539,7 +628,7 @@
 	   }
 	}
 
-	function requeteAjaxJour(idtime, idParticipant)
+	function requeteAjaxJour(idtime, idParticipant) // ajoute la date au participant
 	{
 	  $.ajax({
 			type: "POST",
@@ -552,7 +641,7 @@
 	   });
 	}
 
-	function requeteAjaxHeure(idtime, idParticipant)
+	function requeteAjaxHeure(idtime, idParticipant) // ajoute l'heure au participant
 	{
 	  $.ajax({
 			type: "POST",
@@ -567,6 +656,182 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/*Code sur la suppression*/
+
+	$('.deletePersonne').live('click', function(e) {    
+	    $(this).parent().parent().parent().remove();
+	    
+	    
+	    deletePersonne($(this).attr('id'));
+	    if($('td[class="infoPersonne"]').html() == null) {
+	    	$('.titres').attr('style','display:none');
+	    }
+	    $('#compte').children('td[id!=""]').each(function(i) {$(this).html("0")});
+
+	    refreshCount();
+	    
+	})
+
+	function deletePersonne(persId)
+	{
+	  $.ajax({
+			type: "POST",
+			url: "@routes.Application.deleteParticipant(event.id)",
+			data: '{"id" : "' + persId + '"}',
+			contentType: "application/json",
+			success : function(data) {
+			  //alert("Participant supprim\351");
+			}
+	  });
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/*Code sur les participants obligatoires*/
+	$(function(){
+		refreshObligatoire(); 
+		affichagePopulaire();
+		
+	})	
+
+	$(".obligatoirecb").live("click", function() { //click sur la checkbox "obligatoire" : mise à jour des classes sur la ligne, ajout de la propriété obligatoire dans la bdd
+			
+			var idParticipant = $(this).parent().parent().parent().attr("id");
+			if ($(this).html() == "Obligatoire") {
+				$(this).html("Facultatif");
+				$(this).attr("class", "obligatoirecb btn");
+			} else {
+				$(this).html("Obligatoire");
+				$(this).attr("class", "obligatoirecb btn btn-inverse");
+			}
+			$.ajax({
+				type: "POST",
+				url: "@routes.Application.changeObligatoire(event.id)",
+				data: '{"idpersonne" : "' + idParticipant + '"}',
+				contentType: "application/json",
+				success : function(data) {
+				  affichagePopulaire();
+				}
+	   		});
+	   		refreshObligatoire();
+
+		})
+
+	function checkobligatoire(idtime, type) {//fonction qui renvoie true si tous les participants obligatoires sont présents.
+		//alert(idtime);
+		var ret = true;
+		//alert("type :"+type + " " + idtime)
+		$('.obligatoire.'+type+'[id="'+idtime+'"]').each(function() {			
+			if(!($(this).is(":checked"))) {
+				//alert("id:"+$(this).attr("id"));
+				ret = false;
+			}
+		})
+		return ret;
+	}
+
+	function refreshObligatoire() { // met à jour les classes "obligatoire" sur les bonnes lignes de participants
+		$(".checktd").removeClass("obligatoire");
+		$(".checkbox").removeClass("obligatoire");
+		$(".obligatoirecb").each(function () {
+			//alert("test");
+			//alert($(this).parent().parent().siblings(".checktd").html());
+			if($(this).html() == "Obligatoire") {					
+				$(this).parent().parent().siblings(".checktd").addClass("obligatoire");
+				$(this).parent().parent().siblings(".checktd").children().addClass("obligatoire");
+			}
+
+		})
+	}
+
+
+
+
+
+
+
+
+	
+	
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+	
+	/*Code d'affichage des dates populaires*/
+	function affichagePopulaire() {
+		var max = 0;
+		$("#compte").children(".horaire, .jour").each( function() { // récupération de la valeur maximale dans les comptes
+			$(this).css("background-color", color1) 
+			$('.titres').children().css("background-color",color1);
+			//$('.footer').html("");
+			if (checkobligatoire($(this).attr("id"), $(this).attr("class"))) {			
+				if ($(this).html() > max) {			
+					max = $(this).html();
+				}
+			}		
+		})
+		$("#compte").children().each( function() {
+			
+			if ($(this).html() == max && $(this).html() != 0 && checkobligatoire($(this).attr("id"), $(this).attr("class"))) {			
+				$(this).css("background-color", color2);
+				//alert("classe : "+$(this).attr("class")+" id : "+$(this).attr("id"));
+				$('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').css("background-color", color2);
+				if($(this).attr("class") == "horaire") {
+					var day = $('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').attr("day");				
+					$("td:contains('"+day+"')").css("background-color", color2);
+					
+				}
+			}
+		})
+	}
 	</script>
 
 }

@@ -45,9 +45,11 @@ Seq[Any](format.raw/*1.32*/("""
         <link rel='stylesheet' type='text/css' href=""""),_display_(Seq[Any](/*16.55*/routes/*16.61*/.Assets.at("stylesheets/fullcalendar.print.css"))),format.raw/*16.109*/("""" media='print' >
     		<script type="text/javascript" src=""""),_display_(Seq[Any](/*17.44*/routes/*17.50*/.Assets.at("javascripts/jquery-1.3.2.min.js"))),format.raw/*17.95*/(""""></script>
     		<script type="text/javascript" src=""""),_display_(Seq[Any](/*18.44*/routes/*18.50*/.Assets.at("javascripts/jquery-ui-1.7.3.custom.min.js"))),format.raw/*18.105*/(""""></script>
-    		<script type="text/javascript" src=""""),_display_(Seq[Any](/*19.44*/routes/*19.50*/.Assets.at("javascripts/jquery-ui.multidatespicker.js"))),format.raw/*19.105*/(""""></script>
-    		<script type="text/javascript" src=""""),_display_(Seq[Any](/*20.44*/routes/*20.50*/.Assets.at("javascripts/eventForm.js"))),format.raw/*20.88*/(""""></script>    
-        <script type="text/javascript" src=""""),_display_(Seq[Any](/*21.46*/routes/*21.52*/.Assets.at("javascripts/fullcalendar/fullcalendar.js"))),format.raw/*21.106*/(""""></script>  
+        <script type="text/javascript" src=""""),_display_(Seq[Any](/*19.46*/routes/*19.52*/.Assets.at("javascripts/jquery.ui.datepicker-fr.js"))),format.raw/*19.104*/(""""></script>
+    		<script type="text/javascript" src=""""),_display_(Seq[Any](/*20.44*/routes/*20.50*/.Assets.at("javascripts/jquery-ui.multidatespicker.js"))),format.raw/*20.105*/(""""></script>
+    		<script type="text/javascript" src=""""),_display_(Seq[Any](/*21.44*/routes/*21.50*/.Assets.at("javascripts/eventForm.js"))),format.raw/*21.88*/(""""></script>    
+        <script type="text/javascript" src=""""),_display_(Seq[Any](/*22.46*/routes/*22.52*/.Assets.at("javascripts/fullcalendar/fullcalendar.js"))),format.raw/*22.106*/(""""></script>  
+
   </head>
     
     
@@ -59,15 +61,15 @@ Seq[Any](format.raw/*1.32*/("""
       <div class="navbar-inner">
         <div class="container">
          <ul class="nav">
-          <li><a href=""""),_display_(Seq[Any](/*33.25*/routes/*33.31*/.Application.index())),format.raw/*33.51*/("""">Accueil</a></li>
-          <li><a href=""""),_display_(Seq[Any](/*34.25*/routes/*34.31*/.Application.events())),format.raw/*34.52*/("""">Creer un evenement</a></li>
-          <!--<li><a href=""""),_display_(Seq[Any](/*35.29*/routes/*35.35*/.Application.eventlist())),format.raw/*35.59*/("""">Liste des evenements</a></li>-->
+          <li><a href=""""),_display_(Seq[Any](/*35.25*/routes/*35.31*/.Application.index())),format.raw/*35.51*/("""">Accueil</a></li>
+          <li><a href=""""),_display_(Seq[Any](/*36.25*/routes/*36.31*/.Application.events())),format.raw/*36.52*/("""">Créer un événement</a></li>
+          <!--<li><a href=""""),_display_(Seq[Any](/*37.29*/routes/*37.35*/.Application.eventlist())),format.raw/*37.59*/("""">Liste des evenements</a></li>-->
          </ul>			  
        </div>
      </div>	
    </div>
    
-      """),_display_(Seq[Any](/*41.8*/content)),format.raw/*41.15*/("""
+      """),_display_(Seq[Any](/*43.8*/content)),format.raw/*43.15*/("""
 
  </body>
 </html>
@@ -83,11 +85,11 @@ Seq[Any](format.raw/*1.32*/("""
 }
                 /*
                     -- GENERATED --
-                    DATE: Mon Jul 16 08:27:31 CEST 2012
+                    DATE: Mon Jul 16 09:38:31 CEST 2012
                     SOURCE: C:/tutoPlay/KIND/app/views/main.scala.html
-                    HASH: 117a91520021ae3d69a805c9e00f92db975527ea
-                    MATRIX: 759->1|899->31|927->67|1014->118|1041->123|1144->190|1159->196|1213->228|1290->269|1305->275|1393->340|1504->415|1519->421|1623->502|1716->559|1731->565|1787->599|1880->656|1895->662|1960->704|2054->762|2069->768|2140->816|2237->877|2252->883|2319->928|2410->983|2425->989|2503->1044|2594->1099|2609->1105|2687->1160|2778->1215|2793->1221|2853->1259|2950->1320|2965->1326|3042->1380|3267->1569|3282->1575|3324->1595|3403->1638|3418->1644|3461->1665|3555->1723|3570->1729|3616->1753|3754->1856|3783->1863
-                    LINES: 27->1|31->1|33->4|39->10|39->10|40->11|40->11|40->11|41->12|41->12|41->12|42->13|42->13|42->13|43->14|43->14|43->14|44->15|44->15|44->15|45->16|45->16|45->16|46->17|46->17|46->17|47->18|47->18|47->18|48->19|48->19|48->19|49->20|49->20|49->20|50->21|50->21|50->21|62->33|62->33|62->33|63->34|63->34|63->34|64->35|64->35|64->35|70->41|70->41
+                    HASH: 2d9673561ef2dbcd8b4a2071fbba4e5f96d06da1
+                    MATRIX: 759->1|899->31|927->67|1014->118|1041->123|1144->190|1159->196|1213->228|1290->269|1305->275|1393->340|1504->415|1519->421|1623->502|1716->559|1731->565|1787->599|1880->656|1895->662|1960->704|2054->762|2069->768|2140->816|2237->877|2252->883|2319->928|2410->983|2425->989|2503->1044|2596->1101|2611->1107|2686->1159|2777->1214|2792->1220|2870->1275|2961->1330|2976->1336|3036->1374|3133->1435|3148->1441|3225->1495|3451->1685|3466->1691|3508->1711|3587->1754|3602->1760|3645->1781|3739->1839|3754->1845|3800->1869|3938->1972|3967->1979
+                    LINES: 27->1|31->1|33->4|39->10|39->10|40->11|40->11|40->11|41->12|41->12|41->12|42->13|42->13|42->13|43->14|43->14|43->14|44->15|44->15|44->15|45->16|45->16|45->16|46->17|46->17|46->17|47->18|47->18|47->18|48->19|48->19|48->19|49->20|49->20|49->20|50->21|50->21|50->21|51->22|51->22|51->22|64->35|64->35|64->35|65->36|65->36|65->36|66->37|66->37|66->37|72->43|72->43
                     -- GENERATED --
                 */
             

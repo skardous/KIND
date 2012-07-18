@@ -7,19 +7,19 @@
 
 
 
-@main("Creer un evenement") {
+@main("Créer un événement") {
     
-    <h2>Cr&eacute;er un evenement</h2>
+    <h2>Cr&eacute;er un &eacute;v&eacute;nement</h2>
     
     @form(action = routes.Application.newEvent(), args = 'class -> "form-horizontal") {
         
-        @inputText(eventForm("titre"))         
-        @inputText(eventForm("lieu")) 
-        @textarea(eventForm("descriptif"), 'rows->6)
-        @inputText(eventForm("createur"))
-        @inputText(eventForm("mail"))
+        @inputText(eventForm("titre"), '_label -> "Titre")         
+        @inputText(eventForm("lieu"), '_label -> "Lieu") 
+        @textarea(eventForm("descriptif"), '_label -> "Description", 'rows->6)
+        @inputText(eventForm("createur"), '_label -> "Créateur")
+        @inputText(eventForm("mail"), '_label -> "Email")
         
-        <input type="submit" value="Creer">
+        <input type="submit" value="Créer">
         
     }
     

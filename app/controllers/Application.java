@@ -54,9 +54,7 @@ public class Application extends Controller {
 
 		final String username = "simon.kardous";
 		final String password = "chu76";
-
-
-		System.out.println(password);
+		
 
 		Authenticator authenticator = new Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
@@ -72,9 +70,17 @@ public class Application extends Controller {
 			message.setFrom(new InternetAddress("kind@chu-rouen.fr"));
 			message.setRecipients(Message.RecipientType.TO,
 					InternetAddress.parse(mails));
-			message.setSubject("Invitation a "+e.titre);
-			message.setText("Lien d'invitation,"
-					+ "\n\n http://localhost:9000/eventEdit/"+idevt);
+			message.setSubject("KIND: Invitation à "+e.titre, "iso-8859-1");
+			message.setText(
+					"Bonjour, \n\n"+
+					"Vous avez été invité à noter vos disponibilités pour participer à \""+e.titre+"\".\n"+
+					"Pour répondre, connectez-vous au lien d'invitation suivant depuis un des ordinateurs du CHU:\n"+
+				    "http://localhost:9000/eventEdit/"+idevt+"\n\n"+
+				    "Cordialement, \n"+
+				    "L'équipe KIND"
+				    , "iso-8859-1");
+			message.setHeader("Content-Type", "text/plain;charset=\"iso-8859-1\""); 
+			message.setHeader("Content-Transfert-Encoding", "8bit");
 			transport = session.getTransport();
 			transport.connect(username, password);
 			transport.sendMessage(message, message.getAllRecipients());
@@ -111,7 +117,7 @@ public class Application extends Controller {
 					filledForm));
 		} else {
 			Evenement.create(filledForm.get());
-			System.out.println(filledForm.get().id);
+			System.out.println("id:"+filledForm.get().id);
 			return redirect(routes.Application.dateSelection(filledForm.get().id));
 		}
 	}
@@ -228,8 +234,7 @@ public class Application extends Controller {
 		String date = json.findPath("idDate").getTextValue();
 		Long idDate = Long.valueOf(date);
 
-		Evenement evenement = Evenement.findEvt.byId(id);
-		System.out.println("date enlevee à: " + evenement.titre);
+		Evenement evenement = Evenement.findEvt.byId(id);		
 		Evenement.removeJour(id, idDate);
 		return redirect(routes.Application.eventlist());
 

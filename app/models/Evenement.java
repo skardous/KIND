@@ -93,9 +93,12 @@ public class Evenement extends Model {
 	
 	public static void removeJour(Long eventId, Long idDate) {
 		Evenement evt = Evenement.findEvt.ref(eventId);
+		Jour j = Jour.findJour.ref(idDate);
 		
-		evt.jours.remove(Jour.findJour.ref(idDate));
+		evt.jours.remove(j);
 		evt.saveManyToManyAssociations("jours");		
+
+		j.delete();
 	}
 
 	//Manupilation de Personnes
