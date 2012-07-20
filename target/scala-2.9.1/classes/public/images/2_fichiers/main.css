@@ -1,0 +1,106 @@
+.date_template {
+    display: none;
+}
+
+a:hover {
+	cursor: pointer;
+}
+
+
+
+.delIcon {
+	height: 15px;    
+    width: 15px;
+	float: left;
+    margin: 3px 8px 0 0;
+    background: url("../images/recycle_bin.png");
+    cursor: pointer;
+}
+
+.styleDates {
+	width: 15%;
+	text-align: center;
+	
+	}
+	
+.hidden {
+    display: none;
+}
+
+.populaire {
+	background-color: orange;
+}
+
+table.datesTable td {
+	color: black;
+	text-align: center;	
+	background-color: steelblue;
+	}
+
+
+	
+.selectDate {
+	padding: 6px;
+	border: 1px solid #CCCCCC;
+    border-radius: 10px 10px 10px 10px;
+    width: 25%;
+	}
+	
+.checkbox {
+	display: inline;
+	width: auto;
+	background-color: transparent;
+}	
+
+/*tr.noneditable input.checkbox {
+	display: none; 
+}*/
+
+form {
+	display:inline;
+}
+
+/*table.datesTable tr
+{
+   
+    -moz-transition-property: width, height;
+    
+    
+    -moz-transition-duration: 1s;
+
+    / 
+    
+    
+    width:auto;
+    height:20px;
+    border: 2px solid #000;
+    margin: auto;
+    text-align: center;
+}*/
+
+/* Style lors du passage de la souris
+(= état final). */
+/*table.datesTable tr:hover
+{
+   width:auto;
+   height: 75px;
+   
+}*/
+	
+.navbar {background:#333333;}
+.nav-collapse {width:auto;}
+.nav li {display:inline;}
+.nav li a {padding:10px;display:block;width:auto;float:left;color:#cccccc;}
+.nav li a:hover {color:#ffffff;}
+.nav-pills li a {color:#08C;}
+.nav-pills li a:hover {color:#005580;}
+
+body {		
+		font-size: 14px;
+		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+		}
+
+	#calendar {
+		width: 900px;
+		margin: 0 auto;
+		}

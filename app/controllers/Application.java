@@ -39,13 +39,7 @@ public class Application extends Controller {
 
 	static Form<Evenement> eventForm = form(Evenement.class);
 
-	@BodyParser.Of(BodyParser.Json.class)
-	public static Result sendMail(Long idevt) {		
-
-		JsonNode json = request().body().asJson();
-		String mails = json.findPath("mailslist").getTextValue();	
-		
-		Evenement e = Evenement.findEvt.ref(idevt);
+	public static void sendSpecificMail(String origineMail, String destinataires, String title, String content) {
 		Properties		props	    = new Properties();
 		props.put("mail.transport.protocol", "smtp");
 		props.put("mail.smtp.host", "flaubert");
@@ -67,18 +61,11 @@ public class Application extends Controller {
 		try {
 			Session session = Session.getInstance(props, authenticator);
 			MimeMessage message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("kind@chu-rouen.fr"));
+			message.setFrom(new InternetAddress(origineMail));
 			message.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse(mails));
-			message.setSubject("KIND: Invitation à "+e.titre, "iso-8859-1");
-			message.setText(
-					"Bonjour, \n\n"+
-					"Vous avez été invité à noter vos disponibilités pour participer à \""+e.titre+"\".\n"+
-					"Pour répondre, connectez-vous au lien d'invitation suivant depuis un des ordinateurs du CHU:\n"+
-				    "http://localhost:9000/eventEdit/"+idevt+"\n\n"+
-				    "Cordialement, \n"+
-				    "L'équipe KIND"
-				    , "iso-8859-1");
+					InternetAddress.parse(destinataires));
+			message.setSubject(title, "iso-8859-1");
+			message.setText(content, "iso-8859-1");
 			message.setHeader("Content-Type", "text/plain;charset=\"iso-8859-1\""); 
 			message.setHeader("Content-Transfert-Encoding", "8bit");
 			transport = session.getTransport();
@@ -91,9 +78,30 @@ public class Application extends Controller {
 			if (transport != null) try { transport.close(); } catch (MessagingException logOrIgnore) {}
 		}
 
+	}
 
+	@BodyParser.Of(BodyParser.Json.class)
+	public static Result sendMail(Long idevt) {		
+
+		JsonNode json = request().body().asJson();
+		String mails = json.findPath("mailslist").getTextValue();	
+		
+		Evenement e = Evenement.findEvt.ref(idevt);		
+			
 
 		
+		String origineMail = "kind@chu-rouen.fr";
+		String destinataires = mails;
+		String title = "KIND: Invitation à "+e.titre;
+		String text = "Bonjour, \n\n"+
+					"Vous avez été invité à noter vos disponibilités pour participer à \""+e.titre+"\".\n"+
+					"Pour répondre, connectez-vous au lien d'invitation suivant depuis un des ordinateurs du CHU:\n"+
+				    "http://intranet2:9000/KIND/eventEdit/"+idevt+"\n\n"+
+				    "Cordialement, \n"+
+				    "L'équipe KIND";
+
+		sendSpecificMail(origineMail, destinataires, title, text);	
+
 		return ok(views.html.eventlist.render(Evenement.all()));
 
 	}
@@ -118,6 +126,7 @@ public class Application extends Controller {
 		} else {
 			Evenement.create(filledForm.get());
 			System.out.println("id:"+filledForm.get().id);
+			
 			return redirect(routes.Application.dateSelection(filledForm.get().id));
 		}
 	}

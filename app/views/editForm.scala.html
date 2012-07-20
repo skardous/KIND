@@ -11,7 +11,7 @@
 
 	
 	Titre de l'&eacute;venement : <b>@event.titre</b> <br/>
-	Cr&eacute;ateur : <b>@event.createur</b> <br/>
+	Cr&eacute;ateur : <b>@event.createur</b> @if(event.email != "" && event.email != null) {   Contact : @event.email }<br/>
 
 	@if(event.descriptif != "") {
 	Description : <i>@event.descriptif</i> <br/>	
@@ -111,11 +111,14 @@
 	<br>
 	<h3>Inviter des personnes à l'évenement</h3>
 
-	<div class="selectDate">
+	<div class="selectDate" style="position:relative">
 	<textarea id="mailsArea" title="Adresses email s&eacute;par&eacute;es par une virgule" rows="4" style="color:grey" placeholder="Entrez ici les adresses mail séparées par une virgule ..."></textarea>
 	<i class="checkmail mesicones icon-remove"></i>
 	<a id="envoiLien" disabled="true" class="btn btn-primary">Envoyer Lien</a>
 	</div>
+
+	
+
 
 	<div id="dialog-new-pwd" title="Créez le mot de passe">		
 
@@ -202,7 +205,7 @@
 	
 	function bonmail(mailtest)
 	{
-		var reg = new RegExp('^([a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*@@[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6}){1}(\,[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*@@[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6})*$', 'i');
+		var reg = new RegExp('^([a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*@@[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6}){1}(\,( )*[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*@@[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6})*$', 'i');
 
 		if(reg.test(mailtest))
 		{
@@ -213,6 +216,11 @@
 			return(false);
 		}
 	}
+
+
+
+
+
 
 
 
@@ -324,7 +332,7 @@
 
 	/*Code sur les mots de passe*/
 
-	$( "#dialog:ui-dialog" ).dialog( "destroy" ); 
+	//$( "#dialog:ui-dialog" ).dialog( "destroy" ); 
 		
 	
 	var pass = "";
@@ -345,7 +353,7 @@
 				addPersonne($.trim($("#champ").attr("value")), "false", "");
 				$( this ).dialog( "close" );
 			}				
-		},
+		}
 		
 	});
 			
@@ -366,7 +374,7 @@
 					$( this ).dialog( "close" );
 				}
 			}				
-		},
+		}
 		
 	});
 
@@ -392,7 +400,7 @@
 			"Annuler": function() {							
 				$( this ).dialog( "close" );				
 			}				
-		},
+		}
 		
 	});
 

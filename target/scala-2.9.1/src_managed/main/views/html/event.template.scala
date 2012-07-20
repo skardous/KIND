@@ -47,7 +47,7 @@ Seq[Any](format.raw/*1.55*/("""
         """),_display_(Seq[Any](/*17.10*/inputText(eventForm("lieu"), '_label -> "Lieu"))),format.raw/*17.57*/(""" 
         """),_display_(Seq[Any](/*18.10*/textarea(eventForm("descriptif"), '_label -> "Description", 'rows->6))),format.raw/*18.79*/("""
         """),_display_(Seq[Any](/*19.10*/inputText(eventForm("createur"), '_label -> "Créateur"))),format.raw/*19.65*/("""
-        """),_display_(Seq[Any](/*20.10*/inputText(eventForm("mail"), '_label -> "Email"))),format.raw/*20.58*/("""
+        """),_display_(Seq[Any](/*20.10*/inputText(eventForm("email"), '_label -> "Email"))),format.raw/*20.59*/("""
         
         <input type="submit" value="Créer">
         
@@ -67,10 +67,10 @@ Seq[Any](format.raw/*1.55*/("""
 }
                 /*
                     -- GENERATED --
-                    DATE: Mon Jul 16 09:00:24 CEST 2012
+                    DATE: Thu Jul 19 11:08:54 CEST 2012
                     SOURCE: C:/tutoPlay/KIND/app/views/event.scala.html
-                    HASH: 44760ed6321585261ed44658d535b66fc26c7e52
-                    MATRIX: 780->1|952->109|984->133|1063->54|1091->107|1119->182|1159->187|1194->213|1234->215|1338->284|1427->364|1467->366|1522->385|1593->434|1648->453|1717->500|1764->511|1855->580|1901->590|1978->645|2024->655|2094->703|2193->771
+                    HASH: fd4b957f8e9a74a6611cd7ced9f444b7696c9054
+                    MATRIX: 780->1|952->109|984->133|1063->54|1091->107|1119->182|1159->187|1194->213|1234->215|1338->284|1427->364|1467->366|1522->385|1593->434|1648->453|1717->500|1764->511|1855->580|1901->590|1978->645|2024->655|2095->704|2194->772
                     LINES: 27->1|32->6|32->6|33->1|35->5|36->6|40->10|40->10|40->10|44->14|44->14|44->14|46->16|46->16|47->17|47->17|48->18|48->18|49->19|49->19|50->20|50->20|54->24
                     -- GENERATED --
                 */

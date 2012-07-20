@@ -10,6 +10,7 @@ create table evenement (
   descriptif                varchar(255),
   createur                  varchar(255),
   email                     varchar(255),
+  mail_sent_list            varchar(255),
   constraint pk_evenement primary key (id))
 ;
 

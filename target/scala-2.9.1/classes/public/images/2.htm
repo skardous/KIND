@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <title>Editer un evenement</title>
+        <link rel="shortcut icon" type="image/png" href="http://intranet2:9000/assets/images/favicon.png"> 
+        <link type="text/css" href="2_fichiers/jquery-ui-1.css" rel="stylesheet">
+        <link rel="stylesheet" media="screen" href="2_fichiers/bootstrap.css">	
+        <link rel="stylesheet" media="screen" href="2_fichiers/main.css">
+        <link rel="stylesheet" type="text/css" href="2_fichiers/fullcalendar.css">
+        <link rel="stylesheet" type="text/css" href="2_fichiers/fullcalendar_002.css" media="print">
+    		<script type="text/javascript" src="2_fichiers/jquery-1.js"></script>
+    		<script type="text/javascript" src="2_fichiers/jquery-ui-1.js"></script>
+        <script type="text/javascript" src="2_fichiers/jquery.js"></script>
+    		<script type="text/javascript" src="2_fichiers/jquery-ui.js"></script>
+    		<script type="text/javascript" src="2_fichiers/eventForm.js"></script>    
+        <script type="text/javascript" src="2_fichiers/fullcalendar.js"></script>  
+
+  </head>
+    
+    
+    <body>
+
+
+
+     <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container">
+         <ul class="nav">
+          <li><a href="http://intranet2:9000/KIND/">Accueil</a></li>
+          <li><a href="http://intranet2:9000/KIND/newevent">Créer un événement</a></li>
+          <!--<li><a href="/KIND/eventlist">Liste des evenements</a></li>-->
+         </ul>			  
+       </div>
+     </div>	
+   </div>
+   
+      
+
+	<h1>Participants pour: Réunion</h1><br>
+
+	
+	Titre de l'évenement : <b>Réunion</b> <br>
+	Créateur : <b>Dr. No</b> <br>
+
+	
+	Description : <i>Description bla bla bla bla</i> <br>	
+				
+	
+	<!--<a class="btn btn-danger" href="/KIND/newevent/2/delete">Supprimer l'evenement</a>-->
+	
+	<table class="datesTable" cellpadding="5" cellspacing="5">
+		<tbody>
+			<tr class="titres" style=""><td style="visibility: hidden; background-color: rgb(255, 255, 153);"></td>
+				  					  
+					<td style="background-color: rgb(255, 255, 153);" id="2" class="jour" colspan="2"><b>vendredi 27 juillet 2012</b></td>	                        	                
+				  					  
+					<td style="background-color: gold;" id="3" class="jour" colspan="0"><b>dimanche 29 juillet 2012</b></td>	                        	                
+				
+			</tr>
+			<tr class="titres" style=""><td style="visibility: hidden; background-color: rgb(255, 255, 153);"></td>
+				  
+				  
+				     
+				    	 <td style="background-color: rgb(255, 255, 153);" id="4" day="vendredi 27 juillet 2012" class="horaire">12h45 - 17h00</td>
+				     
+				    	 <td style="background-color: rgb(255, 255, 153);" id="5" day="vendredi 27 juillet 2012" class="horaire">8h00 - 12h15</td>
+				                 	                
+				  
+				  
+				    <td style="background-color: rgb(255, 255, 153);" class="jour"></td>
+				  
+				                 	                
+				
+			</tr>
+			              
+			
+			
+		<tr title="Un participant" class="" id="5"><td style="border: medium none;" class="infoPersonne"><form id="formPersonne"><i class="mesicones icon-lock"></i>&nbsp;<a id="obligatoire" class="obligatoirecb btn">Facultatif</a>&nbsp;<input readonly="readonly" id="nom" value="Un participant" name="nom" type="text">&nbsp;<a id="5" title="editer le participant" class="editPersonne"><i class="mesicones icon-pencil"></i></a><a id="5" title="supprimer le participant" class="deletePersonne"> <i class="mesicones icon-trash"></i></a></form></td><td class="checktd" style="border: medium none; background-color: rgb(102, 204, 153);"><input checked="checked" disabled="disabled" id="4" class="horaire checkbox" value="12h45 - 17h00" type="checkbox"></td><td class="checktd" style="border: medium none; background-color: steelblue;"><input disabled="disabled" id="5" class="horaire checkbox" value="8h00 - 12h15" type="checkbox"></td><td class="checktd" style="border: medium none; background-color: rgb(102, 204, 153);"><input checked="checked" disabled="disabled" id="3" class="jour checkbox" value="dimanche 29 juillet 2012" type="checkbox"></td></tr><tr title="Un autre participant" class="" id="6"><td style="border: medium none;" class="infoPersonne"><form id="formPersonne"><a id="obligatoire" class="obligatoirecb btn">Facultatif</a>&nbsp;<input readonly="readonly" id="nom" value="Un autre participant" name="nom" type="text">&nbsp;<a id="6" title="editer le participant" class="editPersonne"><i class="mesicones icon-pencil"></i></a><a id="6" title="supprimer le participant" class="deletePersonne"> <i class="mesicones icon-trash"></i></a></form></td><td class="checktd" style="border: medium none; background-color: steelblue;"><input disabled="disabled" id="4" class="horaire checkbox" value="12h45 - 17h00" type="checkbox"></td><td class="checktd" style="border: medium none; background-color: rgb(102, 204, 153);"><input checked="checked" disabled="disabled" id="5" class="horaire checkbox" value="8h00 - 12h15" type="checkbox"></td><td class="checktd" style="border: medium none; background-color: rgb(102, 204, 153);"><input checked="checked" disabled="disabled" id="3" class="jour checkbox" value="dimanche 29 juillet 2012" type="checkbox"></td></tr></tbody>
+		<tfoot>
+		<tr id="compte" class="titres" style="">
+			<td style="background-color: rgb(255, 255, 153);" id=""><b>Compte: </b></td>
+			
+			    
+	                          
+	                <td style="background-color: rgb(255, 255, 153);" id="4" class="horaire">1</td>              
+	                          
+	                <td style="background-color: rgb(255, 255, 153);" id="5" class="horaire">1</td>              
+	            
+			
+			    		     
+	                <td style="background-color: gold;" id="3" class="jour">2</td>	       
+			    
+	            
+			
+		</tr>
+		
+		
+			<!--<tr>
+				<td> Date(s) populaire(s) :</td>
+				<td colspan="0" class="footer"></td>
+			</tr>-->
+		</tfoot>
+
+		<!--<div class="populaires"></div>-->
+
+
+		
+	</table>
+	
+	
+	
+
+	Ajouter un participant :		  
+	<input id="champ" type="text">&nbsp;<a id="ajouter" class="btn">Ajouter</a><br>
+
+	<br>
+	<h3>Inviter des personnes à l'évenement</h3>
+
+	<div class="selectDate">
+	<textarea id="mailsArea" title="Adresses email séparées par une virgule" rows="4" placeholder="Entrez ici les adresses mail séparées par une virgule ...">v.gulliver@chu-rouen.fr, simon.kardous@chu-rouen.fr, anton.ego@chu-rouen.fr</textarea>
+	<i class="checkmail mesicones icon-remove"></i>
+	<a disabled="disabled" id="envoiLien" class="btn btn-primary">Envoyer Lien</a>
+	</div>
+
+	
+
+	
+
+	
+
+	<!--<script type="text/javascript" src="/assets/javascripts/sendMail.js"></script>  -->
+	<!--<script type="text/javascript" src="/assets/javascripts/editPersonne.js"></script> -->
+
+	<script type="text/javascript" charset="utf-8">
+	
+	var color1 = "#FFFF99";
+	var color2 = "gold";
+	var color3 = "steelblue";
+	var mdp = "";
+
+
+
+	/*Code concernant les mails et l'envoi*/
+
+	$(function(){
+		if (bonmail($("#mailsArea").val())) {
+			$(".checkmail").attr("class", "checkmail mesicones icon-ok");
+			$("#envoiLien").removeAttr("disabled");
+		} else {
+			$(".checkmail").attr("class", "checkmail mesicones icon-remove");
+			$("#envoiLien").attr("disabled", "true");
+		}
+	});
+
+	$('#envoiLien').live('click', function(e) {
+
+		if ($(this).attr("disabled") != "disabled") {
+			var mailsList = $("#mailsArea").val();
+
+			$.ajax({
+				type: "POST",
+				url: "/KIND/eventEdit/2/sendmail",
+				data: '{"mailslist" : "' + mailsList + '"}',
+				contentType: "application/json",
+				success : function(data) {
+					alert("Mail(s) envoye(s) a "+mailsList);
+				}
+			});
+		}
+	});
+
+
+	$("#mailsArea").live("keyup", function() {
+
+		if (bonmail($(this).val())) {
+			
+			$(".checkmail").attr("class", "checkmail mesicones icon-ok");
+			$("#envoiLien").removeAttr("disabled");
+		} else {
+			
+			$(".checkmail").attr("class", "checkmail mesicones icon-remove");
+			$("#envoiLien").attr("disabled", "true");
+		}
+	})
+	
+	function bonmail(mailtest)
+	{
+		var reg = new RegExp('^([a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*@[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6}){1}(\,[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*@[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6})*$', 'i');
+
+		if(reg.test(mailtest))
+		{
+			return(true);
+		}
+		else
+		{
+			return(false);
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/*Code de style*/
+
+	$(function(){
+		$("table.datesTable td").css("background-color", color3);
+		$(".checkbox").attr("disabled", "true"); 
+
+		$('.checkbox').each(function (i) { // coloration des box checkées
+		  	if ($(this).is(':checked')){
+		  		$(this).parent().css("background-color", "#66CC99");
+		  	}
+		});
+
+		$('.infoPersonne').each(function (i) {
+			$('.titres').attr('style','');
+		});
+
+		refreshCount(); // maj de la ligne de compteurs
+
+		affichagePopulaire(); // maj des surbrillances
+	})
+
+	$("textarea").live('click', function(e) {
+		$(this).html("");
+		$(this).removeAttr("style");
+	})
+
+	function refreshHoverable() { //coloration des cases quand on passe la souris dessus
+		
+		$(".hoverable").on({
+
+			mouseenter: function () {
+				$(this).css("background-color", "lightgreen");
+			}, 
+
+			mouseleave: function () {
+				if ($(this).children().is(':checked')){	 
+			    	$(this).css("background-color", "#66CC99");
+			    } else {
+			    	$(this).css("background-color", color3);
+			    }
+			}
+		});
+
+	}
+
+	
+
+	function refreshCount() { // met à jour l'affichage du compte des participants par horaire
+		$('input[type="checkbox"].horaire.checkbox').each(function(i) {
+			var iden = $(this).attr('id');
+			
+			if ($(this).is(':checked')){
+		    	var increment = $('#compte').children('.horaire[id="'+iden+'"]');
+				increment.html(parseInt(increment.html())+1);
+			}
+			
+		});
+			
+		$('input[type="checkbox"].jour.checkbox').each(function(i) {
+			var iden = $(this).attr('id');			
+				
+			if ($(this).is(':checked')){
+		    	var increment = $('#compte').children('.jour[id="'+iden+'"]');
+				increment.html(parseInt(increment.html())+1);
+			}			
+			
+		});
+	}
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/*Code sur les mots de passe*/
+
+	$( "#dialog:ui-dialog" ).dialog( "destroy" ); 
+		
+	
+	var pass = "";
+	var goodPass = "";
+	var currentEditButton;
+
+	$( "#dialog-question-securise" ).dialog({  // boite de dialogue personnalisée
+		autoOpen: false,
+		height: 200,
+		width: 275,
+		modal: true,
+		buttons: {
+			"Oui": function() {				    	
+			    $( "#dialog-new-pwd" ).dialog( "open" );  
+			    $( this ).dialog( "close" );
+			},
+			"Non": function() {
+				addPersonne($.trim($("#champ").attr("value")), "false", "");
+				$( this ).dialog( "close" );
+			}				
+		},
+		
+	});
+			
+	
+	$( "#dialog-new-pwd" ).dialog({  // boite de dialogue personnalisée
+		autoOpen: false,
+		height: 200,
+		width: 275,
+		modal: true,
+		buttons: {
+			"OK": function() {
+				var bValid = true;									
+
+				if ( bValid ) {
+					mdp = $("#password-new").val();
+					addPersonne($.trim($("#champ").attr("value")), "true", mdp);
+					$( "#password-new" ).attr("value", "");
+					$( this ).dialog( "close" );
+				}
+			}				
+		},
+		
+	});
+
+	$( "#dialog-check-pwd" ).dialog({  // boite de dialogue personnalisée
+		autoOpen: false,
+		height: 200,
+		width: 275,
+		modal: true,
+		buttons: {
+			"OK": function() {				
+								
+				pass = $("#password-check").val();	
+				if (pass == goodPass) {
+				  	edition(currentEditButton);
+				} else {
+				  	alert("mot de passe incorrect");
+				}				
+				$( "#password-check" ).attr("value", "");
+				$( this ).dialog( "close" );
+				
+			},
+
+			"Annuler": function() {							
+				$( this ).dialog( "close" );				
+			}				
+		},
+		
+	});
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/*Code sur l'ajout*/
+
+	function addPersonne(nomParticipant, locked, pwd)
+	{	
+		$.ajax({
+			type: "POST",
+			url: "/KIND/eventEdit/2/addParticip",
+			data: '{"nom" : "' + nomParticipant + '", "locked" : "' + locked + '", "pwd" : "' + pwd + '"}',
+			contentType: "application/json",
+			success : function(data) {
+				var lock ="";		
+				if(locked == "true"){
+					lock = "<i class=\"mesicones icon-lock\"></i>&nbsp;";
+				}  
+				$("tbody").append("<tr title=\""+nomParticipant+"\" class=\"editable\" id=\""+data.idPersonne+"\"><td class=\"infoPersonne\">"+
+					"<form id=\"formPersonne\">"+
+					lock+
+					"<a id=\"obligatoire\" class=\"obligatoirecb btn\">Facultatif</a>&nbsp;"+
+					"<input id=\"nom\" type=\"text\" value=\""+nomParticipant+"\" name=\"nom\">&nbsp;"+	
+					"<a id=\""+data.idPersonne+"\" title=\"editer le participant\" class=\"editPersonne\"><i class=\"mesicones icon-ok\"></i></a>"+
+					"<a id=\""+data.idPersonne+"\" title=\"supprimer le participant\" class=\"deletePersonne\"> <i class=\"mesicones icon-trash\"></i</a>"+		  
+					"</form></td>"+
+					""+  
+					""+
+					""+	                		
+					"<td class=\"checktd hoverable\" style=\"border: solid black 2px\"><input id=\"4\" type=\"checkbox\" class=\"horaire checkbox\" value=\"12h45 - 17h00\" /></td>"+			                
+					""+	                		
+					"<td class=\"checktd hoverable\" style=\"border: solid black 2px\"><input id=\"5\" type=\"checkbox\" class=\"horaire checkbox\" value=\"8h00 - 12h15\" /></td>"+			                
+					""+                	                
+					""+  
+					"<td class=\"checktd hoverable\" style=\"border: solid black 2px\"><input id=\"3\" type=\"checkbox\" class=\"jour checkbox\" value=\"dimanche 29 juillet 2012\" /></td>"+
+					""+                	                
+					"" +
+					"</tr>")
+				$('#champ').attr('value', '')
+				$('.titres').attr('style','');
+				refreshHoverable();
+						
+			}               
+		});
+	}
+
+	$("#ajouter").live('click', function(e){
+		
+
+	    var vide = "";	    
+	    var nom = $("#champ").attr("value");
+	    if (nom != vide) {  
+	    	$( "#dialog-question-securise" ).dialog( "open" );	
+	    	
+						
+		}
+
+	    	    
+	});
+
+	$("#champ").keypress(function(e) {
+		var code = (e.keyCode ? e.keyCode : e.which);
+		if(code == 13) { //Enter keycode
+			var vide = "";	    
+		    var nom = $.trim($("#champ").attr("value"));
+		    if (nom != vide) {  
+		    	$( "#dialog-question-securise" ).dialog( "open" );	
+							
+			}
+			$("#champ").focus();
+ 		}
+
+	});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/*Code sur l'édition*/
+
+	$('.editPersonne').live('click', function(e) {
+		
+	    if(!$(this).parents("tr").hasClass("editable"))  {	    	
+	    	if ($(this).siblings("i").hasClass("icon-lock")){
+	    		currentEditButton = $(this);
+	    		$.ajax({
+					type: "POST",
+					url: "/KIND/eventEdit/",
+					data: '{ "idpers" : "'+$(this).parents("tr").attr("id")+'" }',
+					contentType: "application/json",
+					success : function(data) {
+						goodPass = data.pass;
+
+						$( "#dialog-check-pwd" ).dialog( "open" );	
+											  
+					}
+			   });			
+				
+			} else {
+				edition($(this));
+			}
+		  
+	    } else {
+	      $(this).html("<i class=\"mesicones icon-pencil\"></i>");
+	      $(this).parents("tr").removeClass("editable");
+	      $(this).siblings('input[type="text"]').attr("readonly", "readonly");
+	      $(this).parent().parent().parent().children("td").children('input[type="checkbox"]').attr("disabled","true"); 
+	      $(this).parent().parent().parent().children("td").css("border", "none");
+	      $(".hoverable").off();	      
+	      $(this).parent().parent().parent().children(".checktd").attr("class", "checktd");
+	      refreshHoverable();
+	      editPersonne($(this).attr('id'), $(this).siblings("input").attr("value"));
+	    }
+	
+	  
+	})
+
+	function edition(elem) {
+		elem.html("<i class=\"mesicones icon-ok\"></i>");
+		elem.parents("tr").addClass("editable");
+		elem.siblings('input[type="text"]').removeAttr("readonly");
+		elem.parent().parent().parent().children("td").children().removeAttr("disabled");
+		elem.parent().parent().parent().children("td").css("border", "solid black 2px");
+		$(".hoverable").off();		  
+		elem.parent().parent().parent().children(".checktd").attr("class", "checktd hoverable");
+		refreshHoverable();
+	}
+
+	function editPersonne(personneId, personneNom)
+	{
+	  $.ajax({
+			type: "POST",
+			url: "/KIND/eventEdit/2/updatePersonne",
+			data: '{"id" : "' + personneId + '", "nom" : "' + personneNom + '"}',
+			contentType: "application/json",
+			success : function(data) {
+			  //alert("Participant edit\351");
+			}
+	  });
+	}
+
+	$('.checktd').live('click', function(e) {
+		if ($(this).children().prop("disabled") == false) {
+			if ($(this).children().prop("checked") == false) {
+				if (e.target.nodeName == "TD"){
+					$(this).children().prop("checked", true);
+				}
+				changeCheck($(this).children());
+			} else {
+				if (e.target.nodeName == "TD"){
+					$(this).children().prop("checked", false);
+				}        
+				changeCheck($(this).children());
+			}
+
+			affichagePopulaire();
+
+			//$('.populaires').html("");
+			$('.titres td').each( function() {
+				if ($(this).css('background-color') == color2) {
+					$('.populaires').append($(this).html());
+				}				
+			})			
+		}
+	});
+
+	function changeCheck(box) {   // gestion des clics sur les checkboxes
+	   var idtime = box.attr('id');
+	   var idParticipant = box.parent().parent().attr('id');   
+	   
+	   if (box.is(':checked')){	 //Action de valider une horaire  		
+	       		box.parent().css("background-color", "#66CC99")//vert
+		   		if (box.attr('class').indexOf('horaire') != -1) {
+		            var increment = $('#compte').children('.horaire[id="'+idtime+'"]');
+			   	    increment.html(parseInt(increment.html())+1);
+		       	    requeteAjaxHeure(idtime, idParticipant);
+			    }
+	       		if (box.attr('class').indexOf('jour') != -1) {	
+	    	   	    var increment = $('#compte').children('.jour[id="'+idtime+'"]');
+			   	    increment.html(parseInt(increment.html())+1);
+				    requeteAjaxJour(idtime, idParticipant);
+			   }
+	   } else { //Action de dévalider une horaires
+	     
+		    box.parent().css("background-color", color3) //
+		    if (box.attr('class').indexOf('horaire') != -1) {
+			    var increment = $('#compte').children('.horaire[id="'+idtime+'"]');
+			    increment.html(parseInt(increment.html())-1);
+			    requeteAjaxHeure(idtime, idParticipant);
+		    }
+		    if (box.attr('class').indexOf('jour') != -1) {
+		        var increment = $('#compte').children('.jour[id="'+idtime+'"]');
+			    increment.html(parseInt(increment.html())-1);
+			    requeteAjaxJour(idtime, idParticipant);
+		    }
+	   }
+	}
+
+	function requeteAjaxJour(idtime, idParticipant) // ajoute la date au participant
+	{
+	  $.ajax({
+			type: "POST",
+			url: "/KIND/eventEdit/2/checkBoxJour",
+			data: '{"idjour" : "' + idtime + '", "idpersonne" : "' + idParticipant + '"}',
+			contentType: "application/json",
+			success : function(data) {
+			  //alert("Jour edit\351");
+			}
+	   });
+	}
+
+	function requeteAjaxHeure(idtime, idParticipant) // ajoute l'heure au participant
+	{
+	  $.ajax({
+			type: "POST",
+			url: "/KIND/eventEdit/2/checkBoxHoraire",
+			data: '{"idhoraire" : "' + idtime + '", "idpersonne" : "' + idParticipant + '"}',
+			contentType: "application/json",
+			success : function(data) {
+			  //alert("Horaire edit\351");
+			}
+	   });
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/*Code sur la suppression*/
+
+	$('.deletePersonne').live('click', function(e) {    
+	    $(this).parent().parent().parent().remove();
+	    
+	    
+	    deletePersonne($(this).attr('id'));
+	    if($('td[class="infoPersonne"]').html() == null) {
+	    	$('.titres').attr('style','display:none');
+	    }
+	    $('#compte').children('td[id!=""]').each(function(i) {$(this).html("0")});
+
+	    refreshCount();
+	    
+	})
+
+	function deletePersonne(persId)
+	{
+	  $.ajax({
+			type: "POST",
+			url: "/KIND/eventEdit/2/delParticip",
+			data: '{"id" : "' + persId + '"}',
+			contentType: "application/json",
+			success : function(data) {
+			  //alert("Participant supprim\351");
+			}
+	  });
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/*Code sur les participants obligatoires*/
+	$(function(){
+		refreshObligatoire(); 
+		affichagePopulaire();
+		
+	})	
+
+	$(".obligatoirecb").live("click", function() { //click sur la checkbox "obligatoire" : mise à jour des classes sur la ligne, ajout de la propriété obligatoire dans la bdd
+			
+			var idParticipant = $(this).parent().parent().parent().attr("id");
+			if ($(this).html() == "Obligatoire") {
+				$(this).html("Facultatif");
+				$(this).attr("class", "obligatoirecb btn");
+			} else {
+				$(this).html("Obligatoire");
+				$(this).attr("class", "obligatoirecb btn btn-inverse");
+			}
+			$.ajax({
+				type: "POST",
+				url: "/KIND/eventEdit/2/changeObligatoire",
+				data: '{"idpersonne" : "' + idParticipant + '"}',
+				contentType: "application/json",
+				success : function(data) {
+				  affichagePopulaire();
+				}
+	   		});
+	   		refreshObligatoire();
+
+		})
+
+	function checkobligatoire(idtime, type) {//fonction qui renvoie true si tous les participants obligatoires sont présents.
+		//alert(idtime);
+		var ret = true;
+		//alert("type :"+type + " " + idtime)
+		$('.obligatoire.'+type+'[id="'+idtime+'"]').each(function() {			
+			if(!($(this).is(":checked"))) {
+				//alert("id:"+$(this).attr("id"));
+				ret = false;
+			}
+		})
+		return ret;
+	}
+
+	function refreshObligatoire() { // met à jour les classes "obligatoire" sur les bonnes lignes de participants
+		$(".checktd").removeClass("obligatoire");
+		$(".checkbox").removeClass("obligatoire");
+		$(".obligatoirecb").each(function () {
+			//alert("test");
+			//alert($(this).parent().parent().siblings(".checktd").html());
+			if($(this).html() == "Obligatoire") {					
+				$(this).parent().parent().siblings(".checktd").addClass("obligatoire");
+				$(this).parent().parent().siblings(".checktd").children().addClass("obligatoire");
+			}
+
+		})
+	}
+
+
+
+
+
+
+
+
+	
+	
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+	
+	/*Code d'affichage des dates populaires*/
+	function affichagePopulaire() {
+		var max = 0;
+		$("#compte").children(".horaire, .jour").each( function() { // récupération de la valeur maximale dans les comptes
+			$(this).css("background-color", color1) 
+			$('.titres').children().css("background-color",color1);
+			//$('.footer').html("");
+			if (checkobligatoire($(this).attr("id"), $(this).attr("class"))) {			
+				if ($(this).html() > max) {			
+					max = $(this).html();
+				}
+			}		
+		})
+		$("#compte").children().each( function() {
+			
+			if ($(this).html() == max && $(this).html() != 0 && checkobligatoire($(this).attr("id"), $(this).attr("class"))) {			
+				$(this).css("background-color", color2);
+				//alert("classe : "+$(this).attr("class")+" id : "+$(this).attr("id"));
+				$('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').css("background-color", color2);
+				if($(this).attr("class") == "horaire") {
+					var day = $('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').attr("day");				
+					$("td:contains('"+day+"')").css("background-color", color2);
+					
+				}
+			}
+		})
+	}
+	</script><div aria-labelledby="ui-dialog-title-dialog-check-pwd" role="dialog" tabindex="-1" class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable" style="display: none; position: absolute; overflow: hidden; z-index: 1000; outline: 0px none;"><div style="-moz-user-select: none;" unselectable="on" class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix"><span style="-moz-user-select: none;" unselectable="on" id="ui-dialog-title-dialog-check-pwd" class="ui-dialog-title">Entrez le mot de passe pour ce participant</span><a style="-moz-user-select: none;" unselectable="on" role="button" class="ui-dialog-titlebar-close ui-corner-all" href="#"><span style="-moz-user-select: none;" unselectable="on" class="ui-icon ui-icon-closethick">close</span></a></div><div class="ui-dialog-content ui-widget-content" id="dialog-check-pwd">		
+
+				
+			<label for="password">Mot de passe du participant :</label>
+			<input name="password" id="password-check" value="" class="text ui-widget-content ui-corner-all" type="password">
+		
+	</div><div style="-moz-user-select: none;" unselectable="on" class="ui-resizable-handle ui-resizable-n"></div><div style="-moz-user-select: none;" unselectable="on" class="ui-resizable-handle ui-resizable-e"></div><div style="-moz-user-select: none;" unselectable="on" class="ui-resizable-handle ui-resizable-s"></div><div style="-moz-user-select: none;" unselectable="on" class="ui-resizable-handle ui-resizable-w"></div><div unselectable="on" style="z-index: 1001; -moz-user-select: none;" class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se ui-icon-grip-diagonal-se"></div><div unselectable="on" style="z-index: 1002; -moz-user-select: none;" class="ui-resizable-handle ui-resizable-sw"></div><div unselectable="on" style="z-index: 1003; -moz-user-select: none;" class="ui-resizable-handle ui-resizable-ne"></div><div unselectable="on" style="z-index: 1004; -moz-user-select: none;" class="ui-resizable-handle ui-resizable-nw"></div><div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix"><button class="ui-state-default ui-corner-all" type="button">OK</button><button class="ui-state-default ui-corner-all" type="button">Annuler</button></div></div>
+
+
+
+ 
+
+
+<div aria-labelledby="ui-dialog-title-dialog-new-pwd" role="dialog" tabindex="-1" class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable" style="display: none; position: absolute; overflow: hidden; z-index: 1004; outline: 0px none; height: auto; width: 275px; top: 358px; left: 818.5px;"><div style="-moz-user-select: none;" unselectable="on" class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix"><span style="-moz-user-select: none;" unselectable="on" id="ui-dialog-title-dialog-new-pwd" class="ui-dialog-title">Créez le mot de passe</span><a style="-moz-user-select: none;" unselectable="on" role="button" class="ui-dialog-titlebar-close ui-corner-all" href="#"><span style="-moz-user-select: none;" unselectable="on" class="ui-icon ui-icon-closethick">close</span></a></div><div style="height: 80.1667px; min-height: 30.1667px; width: auto;" class="ui-dialog-content ui-widget-content" id="dialog-new-pwd">		
+
+		<form>
+		<fieldset>			
+			<label for="password">Mot de passe créé :</label>
+			<input name="password" id="password-new" value="" class="text ui-widget-content ui-corner-all" type="password">
+		</fieldset>
+		</form>
+	</div><div style="-moz-user-select: none;" unselectable="on" class="ui-resizable-handle ui-resizable-n"></div><div style="-moz-user-select: none;" unselectable="on" class="ui-resizable-handle ui-resizable-e"></div><div style="-moz-user-select: none;" unselectable="on" class="ui-resizable-handle ui-resizable-s"></div><div style="-moz-user-select: none;" unselectable="on" class="ui-resizable-handle ui-resizable-w"></div><div unselectable="on" style="z-index: 1001; -moz-user-select: none;" class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se ui-icon-grip-diagonal-se"></div><div unselectable="on" style="z-index: 1002; -moz-user-select: none;" class="ui-resizable-handle ui-resizable-sw"></div><div unselectable="on" style="z-index: 1003; -moz-user-select: none;" class="ui-resizable-handle ui-resizable-ne"></div><div unselectable="on" style="z-index: 1004; -moz-user-select: none;" class="ui-resizable-handle ui-resizable-nw"></div><div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix"><button class="ui-state-default ui-corner-all" type="button">OK</button></div></div><div aria-labelledby="ui-dialog-title-dialog-question-securise" role="dialog" tabindex="-1" class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable" style="display: none; position: absolute; overflow: hidden; z-index: 1004; outline: 0px none; height: auto; width: 275px; top: 358px; left: 818.5px;"><div style="-moz-user-select: none;" unselectable="on" class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix"><span style="-moz-user-select: none;" unselectable="on" id="ui-dialog-title-dialog-question-securise" class="ui-dialog-title">Créez le mot de passe</span><a style="-moz-user-select: none;" unselectable="on" role="button" class="ui-dialog-titlebar-close ui-corner-all" href="#"><span style="-moz-user-select: none;" unselectable="on" class="ui-icon ui-icon-closethick">close</span></a></div><div style="height: 80.1667px; min-height: 30.1667px; width: auto;" class="ui-dialog-content ui-widget-content" id="dialog-question-securise">		
+
+		<form>
+		<fieldset>			
+			<label>Sécuriser les informations de ce participant avec un mot de passe ?</label>
+			
+		</fieldset>
+		</form>
+	</div><div style="-moz-user-select: none;" unselectable="on" class="ui-resizable-handle ui-resizable-n"></div><div style="-moz-user-select: none;" unselectable="on" class="ui-resizable-handle ui-resizable-e"></div><div style="-moz-user-select: none;" unselectable="on" class="ui-resizable-handle ui-resizable-s"></div><div style="-moz-user-select: none;" unselectable="on" class="ui-resizable-handle ui-resizable-w"></div><div unselectable="on" style="z-index: 1001; -moz-user-select: none;" class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se ui-icon-grip-diagonal-se"></div><div unselectable="on" style="z-index: 1002; -moz-user-select: none;" class="ui-resizable-handle ui-resizable-sw"></div><div unselectable="on" style="z-index: 1003; -moz-user-select: none;" class="ui-resizable-handle ui-resizable-ne"></div><div unselectable="on" style="z-index: 1004; -moz-user-select: none;" class="ui-resizable-handle ui-resizable-nw"></div><div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix"><button class="ui-state-default ui-corner-all" type="button">Oui</button><button class="ui-state-default ui-corner-all" type="button">Non</button></div></div></body></html>
