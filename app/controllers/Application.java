@@ -125,7 +125,24 @@ public class Application extends Controller {
 					filledForm));
 		} else {
 			Evenement.create(filledForm.get());
-			System.out.println("id:"+filledForm.get().id);
+			Evenement tempevt = Evenement.findEvt.ref(filledForm.get().id);
+			tempevt.passAdmin = "toto";
+			tempevt.update();
+			
+
+			String origineMail = "kind@chu-rouen.fr";
+			String destinataires = filledForm.get().email;
+			String title = "KIND: Création de l'évenement "+filledForm.get().titre;
+			String text = "Bonjour, \n\n"+
+					"Vous venez de créer un évenènement sur le gestionnaire d'évènements du CHU de Rouen : \""+filledForm.get().titre+"\".\n\n"+
+					"Pour y répondre, connectez-vous au lien d'invitation suivant depuis un des ordinateurs du CHU:\n"+
+				    "http://intranet2:9000/KIND/eventEdit/"+filledForm.get().id+"\n\n"+
+				    "Pour l'administrer, connectez-vous au lien d'invitation suivant depuis un des ordinateurs du CHU avec le mot de passe "+tempevt.passAdmin+":\n"+
+				    "http://intranet2:9000/KIND/eventEdit/"+filledForm.get().id+"/adm\n\n"+
+				    "Cordialement, \n"+
+				    "L'équipe KIND";
+
+			sendSpecificMail(origineMail, destinataires, title, text);
 			
 			return redirect(routes.Application.dateSelection(filledForm.get().id));
 		}
@@ -152,7 +169,14 @@ public class Application extends Controller {
 		Form<Evenement> evenementForm = form(Evenement.class).fill(
 				Evenement.findEvt.byId(id));
 		Evenement created = evenementForm.get();
-		return ok(editForm.render(created));
+		return ok(editForm.render(created, 0));
+	}
+
+	public static Result editAdm(Long id) {
+		Form<Evenement> evenementForm = form(Evenement.class).fill(
+				Evenement.findEvt.byId(id));
+		Evenement created = evenementForm.get();
+		return ok(editForm.render(created, 1));
 	}
 
 	// action de validation du formulaire d'edition d'evt

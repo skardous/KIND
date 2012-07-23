@@ -38,6 +38,8 @@ public class Evenement extends Model {
 
 	public String mailSentList;
 
+	public String passAdmin;
+
 	@Valid
 	@ManyToMany(cascade=CascadeType.REMOVE)
 	public List<Personne> participants = new ArrayList<Personne>();

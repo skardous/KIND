@@ -11,6 +11,7 @@ create table evenement (
   createur                  varchar(255),
   email                     varchar(255),
   mail_sent_list            varchar(255),
+  pass_admin                varchar(255),
   constraint pk_evenement primary key (id))
 ;
 

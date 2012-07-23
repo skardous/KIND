@@ -1,6 +1,6 @@
 // @SOURCE:C:/tutoPlay/KIND/conf/routes
-// @HASH:0a9d777bf365a0b239920cc5b393dd73b69aea35
-// @DATE:Thu Jul 12 10:25:51 CEST 2012
+// @HASH:61c7d7ecfba4aea88d1c141e72a8fb3545778876
+// @DATE:Fri Jul 20 15:30:10 CEST 2012
 
 import play.core._
 import play.core.Router._
@@ -12,14 +12,15 @@ import play.libs.F
 import Router.queryString
 
 
-// @LINE:45
-// @LINE:43
-// @LINE:41
+// @LINE:46
+// @LINE:44
+// @LINE:42
+// @LINE:40
 // @LINE:39
-// @LINE:38
+// @LINE:37
 // @LINE:36
-// @LINE:35
-// @LINE:33
+// @LINE:34
+// @LINE:32
 // @LINE:31
 // @LINE:30
 // @LINE:27
@@ -54,14 +55,15 @@ def at(file:String) = {
 }
                             
 
-// @LINE:45
-// @LINE:43
-// @LINE:41
+// @LINE:46
+// @LINE:44
+// @LINE:42
+// @LINE:40
 // @LINE:39
-// @LINE:38
+// @LINE:37
 // @LINE:36
-// @LINE:35
-// @LINE:33
+// @LINE:34
+// @LINE:32
 // @LINE:31
 // @LINE:30
 // @LINE:27
@@ -87,7 +89,7 @@ def newHoraire(id:Long) = {
 }
                                                         
  
-// @LINE:43
+// @LINE:44
 def sendMail(id:Long) = {
    Call("POST", "/KIND/eventEdit/" + implicitly[PathBindable[Long]].unbind("id", id) + "/sendmail")
 }
@@ -99,7 +101,7 @@ def deleteHoraire(id:Long) = {
 }
                                                         
  
-// @LINE:45
+// @LINE:46
 def getPass() = {
    Call("POST", "/KIND/eventEdit/")
 }
@@ -111,7 +113,7 @@ def addDate(id:Long) = {
 }
                                                         
  
-// @LINE:33
+// @LINE:34
 def updatePersonne(id:Long) = {
    Call("POST", "/KIND/eventEdit/" + implicitly[PathBindable[Long]].unbind("id", id) + "/updatePersonne")
 }
@@ -135,6 +137,12 @@ def heureSelection(id:Long) = {
 }
                                                         
  
+// @LINE:32
+def editAdm(id:Long) = {
+   Call("GET", "/KIND/eventEdit/" + implicitly[PathBindable[Long]].unbind("id", id) + "/adm")
+}
+                                                        
+ 
 // @LINE:18
 def deleteEvent(id:Long) = {
    Call("GET", "/KIND/newevent/" + implicitly[PathBindable[Long]].unbind("id", id) + "/delete")
@@ -147,7 +155,7 @@ def dateChanged(id:Long) = {
 }
                                                         
  
-// @LINE:39
+// @LINE:40
 def checkBoxJour(id:Long) = {
    Call("POST", "/KIND/eventEdit/" + implicitly[PathBindable[Long]].unbind("id", id) + "/checkBoxJour")
 }
@@ -159,13 +167,13 @@ def update(id:Long) = {
 }
                                                         
  
-// @LINE:38
+// @LINE:39
 def checkBoxHoraire(id:Long) = {
    Call("POST", "/KIND/eventEdit/" + implicitly[PathBindable[Long]].unbind("id", id) + "/checkBoxHoraire")
 }
                                                         
  
-// @LINE:35
+// @LINE:36
 def addParticipant(id:Long) = {
    Call("POST", "/KIND/eventEdit/" + implicitly[PathBindable[Long]].unbind("id", id) + "/addParticip")
 }
@@ -195,7 +203,7 @@ def dateSelection(id:Long) = {
 }
                                                         
  
-// @LINE:41
+// @LINE:42
 def changeObligatoire(id:Long) = {
    Call("POST", "/KIND/eventEdit/" + implicitly[PathBindable[Long]].unbind("id", id) + "/changeObligatoire")
 }
@@ -207,7 +215,7 @@ def eventlist() = {
 }
                                                         
  
-// @LINE:36
+// @LINE:37
 def deleteParticipant(id:Long) = {
    Call("POST", "/KIND/eventEdit/" + implicitly[PathBindable[Long]].unbind("id", id) + "/delParticip")
 }
@@ -221,14 +229,15 @@ def deleteParticipant(id:Long) = {
                     
 
 
-// @LINE:45
-// @LINE:43
-// @LINE:41
+// @LINE:46
+// @LINE:44
+// @LINE:42
+// @LINE:40
 // @LINE:39
-// @LINE:38
+// @LINE:37
 // @LINE:36
-// @LINE:35
-// @LINE:33
+// @LINE:34
+// @LINE:32
 // @LINE:31
 // @LINE:30
 // @LINE:27
@@ -268,14 +277,15 @@ def at = JavascriptReverseRoute(
 }
                             
 
-// @LINE:45
-// @LINE:43
-// @LINE:41
+// @LINE:46
+// @LINE:44
+// @LINE:42
+// @LINE:40
 // @LINE:39
-// @LINE:38
+// @LINE:37
 // @LINE:36
-// @LINE:35
-// @LINE:33
+// @LINE:34
+// @LINE:32
 // @LINE:31
 // @LINE:30
 // @LINE:27
@@ -306,7 +316,7 @@ def newHoraire = JavascriptReverseRoute(
 )
                                                         
  
-// @LINE:43
+// @LINE:44
 def sendMail = JavascriptReverseRoute(
    "controllers.Application.sendMail",
    """
@@ -328,7 +338,7 @@ def deleteHoraire = JavascriptReverseRoute(
 )
                                                         
  
-// @LINE:45
+// @LINE:46
 def getPass = JavascriptReverseRoute(
    "controllers.Application.getPass",
    """
@@ -350,7 +360,7 @@ def addDate = JavascriptReverseRoute(
 )
                                                         
  
-// @LINE:33
+// @LINE:34
 def updatePersonne = JavascriptReverseRoute(
    "controllers.Application.updatePersonne",
    """
@@ -394,6 +404,17 @@ def heureSelection = JavascriptReverseRoute(
 )
                                                         
  
+// @LINE:32
+def editAdm = JavascriptReverseRoute(
+   "controllers.Application.editAdm",
+   """
+      function(id) {
+      return _wA({method:"GET", url:"/KIND/eventEdit/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id) + "/adm"})
+      }
+   """
+)
+                                                        
+ 
 // @LINE:18
 def deleteEvent = JavascriptReverseRoute(
    "controllers.Application.deleteEvent",
@@ -416,7 +437,7 @@ def dateChanged = JavascriptReverseRoute(
 )
                                                         
  
-// @LINE:39
+// @LINE:40
 def checkBoxJour = JavascriptReverseRoute(
    "controllers.Application.checkBoxJour",
    """
@@ -438,7 +459,7 @@ def update = JavascriptReverseRoute(
 )
                                                         
  
-// @LINE:38
+// @LINE:39
 def checkBoxHoraire = JavascriptReverseRoute(
    "controllers.Application.checkBoxHoraire",
    """
@@ -449,7 +470,7 @@ def checkBoxHoraire = JavascriptReverseRoute(
 )
                                                         
  
-// @LINE:35
+// @LINE:36
 def addParticipant = JavascriptReverseRoute(
    "controllers.Application.addParticipant",
    """
@@ -504,7 +525,7 @@ def dateSelection = JavascriptReverseRoute(
 )
                                                         
  
-// @LINE:41
+// @LINE:42
 def changeObligatoire = JavascriptReverseRoute(
    "controllers.Application.changeObligatoire",
    """
@@ -526,7 +547,7 @@ def eventlist = JavascriptReverseRoute(
 )
                                                         
  
-// @LINE:36
+// @LINE:37
 def deleteParticipant = JavascriptReverseRoute(
    "controllers.Application.deleteParticipant",
    """
@@ -545,14 +566,15 @@ def deleteParticipant = JavascriptReverseRoute(
                     
 
 
-// @LINE:45
-// @LINE:43
-// @LINE:41
+// @LINE:46
+// @LINE:44
+// @LINE:42
+// @LINE:40
 // @LINE:39
-// @LINE:38
+// @LINE:37
 // @LINE:36
-// @LINE:35
-// @LINE:33
+// @LINE:34
+// @LINE:32
 // @LINE:31
 // @LINE:30
 // @LINE:27
@@ -587,14 +609,15 @@ def at(path:String, file:String) = new play.api.mvc.HandlerRef(
 }
                             
 
-// @LINE:45
-// @LINE:43
-// @LINE:41
+// @LINE:46
+// @LINE:44
+// @LINE:42
+// @LINE:40
 // @LINE:39
-// @LINE:38
+// @LINE:37
 // @LINE:36
-// @LINE:35
-// @LINE:33
+// @LINE:34
+// @LINE:32
 // @LINE:31
 // @LINE:30
 // @LINE:27
@@ -620,7 +643,7 @@ def newHoraire(id:Long) = new play.api.mvc.HandlerRef(
 )
                               
  
-// @LINE:43
+// @LINE:44
 def sendMail(id:Long) = new play.api.mvc.HandlerRef(
    controllers.Application.sendMail(id), HandlerDef(this, "controllers.Application", "sendMail", Seq(classOf[Long]))
 )
@@ -632,7 +655,7 @@ def deleteHoraire(id:Long) = new play.api.mvc.HandlerRef(
 )
                               
  
-// @LINE:45
+// @LINE:46
 def getPass() = new play.api.mvc.HandlerRef(
    controllers.Application.getPass(), HandlerDef(this, "controllers.Application", "getPass", Seq())
 )
@@ -644,7 +667,7 @@ def addDate(id:Long) = new play.api.mvc.HandlerRef(
 )
                               
  
-// @LINE:33
+// @LINE:34
 def updatePersonne(id:Long) = new play.api.mvc.HandlerRef(
    controllers.Application.updatePersonne(id), HandlerDef(this, "controllers.Application", "updatePersonne", Seq(classOf[Long]))
 )
@@ -668,6 +691,12 @@ def heureSelection(id:Long) = new play.api.mvc.HandlerRef(
 )
                               
  
+// @LINE:32
+def editAdm(id:Long) = new play.api.mvc.HandlerRef(
+   controllers.Application.editAdm(id), HandlerDef(this, "controllers.Application", "editAdm", Seq(classOf[Long]))
+)
+                              
+ 
 // @LINE:18
 def deleteEvent(id:Long) = new play.api.mvc.HandlerRef(
    controllers.Application.deleteEvent(id), HandlerDef(this, "controllers.Application", "deleteEvent", Seq(classOf[Long]))
@@ -680,7 +709,7 @@ def dateChanged(id:Long) = new play.api.mvc.HandlerRef(
 )
                               
  
-// @LINE:39
+// @LINE:40
 def checkBoxJour(id:Long) = new play.api.mvc.HandlerRef(
    controllers.Application.checkBoxJour(id), HandlerDef(this, "controllers.Application", "checkBoxJour", Seq(classOf[Long]))
 )
@@ -692,13 +721,13 @@ def update(id:Long) = new play.api.mvc.HandlerRef(
 )
                               
  
-// @LINE:38
+// @LINE:39
 def checkBoxHoraire(id:Long) = new play.api.mvc.HandlerRef(
    controllers.Application.checkBoxHoraire(id), HandlerDef(this, "controllers.Application", "checkBoxHoraire", Seq(classOf[Long]))
 )
                               
  
-// @LINE:35
+// @LINE:36
 def addParticipant(id:Long) = new play.api.mvc.HandlerRef(
    controllers.Application.addParticipant(id), HandlerDef(this, "controllers.Application", "addParticipant", Seq(classOf[Long]))
 )
@@ -728,7 +757,7 @@ def dateSelection(id:Long) = new play.api.mvc.HandlerRef(
 )
                               
  
-// @LINE:41
+// @LINE:42
 def changeObligatoire(id:Long) = new play.api.mvc.HandlerRef(
    controllers.Application.changeObligatoire(id), HandlerDef(this, "controllers.Application", "changeObligatoire", Seq(classOf[Long]))
 )
@@ -740,7 +769,7 @@ def eventlist() = new play.api.mvc.HandlerRef(
 )
                               
  
-// @LINE:36
+// @LINE:37
 def deleteParticipant(id:Long) = new play.api.mvc.HandlerRef(
    controllers.Application.deleteParticipant(id), HandlerDef(this, "controllers.Application", "deleteParticipant", Seq(classOf[Long]))
 )

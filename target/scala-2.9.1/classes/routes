@@ -29,6 +29,7 @@ POST   /KIND/newevent/:id/deleteHoraire           	controllers.Application.delet
 # Edit existing event
 GET     /KIND/eventEdit/:id          		     	controllers.Application.edit(id:Long)
 POST    /KIND/eventEdit/:id        			     	controllers.Application.update(id:Long)
+GET     /KIND/eventEdit/:id/adm          		    controllers.Application.editAdm(id:Long)
 
 POST    /KIND/eventEdit/:id/updatePersonne        controllers.Application.updatePersonne(id:Long)
 
