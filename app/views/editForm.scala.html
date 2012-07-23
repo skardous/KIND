@@ -22,9 +22,7 @@
 	}
 
 
-	Ajouter un participant :		  
-	<input id="champ" type="text" value="">&nbsp;<a id="ajouter" class="btn">Ajouter</a><br>
-
+	
 	<br>
 	<h3>Inviter des personnes à l'évenement</h3>
 
@@ -34,6 +32,9 @@
 	<a id="envoiLien" disabled="true" class="btn btn-primary">Envoyer Lien</a>
 	</div>
 	
+
+	<h3>Liste des participants et de leurs disponibilités</h3>
+
 	<table class="datesTable" cellspacing="5" cellpadding="5">
 		<tbody>
 			<tr class="titres" style="display:none"><td style="visibility:hidden"></td>
@@ -104,19 +105,20 @@
 			}
 		</tr>
 		
-		
-			<!--<tr>
-				<td> Date(s) populaire(s) :</td>
-				<td colspan="0" class="footer"></td>
-			</tr>-->
+			
 		</tfoot>
 
-		<!--<div class="populaires"></div>-->
+		
 
 
 		
 	</table>
 	
+	<a class="visibleAdd" ><i class="mesicones icon-plus"></i></a>
+	<div class="champAdd" style="display:none">
+		Ajouter un participant :		  
+		<input id="champ" type="text" value="">&nbsp;<a id="ajouter" class="btn">Ajouter</a><br>
+	</div>
 	
 	
 
@@ -337,6 +339,16 @@
 		$(this).removeAttr("style");
 	})
 
+	$(".visibleAdd").live("click", function() {
+        if ($(this).siblings(".champAdd").css("display") == "none") {                
+            $(this).siblings(".champAdd").removeAttr("style");
+            $(this).html("<i class=\"mesicones icon-minus\"></i>")
+        } else {                
+            $(this).siblings(".champAdd").attr("style", "display:none");
+            $(this).html("<i class=\"mesicones icon-plus\"></i>")
+        }
+    })
+
 	function refreshHoverable() { //coloration des cases quand on passe la souris dessus
 		
 		$(".hoverable").on({
@@ -379,6 +391,8 @@
 			
 		});
 	}
+
+
 
 	
 
