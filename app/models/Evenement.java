@@ -33,6 +33,7 @@ public class Evenement extends Model {
 	@Required(message = "Vous devez saisir un nom de créateur.") 
 	public String createur;	
 	
+	@Required
 	@Email
 	public String email;	
 

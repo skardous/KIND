@@ -47,7 +47,7 @@
 				    <td class="jour"></td>
 				  }
 				     @for(horaire <- jour.horaires) {
-				    	 <td id="@horaire.id" day="@jour.date" class="horaire">@horaire.debut - @horaire.fin</td>
+				    	 <td id="@horaire.id" dayid="@jour.id" class="horaire">@horaire.debut - @horaire.fin</td>
 				     }            	                
 				}
 			</tr>
