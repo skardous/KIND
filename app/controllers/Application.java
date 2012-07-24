@@ -3,7 +3,7 @@ package controllers;
 import org.codehaus.jackson.node.ObjectNode;
 
 
-import java.util.Properties;
+import java.util.*;
 
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
@@ -126,13 +126,26 @@ public class Application extends Controller {
 		} else {
 			Evenement.create(filledForm.get());
 			Evenement tempevt = Evenement.findEvt.ref(filledForm.get().id);
-			tempevt.passAdmin = "toto";
+
+			String alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_-@#&'(!?)$%?:;/.?,";
+	        Random rand = new Random();
+	        tempevt.passAdmin = "";
+
+
+	        for (int i=0; i<6; i++)
+	        {
+	            tempevt.passAdmin = tempevt.passAdmin + alphabet.charAt(rand.nextInt(alphabet.length()));
+	        }
+
+			
 			tempevt.update();
 			
 
 			String origineMail = "kind@chu-rouen.fr";
 			String destinataires = filledForm.get().email;
 			String title = "KIND: Création de l'évenement "+filledForm.get().titre;
+
+	        
 			String text = "Bonjour, \n\n"+
 					"Vous venez de créer un évenènement sur le gestionnaire d'évènements du CHU de Rouen : \""+filledForm.get().titre+"\".\n\n"+
 					"Pour y répondre, connectez-vous au lien d'invitation suivant depuis un des ordinateurs du CHU:\n"+
@@ -287,7 +300,7 @@ public class Application extends Controller {
 
 	public static Result deleteEvent(Long id) {
 		Evenement.delete(id);
-		return redirect(routes.Application.eventlist());
+		return redirect(routes.Application.index());
 	}
 
 	@BodyParser.Of(BodyParser.Json.class)

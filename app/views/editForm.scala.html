@@ -11,7 +11,7 @@
 
 	
 	Titre de l'&eacute;venement : <b>@event.titre</b> <br/>
-	Cr&eacute;ateur : <b>@event.createur</b> @if(event.email != "" && event.email != null) {   Contact : @event.email }<br/>
+	Cr&eacute;ateur : <b>@event.createur</b> @if(event.email != "" && event.email != null) {   <br>Contact : @event.email }<br/>
 
 	@if(event.descriptif != "") {
 	Description : <i>@event.descriptif</i> <br/>	
@@ -23,7 +23,7 @@
 
 
 	
-	<br>
+	<br><br>
 	<h3>Inviter des personnes à l'évenement</h3>
 
 	<div class="selectDate" style="position:relative">
@@ -32,30 +32,44 @@
 	<a id="envoiLien" disabled="true" class="btn btn-primary">Envoyer Lien</a>
 	</div>
 	
-
+	<br><br>
 	<h3>Liste des participants et de leurs disponibilités</h3>
 
+	@if(adm != 1){
+		S'ajouter à la liste des participants :		  
+		<input id="champ" type="text" value="">&nbsp;<a id="ajouter" class="btn">Ajouter</a><br>
+	}	
+
+	<div id="divtest" >
 	<table class="datesTable" cellspacing="5" cellpadding="5">
 		<tbody>
-			<tr class="titres" style="display:none"><td style="visibility:hidden"></td>
+			<tr class="titres dates" style="display:none"><td style="visibility:hidden"></td>
 				@for(jour <- event.jours) {  					  
-					<td id="@jour.id" class="jour" colspan="@jour.horaires.size()"><b>@jour.date</b></td>	                        	                
+					<td id="@jour.id" class="jour" colspan="@jour.horaires.size()">
+						<b class="jourintitule">@jour.date </b>
+						@if(adm == 1){<a id="@jour.id" class="horaireAdd" ><i class="mesicones icon-plus"></i></a>}
+						@if(adm == 1){<a id="@jour.id" class="jourDel"><i class="mesicones icon-remove"></i></a>}
+					</td>	                        	                
 				}
 			</tr>
-			<tr class="titres" style="display:none"><td style="visibility:hidden"></td>
+			<tr class="titres horaires" style="display:none"><td style="visibility:hidden"></td>
 				@for(jour <- event.jours) {  
-				  @if(jour.horaires.size() == 0){
-				    <td class="jour"></td>
-				  }
-				     @for(horaire <- jour.horaires) {
-				    	 <td id="@horaire.id" dayid="@jour.id" class="horaire">@horaire.debut - @horaire.fin</td>
-				     }            	                
+					@if(jour.horaires.size() == 0){
+					    <td class="jour"></td>
+					}
+				    @for(horaire <- jour.horaires) {
+				    	<td id="@horaire.id" dayid="@jour.id" class="horaire">
+				    		@horaire.debut - @horaire.fin 
+				    		@if(adm == 1){<a id="@horaire.id" idjour="@jour.id" class="horaireDel" ><i class="mesicones icon-remove"></i></a>}
+				    	</td>
+				    }  
+
 				}
 			</tr>
 			              
 			
 			@for(participant <- event.participants) {
-				<tr title="@participant.nom" id="@participant.id"><td class="infoPersonne">
+				<tr title="@participant.nom" id="@participant.id" class="participant"><td class="infoPersonne">
 					@form(routes.Application.updatePersonne(event.id), 'id->"formPersonne") {
 						@if(participant.locked){
 							<i class="mesicones icon-lock"></i>
@@ -107,24 +121,37 @@
 		
 			
 		</tfoot>
-
-		
-
-
 		
 	</table>
-	
-	<a class="visibleAdd" ><i class="mesicones icon-plus"></i></a>
-	<div class="champAdd" style="display:none">
-		Ajouter un participant :		  
-		<input id="champ" type="text" value="">&nbsp;<a id="ajouter" class="btn">Ajouter</a><br>
 	</div>
+
+	<div id="refresh"></div>
+
+
+
+
+	@if(adm == 1){
+	<a class="visibleAdd" ><i class="mesicones icon-plus"></i></a>
+	
+	<div class="champAdd" style="display:none">		
+		Ajouter un participant :		  
+		<input id="champ" type="text" value="">&nbsp;<a id="ajouter" class="btn">Ajouter</a><br><br>
+
+		Ajouter une date:
+		<input id="datepicker" type="text">&nbsp;<a id="ajouterDate" class="btn">Ajouter</a>
+	</div>
+	}
 	
 	
 
 	
+	<div id="dialog-add-horaire" title="Sélectionnez l'horaire">	
+		<div id="slider">
+			<input type="text\" id="data" value="8h - 17h" style="border:0; color:#f6931f; font-weight:bold;" />		
 
-	
+			<div class="slider-range"></div>
+		</div>
+	</div>
 
 
 	<div id="dialog-new-pwd" title="Créez le mot de passe">		
@@ -174,13 +201,42 @@
 	var mdp = "";
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	/*Code concernant l'interface administrateur*/
 
-	$(function(){
+	$(function(){		
 
 		if ("@adm" == "1") {
 			$( "#dialog-check-pwd-adm" ).dialog( "open" );	
 		}
+	});
+
+	$(function() {
+		//$( "#datepicker" ).datepicker();
+		
+		$( "#datepicker" ).datepicker({
+			 minDate: 0,
+			onSelect: function(date) {				
+				var selectionType = $.inArray(date, $( "#date" ).multiDatesPicker('getDates'));				
+				var d = new Date(date);		
+				var dateText = d.toLocaleDateString();
+				$( "#datepicker" ).attr("value", dateText);
+			}
+		});
 	});
 
 	$( "#dialog-check-pwd-adm" ).dialog({  // boite de dialogue personnalisée
@@ -188,6 +244,7 @@
 		height: 200,
 		width: 275,
 		modal: true,
+		open: function(event, ui) { $(".ui-dialog-titlebar-close", $(this).parent()).hide(); },
 		buttons: {
 			"OK": function() {				
 								
@@ -198,12 +255,15 @@
 				  	alert("mot de passe incorrect");
 				}				
 				
-			}
-
-					
+			}					
 		}
 		
+		
 	});
+
+
+
+
 
 
 
@@ -313,6 +373,12 @@
 
 
 
+
+
+
+
+
+
 	/*Code de style*/
 
 	$(function(){
@@ -391,6 +457,13 @@
 			
 		});
 	}
+
+
+
+
+
+
+
 
 
 
@@ -492,6 +565,8 @@
 		
 	});
 
+
+
 	
 
 
@@ -583,6 +658,257 @@
  		}
 
 	});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/* Code sur le rajout d'horaires et de dates*/
+
+	var currentDay;
+	var debut = "08h";
+	var fin = "17h";
+
+	$(".horaireAdd").live("click", function(){
+		$( "#dialog-add-horaire" ).dialog("open");
+		currentDay = $(this).attr("id");
+		
+	})
+
+	$("#ajouterDate").live("click", function(){
+		//var listeJours = "@for(jour <- event.jours) { @jour.date } "; EST CENSÉ MARCHER????
+		var listeJours = "";
+		$(".jourintitule").each(function(){
+			listeJours=listeJours+$(this).html()+" "
+		});
+
+		alert(listeJours);
+		if (listeJours.indexOf($("#datepicker").val()) != -1 ) {			
+			alert("date déjà existante");
+		} else {
+			$.ajax({
+				type: "POST",
+				url: "@routes.Application.addDate(event.id)",
+				data: '{"date" : "' + $("#datepicker").val() + '"}',
+				contentType: "application/json",
+				success : function(data) {
+
+					$('.titres.dates').append(
+						"<td id=\""+data.idJour+"\" class=\"jour\" style=\"background-color: rgb(255, 255, 153);\">"+
+							"<b>"+$("#datepicker").val()+" </b>"+
+							"<a id=\""+data.idJour+"\" class=\"horaireAdd\">"+
+								"<i class=\"mesicones icon-plus\"></i>"+
+							"</a>"+
+						"</td>"
+					);	
+					$('.titres.horaires').append(						
+						"<td id=\""+data.idJour+"\" class=\"jour\" style=\"background-color: rgb(255, 255, 153);\"></td>"
+					);
+
+					$(".participant").append(
+						"<td class=\"checktd\"><input id=\""+data.idJour+"\" type=\"checkbox\"  disabled class=\"jour checkbox\" value=\""+$("#datepicker").val()+"\" /></td>"
+					);				
+
+					$("#compte").append(
+						"<td id=\""+data.idJour+"\" class=\"jour\" style=\"background-color: rgb(255, 255, 153);\">0</td>"
+					);
+				}
+			});	
+		}
+	});
+
+	$( ".slider-range" ).slider({
+    	range: true,
+    	min: 0,
+    	max: 1440,
+    	step: 15,
+    	values: [ 8*60, 17*60 ],
+    	slide: function( event, ui ) {
+    		$( "#data" ).val(parseInt(ui.values[ 0 ]/60) + "h"+pad2(ui.values[ 0 ]%60)+" - " + parseInt(ui.values[ 1 ]/60) +"h"+pad2(ui.values[ 1 ]%60));
+
+		}, 
+		change: function(event, ui) {
+			debut = parseInt(ui.values[ 0 ]/60) + "h"+pad2(ui.values[ 0 ]%60);
+			fin = parseInt(ui.values[ 1 ]/60) + "h"+pad2(ui.values[ 1 ]%60);
+					
+		}
+	});
+			    	
+	$( "#dialog-add-horaire" ).dialog({  // boite de dialogue personnalisée
+		autoOpen: false,
+		height: 200,
+		width: 275,
+		modal: true,
+		closeText: 'hide',
+		buttons: {
+			"OK": function() {	
+					
+				$.ajax({
+					type: "POST",
+					url: "@routes.Application.newHoraire(event.id)",
+					data: '{"jour" : "' + currentDay + '"}',
+					contentType: "application/json",
+					success : function(data) {
+						
+						$.ajax({
+							type: "POST",
+							url: "@routes.Application.dateChanged(event.id)",
+							data: '{"idhoraire" : "' + data.idHoraire + '",'+ 
+							'"debut" : "' + debut + '",'+
+							'"fin" : "' + fin + '"}',
+							contentType: "application/json",
+							success : function(data) {
+								
+							}               
+						});
+					}
+				});				
+				
+				$( this ).dialog( "close" );
+				
+				$('#divtest').load('/KIND/eventEdit/@event.id/adm #divtest');
+				
+				$('#divtest').load('/KIND/eventEdit/@event.id/adm #divtest');
+
+				setTimeout(styles, 1000);
+
+
+
+								
+			},
+
+			"Annuler": function() {							
+				$( this ).dialog( "close" );				
+			}				
+		}
+		
+	});
+
+	function styles(){
+		$("tr").attr("style", "");
+		$("table.datesTable td").css("background-color", color3);
+		$(".checkbox").attr("disabled", "true"); 
+
+		$('.checkbox').each(function (i) { // coloration des box checkées
+		  	if ($(this).is(':checked')){
+		  		$(this).parent().css("background-color", "#66CC99");
+		  	}
+		});
+
+		$('.infoPersonne').each(function (i) {
+			$('.titres').attr('style','');
+		});
+
+		refreshCount(); // maj de la ligne de compteurs
+
+		affichagePopulaire();
+	}
+
+	function pad2(number) {
+   
+    	return (number < 10 ? '0' : '') + number
+   
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/* Code concernant la suppression d'horaires et de jours*/
+	 
+	$(".horaireDel").live("click", function(){
+		var thisse = $(this);
+		
+			
+		$.ajax({
+			type: "POST",
+			url: "@routes.Application.deleteHoraire(event.id)",
+			data: '{"jour" : "' + $(this).attr("idjour") + '", "horaire" : "' + $(this).attr("id") + '"}',
+			contentType: "application/json",
+			success : function(data) {
+				$('#divtest').load('/KIND/eventEdit/@event.id/adm #divtest');
+				setTimeout(styles, 1000);				
+			}, 
+			error : function(data) {
+				alert("impossible de supprimer l'horaire, vérifiez que personne n'est disponible à cet horaire-ci")
+			}
+		});	
+
+	})
+
+	$(".jourDel").live("click", function(){
+		var thisse = $(this);
+		
+		
+		$.ajax({
+				type: "POST",
+				url: "@routes.Application.removeDate(event.id)",
+				data: '{"idDate" : "' + $(this).attr("id") + '"}',
+				contentType: "application/json",
+				success : function(data) {
+					$('#divtest').load('/KIND/eventEdit/@event.id/adm #divtest');
+					setTimeout(styles, 1000);		
+				},
+				error : function(data) {
+					alert("impossible de supprimer le jour, vérifiez que personne n'est disponible ce jour-ci")
+				}
+			});				
+
+	})
+	
+
+
+
+
+
+
 
 
 
@@ -852,12 +1178,12 @@
 		})
 
 	function checkobligatoire(idtime, type) {//fonction qui renvoie true si tous les participants obligatoires sont présents.
-		//alert(idtime);
+		
 		var ret = true;
-		//alert("type :"+type + " " + idtime)
+		
 		$('.obligatoire.'+type+'[id="'+idtime+'"]').each(function() {			
 			if(!($(this).is(":checked"))) {
-				//alert("id:"+$(this).attr("id"));
+				
 				ret = false;
 			}
 		})
@@ -868,8 +1194,7 @@
 		$(".checktd").removeClass("obligatoire");
 		$(".checkbox").removeClass("obligatoire");
 		$(".obligatoirecb").each(function () {
-			//alert("test");
-			//alert($(this).parent().parent().siblings(".checktd").html());
+			
 			if($(this).html() == "Obligatoire") {					
 				$(this).parent().parent().siblings(".checktd").addClass("obligatoire");
 				$(this).parent().parent().siblings(".checktd").children().addClass("obligatoire");
@@ -917,8 +1242,7 @@
 		$("#compte").children().each( function() {
 			
 			if ($(this).html() == max && $(this).html() != 0 && checkobligatoire($(this).attr("id"), $(this).attr("class"))) {			
-				$(this).css("background-color", color2);
-				//alert("classe : "+$(this).attr("class")+" id : "+$(this).attr("id"));
+				$(this).css("background-color", color2);				
 				$('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').css("background-color", color2);
 				if($(this).attr("class") == "horaire") {
 					var day = $('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').attr("day");				

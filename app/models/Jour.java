@@ -47,11 +47,11 @@ public class Jour extends Model {
 			jour.saveManyToManyAssociations("horaires");	
 				
 		}
-		jour.delete();
+		
 		for (Horaire hr : tempHoraire) {
 			hr.delete();
 		}
-
+		jour.delete();
 		
 	}
 	

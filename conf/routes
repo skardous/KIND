@@ -9,6 +9,7 @@ GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
 # Home page
 GET     /KIND/                        				controllers.Application.index()
+GET     /KIND                        				controllers.Application.index()
                                 
 # Events          
 GET     /KIND/newevent                  		    controllers.Application.events()

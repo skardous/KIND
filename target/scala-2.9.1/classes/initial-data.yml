@@ -69,6 +69,8 @@ evenement:
                 id: 1
                 titre: Reunion
                 createur: inconnu
+                email: simon.kardous@gmail.com
+                mailSentList: ?
                 participants:
                     - !!models.Personne    
                         id: 1
