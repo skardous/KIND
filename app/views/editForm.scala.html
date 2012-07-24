@@ -788,15 +788,16 @@
 							}               
 						});
 					}
-				});				
+				});			
+
+				$('#divtest').load('/KIND/eventEdit/@event.id/adm #divtest');	
 				
 				$( this ).dialog( "close" );
 				
 				$('#divtest').load('/KIND/eventEdit/@event.id/adm #divtest');
 				
-				$('#divtest').load('/KIND/eventEdit/@event.id/adm #divtest');
-
-				setTimeout(styles, 1000);
+				
+				setTimeout(styles, 1500);
 
 
 
@@ -811,6 +812,8 @@
 	});
 
 	function styles(){
+		
+
 		$("tr").attr("style", "");
 		$("table.datesTable td").css("background-color", color3);
 		$(".checkbox").attr("disabled", "true"); 
