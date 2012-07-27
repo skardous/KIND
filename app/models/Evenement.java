@@ -37,7 +37,10 @@ public class Evenement extends Model {
 	@Email
 	public String email;	
 
-	public String mailSentList;
+	/*@Valid	
+	public List<String> mailSentList = new ArrayList<String>();*/
+	
+	public String mailSentList ="";
 
 	public String passAdmin;
 

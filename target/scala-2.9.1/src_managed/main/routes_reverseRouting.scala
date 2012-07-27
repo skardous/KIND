@@ -1,6 +1,6 @@
 // @SOURCE:C:/tutoPlay/KIND/conf/routes
-// @HASH:090fe8bfb170115c7cd62fb20b23c79103bed4af
-// @DATE:Fri Jul 27 09:40:40 CEST 2012
+// @HASH:132dbc9556d2916d6e070ef2e74cff4c2b01f511
+// @DATE:Fri Jul 27 11:13:46 CEST 2012
 
 import play.core._
 import play.core.Router._
@@ -161,7 +161,7 @@ def heureSelection(id:Long) = {
  
 // @LINE:31
 def edit(idhash:String) = {
-   Call("GET", "/KIND/eventEdit/" + implicitly[PathBindable[String]].unbind("idhash", idhash))
+   Call("GET", "/KIND/eventEdit/" + implicitly[PathBindable[String]].unbind("idhash", idhash) + "/consult")
 }
                                                         
  
@@ -464,7 +464,7 @@ def edit = JavascriptReverseRoute(
    "controllers.Application.edit",
    """
       function(idhash) {
-      return _wA({method:"GET", url:"/KIND/eventEdit/" + (""" + implicitly[PathBindable[String]].javascriptUnbind + """)("idhash", idhash)})
+      return _wA({method:"GET", url:"/KIND/eventEdit/" + (""" + implicitly[PathBindable[String]].javascriptUnbind + """)("idhash", idhash) + "/consult"})
       }
    """
 )

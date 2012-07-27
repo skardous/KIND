@@ -39,13 +39,13 @@ Seq[Any](format.raw/*4.1*/("""
         <img id="image" width="250" src=""""),_display_(Seq[Any](/*12.43*/routes/*12.49*/.Assets.at("images/chu_logo.jpg"))),format.raw/*12.82*/(""""/>
         
         <p>
-        Cet outil a pour but de permettre à tous le personnel du CHU de Rouen d'avoir accès a un moyen simple de planification d'évenements.
+        Cet outil a pour but de permettre à tout le personnel du CHU de Rouen d'avoir accès a un moyen simple de planification d'évènements.
         
         </p>
         
         
         <p>
-        Ici, vous pourrez organiser des réunions/évenements, sélectionner plusieurs choix possibles de jours et d'horaires à votre convenance 
+        Ici, vous pourrez organiser des réunions/évènements, sélectionner plusieurs choix possibles de jours et d'horaires à votre convenance 
         et convier les personnes que vous désirez y inviter en spécifiant leur adresse email.<br>              
         </p>
   
@@ -62,9 +62,9 @@ Seq[Any](format.raw/*4.1*/("""
 }
                 /*
                     -- GENERATED --
-                    DATE: Mon Jul 16 08:27:46 CEST 2012
+                    DATE: Fri Jul 27 15:32:41 CEST 2012
                     SOURCE: C:/tutoPlay/KIND/app/views/index.scala.html
-                    HASH: 91c7c7f5570deda88b3e20d0864b72191bdb49f7
+                    HASH: 4cd5d3d32d658bcadfe9efefafdbfaeaf9cb3702
                     MATRIX: 835->19|871->21|894->36|933->38|1166->235|1181->241|1236->274
                     LINES: 31->4|32->5|32->5|32->5|39->12|39->12|39->12
                     -- GENERATED --

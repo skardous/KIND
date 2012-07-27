@@ -26,22 +26,34 @@
 	
 	<br><br>
 	<h3>Inviter des personnes à l'évenement</h3>
-
-	<div class="selectDate" style="position:relative">
-		<textarea id="mailsArea" title="Adresses email s&eacute;par&eacute;es par une virgule" rows="4" style="color:grey" placeholder="Entrez ici les adresses mail séparées par une virgule ..."></textarea>
-		<i class="checkmail mesicones icon-remove"></i>
-		<a id="envoiLien" disabled="true" class="btn btn-primary">Envoyer Lien</a> <a class="btnMailPerso" title="Ajouter un texte personnalisé au mail"><i class="mesicones icon-plus"></i></a>
-		<div class="champPerso" style="display:none">
-			<textarea id="mailPersoArea" rows="6" style="color:grey" placeholder="Entre un message avec votre mail d'invitation"></textarea>
+	
+		<div class="selectDate" style="position:relative; width:500px">
+			<textarea id="mailsArea" title="Adresses email s&eacute;par&eacute;es par une virgule" rows="4" style="color:grey" placeholder="Entrez ici les adresses mail séparées par une virgule ..."></textarea>
+			<i class="checkmail mesicones icon-remove"></i>
+			<a id="envoiLien" disabled="true" class="btn">Envoyer Lien</a> <a class="btnMailPerso" title="Ajouter un texte personnalisé au mail"><i class="mesicones icon-plus"></i></a>
+			<div class="champPerso" style="display:none">
+				<textarea id="mailPersoArea" rows="6" style="color:grey" placeholder="Entre un message avec votre mail d'invitation"></textarea>
+			</div>
 		</div>
-	</div>
+
+		@if(adm == 1) {
+			<div class="selectDate" style="position:right; width:500px">
+				<h5>Liste des mails invités</h5>
+				<p>				
+					@for(l <- event.mailSentList.split(",")){
+						@l <br>
+					} 
+				</p>
+			</div>
+		}
+	
 	
 	<br><br>
 	<h3>Liste des participants et de leurs disponibilités</h3>
 
 	@if(adm != 1){
 		S'ajouter à la liste des participants :		  
-		<input id="champ" type="text" value="">&nbsp;<a id="ajouter" class="btn">Ajouter</a><br>
+		<input id="champ" type="text" maxlength="25" value="">&nbsp;<a id="ajouter" class="btn">Ajouter</a><br>
 	}	
 
 	<div id="divtest" >
@@ -84,7 +96,7 @@
 							<a id="obligatoire" class="obligatoirecb btn ">Facultatif</a>
 						}
 
-						<input id="nom" size="10" type="text" value="@participant.nom" name="nom" readonly="readonly">							
+						<input id="nom" maxlength="25" type="text" value="@participant.nom" name="nom" readonly="readonly">							
 						<a id="@participant.id" title="Editer le participant" class="editPersonne"><i class="mesicones icon-pencil"></i></a>
 						<a id="@participant.id" title="Supprimer le participant" class="deletePersonne"> <i class="mesicones icon-trash"></i></a>
 					}</td>
@@ -139,7 +151,7 @@
 	
 	<div class="champAdd" style="display:none">		
 		Ajouter un participant :		  
-		<input id="champ" type="text" value="">&nbsp;<a id="ajouter" class="btn">Ajouter</a><br><br>
+		<input id="champ" type="text" size="25" value="">&nbsp;<a id="ajouter" class="btn">Ajouter</a><br><br>
 
 		Ajouter une date:
 		<input id="datepicker" type="text">&nbsp;<a id="ajouterDate" class="btn">Ajouter</a>
@@ -360,6 +372,7 @@
 		if (bonmail($("#mailsArea").val())) {
 			$(".checkmail").attr("class", "checkmail mesicones icon-ok");
 			$("#envoiLien").removeAttr("disabled");
+			$("#envoiLien").removeAttr("disabled");
 		} else {
 			$(".checkmail").attr("class", "checkmail mesicones icon-remove");
 			$("#envoiLien").attr("disabled", "true");
@@ -367,8 +380,16 @@
 	});
 
 	$('#envoiLien').live('click', function(e) {
-
-		if ($(this).attr("disabled") != "disabled") {
+		var canSend = true;
+		var tableau = $("#mailsArea").val().split(",");
+		for (var i=0; i<tableau.length; i++) {
+			
+			if ("@event.mailSentList".indexOf($.trim(tableau[i])) != -1 && tableau[i] != '') {				
+				canSend = false;
+				break;
+			}
+		}
+		if ($(this).attr("disabled") != "disabled" && canSend == true) {
 			var mailsList = $("#mailsArea").val();
 
 			$.ajax({
@@ -390,10 +411,12 @@
 			
 			$(".checkmail").attr("class", "checkmail mesicones icon-ok");
 			$("#envoiLien").removeAttr("disabled");
+			$("#envoiLien").addClass("btn-primary");
 		} else {
 			
 			$(".checkmail").attr("class", "checkmail mesicones icon-remove");
 			$("#envoiLien").attr("disabled", "true");
+			$("#envoiLien").removeClass("btn-primary");
 		}
 	})
 	
@@ -707,7 +730,7 @@
 					"<form id=\"formPersonne\">"+
 					lock+
 					"<a id=\"obligatoire\" class=\"obligatoirecb btn\">Facultatif</a>&nbsp;"+
-					"<input id=\"nom\" type=\"text\" value=\""+nomParticipant+"\" name=\"nom\">&nbsp;"+	
+					"<input id=\"nom\" type=\"text\" maxlength=\"25\" value=\""+nomParticipant+"\" name=\"nom\">&nbsp;"+	
 					"<a id=\""+data.idPersonne+"\" title=\"editer le participant\" class=\"editPersonne\"><i class=\"mesicones icon-ok\"></i></a>"+
 					"<a id=\""+data.idPersonne+"\" title=\"supprimer le participant\" class=\"deletePersonne\"> <i class=\"mesicones icon-trash\"></i</a>"+		  
 					"</form></td>"+
@@ -933,7 +956,7 @@
 	}
 
 	function refreshtable(){
-		$('#divtest').load('/KIND/eventEdit/@event.id/adm #divtest');
+		$('#divtest').load('/KIND/eventEdit/@(new sun.misc.BASE64Encoder().encode((event.id.toString).getBytes))/adm #divtest');
 	}
 
 	function pad2(number) {
@@ -1061,15 +1084,19 @@
 			}
 		  
 	    } else {
-	      $(this).html("<i class=\"mesicones icon-pencil\"></i>");
-	      $(this).parents("tr").removeClass("editable");
-	      $(this).siblings('input[type="text"]').attr("readonly", "readonly");
-	      $(this).parent().parent().parent().children("td").children('input[type="checkbox"]').attr("disabled","true"); 
-	      $(this).parent().parent().parent().children("td").css("border", "none");
-	      $(".hoverable").off();	      
-	      $(this).parent().parent().parent().children(".checktd").attr("class", "checktd");
-	      refreshHoverable();
-	      editPersonne($(this).attr('id'), $(this).siblings("input").attr("value"));
+	    	if ($.trim($(this).siblings("input").attr("value")) != "") {
+			      $(this).html("<i class=\"mesicones icon-pencil\"></i>");
+			      $(this).parents("tr").removeClass("editable");
+			      $(this).siblings('input[type="text"]').attr("readonly", "readonly");
+			      $(this).parent().parent().parent().children("td").children('input[type="checkbox"]').attr("disabled","true"); 
+			      $(this).parent().parent().parent().children("td").css("border", "none");
+			      $(".hoverable").off();	      
+			      $(this).parent().parent().parent().children(".checktd").attr("class", "checktd");
+			      refreshHoverable();
+			      editPersonne($(this).attr('id'), $(this).siblings("input").attr("value"));
+			} else {
+				alert("Impossible de mettre un nom vide!!");
+			}
 	    }
 	
 	  
@@ -1210,8 +1237,9 @@
 	/*Code sur la suppression de participants*/
 
 	$('.deletePersonne').live('click', function(e) {
+		currentDelButton = $(this);
 		if ($(this).siblings("i").hasClass("icon-lock")){
-    		currentDelButton = $(this);
+    		
     		$.ajax({
 				type: "POST",
 				url: "@routes.Application.getPass()",
