@@ -2,6 +2,8 @@
 
 @import helper._
 
+
+
 @main("Liste des evenements") {
     
     <h1>@events.size() evenement(s)</h1>
@@ -48,7 +50,7 @@
             	
                 </div>
                  <!-- @** <input type="submit" action="@routes.Application.edit(e.id)" value="Editer evenement">   *@  -->
-                 <a href="@routes.Application.edit(e.id)">Editer evenement</a> <br>        	
+                 <a href="@routes.Application.edit(new sun.misc.BASE64Encoder().encode((e.id.toString).getBytes))">Editer evenement</a> <br>        	
                 
                 
                 @form(routes.Application.deleteEvent(e.id)) {

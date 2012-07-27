@@ -20,7 +20,7 @@
 		</div>
 	}
     
-    <a class="btn btn-primary" href="@routes.Application.edit(event.id)">Terminé</a>
+    <a class="btn btn-primary" href="@routes.Application.editAdm(new sun.misc.BASE64Encoder().encode((event.id.toString).getBytes))">Terminé</a>
 	
     
 	<script type="text/javascript" charset="utf-8">

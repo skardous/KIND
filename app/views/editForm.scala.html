@@ -19,6 +19,7 @@
 	
 	@if(adm == 1) {
 		<a class="btn btn-danger" href="@routes.Application.deleteEvent(event.id)">Supprimer l'evenement</a>
+		<a id="newPassAdmin" class="btn btn-info" >Modifier le mot de passe admin</a>
 	}
 
 
@@ -27,9 +28,12 @@
 	<h3>Inviter des personnes à l'évenement</h3>
 
 	<div class="selectDate" style="position:relative">
-	<textarea id="mailsArea" title="Adresses email s&eacute;par&eacute;es par une virgule" rows="4" style="color:grey" placeholder="Entrez ici les adresses mail séparées par une virgule ..."></textarea>
-	<i class="checkmail mesicones icon-remove"></i>
-	<a id="envoiLien" disabled="true" class="btn btn-primary">Envoyer Lien</a>
+		<textarea id="mailsArea" title="Adresses email s&eacute;par&eacute;es par une virgule" rows="4" style="color:grey" placeholder="Entrez ici les adresses mail séparées par une virgule ..."></textarea>
+		<i class="checkmail mesicones icon-remove"></i>
+		<a id="envoiLien" disabled="true" class="btn btn-primary">Envoyer Lien</a> <a class="btnMailPerso" title="Ajouter un texte personnalisé au mail"><i class="mesicones icon-plus"></i></a>
+		<div class="champPerso" style="display:none">
+			<textarea id="mailPersoArea" rows="6" style="color:grey" placeholder="Entre un message avec votre mail d'invitation"></textarea>
+		</div>
 	</div>
 	
 	<br><br>
@@ -47,8 +51,8 @@
 				@for(jour <- event.jours) {  					  
 					<td id="@jour.id" class="jour" colspan="@jour.horaires.size()">
 						<b class="jourintitule">@jour.date </b>
-						@if(adm == 1){<a id="@jour.id" class="horaireAdd" ><i class="mesicones icon-plus"></i></a>}
-						@if(adm == 1){<a id="@jour.id" class="jourDel"><i class="mesicones icon-remove"></i></a>}
+						@if(adm == 1){<a id="@jour.id" class="horaireAdd" title="Ajouter une plage horaire à cette date" ><i class="mesicones icon-plus"></i></a>}
+						@if(adm == 1){<a id="@jour.id" class="jourDel" title="Supprimer cette date"><i class="mesicones icon-remove"></i></a>}
 					</td>	                        	                
 				}
 			</tr>
@@ -60,7 +64,7 @@
 				    @for(horaire <- jour.horaires) {
 				    	<td id="@horaire.id" dayid="@jour.id" class="horaire">
 				    		@horaire.debut - @horaire.fin 
-				    		@if(adm == 1){<a id="@horaire.id" idjour="@jour.id" class="horaireDel" ><i class="mesicones icon-remove"></i></a>}
+				    		@if(adm == 1){<a id="@horaire.id" idjour="@jour.id" class="horaireDel" title="Supprimer cette plage horaire" ><i class="mesicones icon-remove"></i></a>}
 				    	</td>
 				    }  
 
@@ -76,7 +80,7 @@
 						}
 						@if(participant.obligatoire){							
 							<a id="obligatoire" class="obligatoirecb btn btn-inverse">Obligatoire</a>
-						} else {								
+						} else {							
 							<a id="obligatoire" class="obligatoirecb btn ">Facultatif</a>
 						}
 
@@ -182,6 +186,22 @@
 		
 	</div>
 
+	<div id="dialog-check-pwd-delete" title="Entrez le mot de passe pour ce participant">		
+
+				
+			<label for="password">Mot de passe du participant :</label>
+			<input type="password" name="password" id="password-check-delete" value="" class="text ui-widget-content ui-corner-all" />
+		
+	</div>
+
+	<div id="dialog-new-adm" title="Entrez le nouveau mot de passe administrateur">		
+
+				
+			<label for="password">Nouveau mot de passe :</label>
+			<input type="password" name="password" id="password-new-adm" value="" class="text ui-widget-content ui-corner-all" />
+		
+	</div>
+
 	<div id="dialog-check-pwd-adm" title="Entrez le mot de passe organisateur">		
 
 				
@@ -200,8 +220,13 @@
 	var color3 = "steelblue";
 	var mdp = "";
 
-
-
+	/*$(function() {
+       hash = encode64("1");
+       hash2 = encode64(hash);
+       alert("code:"+hash2);
+       alert("decode"+decode64(decode64(hash2)));
+   })*/
+	
 
 
 
@@ -245,6 +270,7 @@
 		width: 275,
 		modal: true,
 		open: function(event, ui) { $(".ui-dialog-titlebar-close", $(this).parent()).hide(); },
+		closeOnEscape: false,
 		buttons: {
 			"OK": function() {				
 								
@@ -254,6 +280,38 @@
 				} else {
 				  	alert("mot de passe incorrect");
 				}				
+				
+			}					
+		}
+		
+		
+	});
+
+	$("#newPassAdmin").live("click", function(){
+		$( "#dialog-new-adm" ).dialog("open");
+	});
+
+	$( "#dialog-new-adm" ).dialog({  // boite de dialogue personnalisée
+		autoOpen: false,
+		height: 200,
+		width: 275,
+		modal: true,	
+		
+		buttons: {
+			"OK": function() {				
+								
+				pass = $("#password-new-adm").val();	
+				$.ajax({
+					type: "POST",
+					url: "@routes.Application.newAdmPass(event.id)",
+					data: '{"newPass" : "' + pass + '"}',
+					contentType: "application/json",
+					success : function(data) {
+						alert("Nouveau mot de passe etabli");
+
+					}
+				});
+				$( this ).dialog( "close" );			
 				
 			}					
 		}
@@ -316,7 +374,7 @@
 			$.ajax({
 				type: "POST",
 				url: "@routes.Application.sendMail(event.id)",
-				data: '{"mailslist" : "' + mailsList + '"}',
+				data: '{"mailslist" : "' + mailsList + '", "textPerso" : "' + $("#mailPersoArea").val() + '"}',
 				contentType: "application/json",
 				success : function(data) {
 					alert("Mail(s) envoye(s) a "+mailsList);
@@ -398,6 +456,16 @@
 		refreshCount(); // maj de la ligne de compteurs
 
 		affichagePopulaire(); // maj des surbrillances
+	})
+
+	$(".btnMailPerso").live('click', function() {
+		if ($(this).siblings(".champPerso").css("display") == "none") {                
+            $(this).siblings(".champPerso").removeAttr("style");
+            $(this).html("<i class=\"mesicones icon-minus\"></i>")
+        } else {                
+            $(this).siblings(".champPerso").attr("style", "display:none");
+            $(this).html("<i class=\"mesicones icon-plus\"></i>")
+        }
 	})
 
 	$("textarea").live('click', function(e) {
@@ -499,6 +567,7 @@
 	var pass = "";
 	var goodPass = "";
 	var currentEditButton;
+	var currentDelButton;
 
 	$( "#dialog-question-securise" ).dialog({  // boite de dialogue personnalisée
 		autoOpen: false,
@@ -565,6 +634,32 @@
 		
 	});
 
+	$( "#dialog-check-pwd-delete" ).dialog({  // boite de dialogue personnalisée
+		autoOpen: false,
+		height: 200,
+		width: 275,
+		modal: true,
+		buttons: {
+			"OK": function() {				
+								
+				pass = $("#password-check-delete").val();	
+				if (pass == goodPass) {
+				  	deletePersonne(currentDelButton);
+				} else {
+				  	alert("mot de passe incorrect");
+				}				
+				$( "#password-check-delete" ).attr("value", "");
+				$( this ).dialog( "close" );
+				
+			},
+
+			"Annuler": function() {							
+				$( this ).dialog( "close" );				
+			}				
+		}
+		
+	});
+
 
 
 	
@@ -600,7 +695,7 @@
 	{	
 		$.ajax({
 			type: "POST",
-			url: "@routes.Application.addParticipant(event.id)",
+			url: "@routes.Application.addParticipant(new sun.misc.BASE64Encoder().encode((event.id.toString).getBytes))",
 			data: '{"nom" : "' + nomParticipant + '", "locked" : "' + locked + '", "pwd" : "' + pwd + '"}',
 			contentType: "application/json",
 			success : function(data) {
@@ -626,8 +721,12 @@
 				$('#champ').attr('value', '')
 				$('.titres').attr('style','');
 				refreshHoverable();
-						
-			}               
+				if ("@adm" == "1") {
+					setTimeout(refreshtable, 500);				
+					setTimeout(styles, 1500); 	
+				}					
+			}
+			             
 		});
 	}
 
@@ -708,7 +807,7 @@
 			listeJours=listeJours+$(this).html()+" "
 		});
 
-		alert(listeJours);
+		
 		if (listeJours.indexOf($("#datepicker").val()) != -1 ) {			
 			alert("date déjà existante");
 		} else {
@@ -721,7 +820,7 @@
 
 					$('.titres.dates').append(
 						"<td id=\""+data.idJour+"\" class=\"jour\" style=\"background-color: rgb(255, 255, 153);\">"+
-							"<b>"+$("#datepicker").val()+" </b>"+
+							"<b class=\"jourintitule\">"+$("#datepicker").val()+" </b>"+
 							"<a id=\""+data.idJour+"\" class=\"horaireAdd\">"+
 								"<i class=\"mesicones icon-plus\"></i>"+
 							"</a>"+
@@ -790,11 +889,11 @@
 					}
 				});			
 
-				$('#divtest').load('/KIND/eventEdit/@event.id/adm #divtest');	
+				setTimeout(refreshtable, 100);	
 				
 				$( this ).dialog( "close" );
 				
-				$('#divtest').load('/KIND/eventEdit/@event.id/adm #divtest');
+				setTimeout(refreshtable, 500);
 				
 				
 				setTimeout(styles, 1500);
@@ -831,6 +930,10 @@
 		refreshCount(); // maj de la ligne de compteurs
 
 		affichagePopulaire();
+	}
+
+	function refreshtable(){
+		$('#divtest').load('/KIND/eventEdit/@event.id/adm #divtest');
 	}
 
 	function pad2(number) {
@@ -876,8 +979,8 @@
 			data: '{"jour" : "' + $(this).attr("idjour") + '", "horaire" : "' + $(this).attr("id") + '"}',
 			contentType: "application/json",
 			success : function(data) {
-				$('#divtest').load('/KIND/eventEdit/@event.id/adm #divtest');
-				setTimeout(styles, 1000);				
+				setTimeout(refreshtable, 500);				
+				setTimeout(styles, 2000);				
 			}, 
 			error : function(data) {
 				alert("impossible de supprimer l'horaire, vérifiez que personne n'est disponible à cet horaire-ci")
@@ -896,8 +999,8 @@
 				data: '{"idDate" : "' + $(this).attr("id") + '"}',
 				contentType: "application/json",
 				success : function(data) {
-					$('#divtest').load('/KIND/eventEdit/@event.id/adm #divtest');
-					setTimeout(styles, 1000);		
+					setTimeout(refreshtable, 500);
+					setTimeout(styles, 2000);		
 				},
 				error : function(data) {
 					alert("impossible de supprimer le jour, vérifiez que personne n'est disponible ce jour-ci")
@@ -933,7 +1036,7 @@
 
 
 
-	/*Code sur l'édition*/
+	/*Code sur l'édition dee participants*/
 
 	$('.editPersonne').live('click', function(e) {
 		
@@ -1104,33 +1207,53 @@
 
 
 
-	/*Code sur la suppression*/
+	/*Code sur la suppression de participants*/
 
-	$('.deletePersonne').live('click', function(e) {    
-	    $(this).parent().parent().parent().remove();
-	    
-	    
-	    deletePersonne($(this).attr('id'));
-	    if($('td[class="infoPersonne"]').html() == null) {
-	    	$('.titres').attr('style','display:none');
-	    }
-	    $('#compte').children('td[id!=""]').each(function(i) {$(this).html("0")});
+	$('.deletePersonne').live('click', function(e) {
+		if ($(this).siblings("i").hasClass("icon-lock")){
+    		currentDelButton = $(this);
+    		$.ajax({
+				type: "POST",
+				url: "@routes.Application.getPass()",
+				data: '{ "idpers" : "'+$(this).parents("tr").attr("id")+'" }',
+				contentType: "application/json",
+				success : function(data) {
+					goodPass = data.pass;
 
-	    refreshCount();
+					$( "#dialog-check-pwd-delete" ).dialog( "open" );	
+										  
+				}
+		   });			
+			
+		} else {   
+		    deletePersonne(currentDelButton);
+		}
 	    
 	})
 
-	function deletePersonne(persId)
+	function deletePersonne(delButton)
 	{
-	  $.ajax({
+		delButton.parent().parent().parent().remove();		    
+	    
+	    if($('td[class="infoPersonne"]').html() == null) {
+	    	$('.titres').attr('style','display:none');
+	    }
+
+	    $('#compte').children('td[id!=""]').each(function(i) {
+	    	$(this).html("0")
+	    });
+
+	    refreshCount();
+
+	    $.ajax({
 			type: "POST",
 			url: "@routes.Application.deleteParticipant(event.id)",
-			data: '{"id" : "' + persId + '"}',
+			data: '{"id" : "' + delButton.attr('id') + '"}',
 			contentType: "application/json",
 			success : function(data) {
 			  //alert("Participant supprim\351");
 			}
-	  });
+	    });
 	}
 
 

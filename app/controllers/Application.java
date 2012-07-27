@@ -1,6 +1,7 @@
 package controllers;
 
 import org.codehaus.jackson.node.ObjectNode;
+import org.apache.commons.codec.binary.Base64;
 
 
 import java.util.*;
@@ -85,6 +86,7 @@ public class Application extends Controller {
 
 		JsonNode json = request().body().asJson();
 		String mails = json.findPath("mailslist").getTextValue();	
+		String textPerso = json.findPath("textPerso").getTextValue();
 		
 		Evenement e = Evenement.findEvt.ref(idevt);		
 			
@@ -94,8 +96,12 @@ public class Application extends Controller {
 		String destinataires = mails;
 		String title = "KIND: Invitation à "+e.titre;
 		String text = "Bonjour, \n\n"+
-					"Vous avez été invité à noter vos disponibilités pour participer à \""+e.titre+"\".\n"+
-					"Pour répondre, connectez-vous au lien d'invitation suivant depuis un des ordinateurs du CHU:\n"+
+					"Vous avez été invité à noter vos disponibilités pour participer à \""+e.titre+"\".\n";
+
+		if (textPerso != "" && textPerso != null) {
+			text = text + "\nMessage d'invitation : \n"+textPerso+"\n\n";
+		}
+		text = text+"Pour répondre, connectez-vous au lien d'invitation suivant depuis un des ordinateurs du CHU:\n"+
 				    "http://intranet2:9000/KIND/eventEdit/"+idevt+"\n\n"+
 				    "Cordialement, \n"+
 				    "L'équipe KIND";
@@ -149,11 +155,12 @@ public class Application extends Controller {
 			String text = "Bonjour, \n\n"+
 					"Vous venez de créer un évenènement sur le gestionnaire d'évènements du CHU de Rouen : \""+filledForm.get().titre+"\".\n\n"+
 					"Pour y répondre, connectez-vous au lien d'invitation suivant depuis un des ordinateurs du CHU:\n"+
-				    "http://intranet2:9000/KIND/eventEdit/"+filledForm.get().id+"\n\n"+
+				    "http://intranet2:9000/KIND/eventEdit/"+new String(Base64.encodeBase64(Long.toString(filledForm.get().id).getBytes()))+"\n\n"+
 				    "Pour l'administrer, connectez-vous au lien d'invitation suivant depuis un des ordinateurs du CHU avec le mot de passe "+tempevt.passAdmin+":\n"+
-				    "http://intranet2:9000/KIND/eventEdit/"+filledForm.get().id+"/adm\n\n"+
+				    "http://intranet2:9000/KIND/eventEdit/"+new String(Base64.encodeBase64(Long.toString(filledForm.get().id).getBytes()))+"/adm\n\n"+
 				    "Cordialement, \n"+
 				    "L'équipe KIND";
+			
 
 			sendSpecificMail(origineMail, destinataires, title, text);
 			
@@ -178,18 +185,37 @@ public class Application extends Controller {
 
 
 	// action d'affichage du formulaire d'edition d'evt
-	public static Result edit(Long id) {
-		Form<Evenement> evenementForm = form(Evenement.class).fill(
-				Evenement.findEvt.byId(id));
+	public static Result edit(String idhash) {
+		Long id = Long.valueOf(new String(Base64.decodeBase64(idhash.getBytes())));
+		Evenement evt = Evenement.findEvt.byId(id);
+		if (evt == null){
+			return ok(error.render());
+		}
+		Form<Evenement> evenementForm = form(Evenement.class).fill(evt);
 		Evenement created = evenementForm.get();
 		return ok(editForm.render(created, 0));
 	}
 
-	public static Result editAdm(Long id) {
+	public static Result editAdm(String idhash) {
+		Long id = Long.valueOf(new String(Base64.decodeBase64(idhash.getBytes())));
 		Form<Evenement> evenementForm = form(Evenement.class).fill(
 				Evenement.findEvt.byId(id));
 		Evenement created = evenementForm.get();
 		return ok(editForm.render(created, 1));
+	}
+
+	@BodyParser.Of(BodyParser.Json.class)
+	public static Result newAdmPass(Long id) {
+		
+		JsonNode json = request().body().asJson();
+		String pass = json.findPath("newPass").getTextValue();	
+		
+		Evenement evt = Evenement.findEvt.ref(id);
+		evt.passAdmin = pass;
+		evt.save();
+		System.out.println("pass admin changé " +pass);
+				
+		return ok();
 	}
 
 	// action de validation du formulaire d'edition d'evt
@@ -219,7 +245,8 @@ public class Application extends Controller {
 	}
 
 	@BodyParser.Of(BodyParser.Json.class)
-	public static Result addParticipant(Long id) {
+	public static Result addParticipant(String idhash) {
+		Long id = Long.valueOf(new String(Base64.decodeBase64(idhash.getBytes())));
 		JsonNode json = request().body().asJson();
 		String name = json.findPath("nom").getTextValue();
 		String locked = json.findPath("locked").getTextValue();

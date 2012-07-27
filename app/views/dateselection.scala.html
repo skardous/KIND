@@ -24,6 +24,12 @@
 
 	<a href="@routes.Application.heureSelection(event.id)" class="btn btn-primary">Continuer</a>
 
+	<div id="dialog-check-pwd-adm" title="Entrez le mot de passe organisateur">				
+			<label for="password">Mot de passe organisateur (envoyé par mail a la création de l'évènement) :</label>
+			<input type="password" name="password" id="password-check-adm" value="" class="text ui-widget-content ui-corner-all" />
+		
+	</div>
+
 
 
 	<script type="text/javascript" charset="utf-8">
@@ -119,6 +125,39 @@
 			});	
 
 		});
+
+
+
+
+	$(function(){		
+
+		$( "#dialog-check-pwd-adm" ).dialog( "open" );		
+
+	});
+	
+
+	$( "#dialog-check-pwd-adm" ).dialog({  // boite de dialogue personnalisée
+		autoOpen: false,
+		height: 200,
+		width: 275,
+		modal: true,
+		open: function(event, ui) { $(".ui-dialog-titlebar-close", $(this).parent()).hide(); },
+		closeOnEscape: false,
+		buttons: {
+			"OK": function() {				
+								
+				pass = $("#password-check-adm").val();	
+				if (pass == "@event.passAdmin") {
+				  	$( this ).dialog( "close" );
+				} else {
+				  	alert("mot de passe incorrect");
+				}				
+				
+			}					
+		}
+		
+		
+	});
 
 	</script>
     
