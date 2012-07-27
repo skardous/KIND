@@ -96,13 +96,13 @@ public class Application extends Controller {
 		String destinataires = mails;
 		String title = "KIND: Invitation à "+e.titre;
 		String text = "Bonjour, \n\n"+
-					"Vous avez été invité à noter vos disponibilités pour participer à \""+e.titre+"\".\n";
+					"Vous avez été invité par "+e.createur+" à noter vos disponibilités pour participer à \""+e.titre+"\".\n";
 
 		if (textPerso != "" && textPerso != null) {
 			text = text + "\nMessage d'invitation : \n"+textPerso+"\n\n";
 		}
 		text = text+"Pour répondre, connectez-vous au lien d'invitation suivant depuis un des ordinateurs du CHU:\n"+
-				    "http://intranet2:9000/KIND/eventEdit/"+idevt+"\n\n"+
+				    "http://intranet2:9000/KIND/eventEdit/"+new String(Base64.encodeBase64(Long.toString(idevt).getBytes()))+"\n\n"+
 				    "Cordialement, \n"+
 				    "L'équipe KIND";
 
