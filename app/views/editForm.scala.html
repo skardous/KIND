@@ -21,7 +21,7 @@
 	
 	@if(adm == 1) {
 		<a class="btn btn-danger" href="@routes.Application.deleteEvent(event.id)">Supprimer l'evenement</a>
-		<a id="newPassAdmin" class="btn btn-info" >Modifier le mot de passe admin</a>
+		<a id="newPassAdmin" class="btn btn-info" >Modifier le mot de passe organisateur</a>
 	}
 
 
@@ -251,44 +251,10 @@
 
 
 
-
-
-
-
-
-
-
-
 	/*Code concernant l'interface administrateur*/
 
 
 	adminTools("@adm", "@event.passAdmin", "@routes.Application.newAdmPass(event.id)");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

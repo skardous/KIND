@@ -103,12 +103,12 @@ public class Application extends Controller {
 		String destinataires = mails;
 		String title = "KIND: Invitation à "+e.titre;
 		String text = "Bonjour, \n\n"+
-					"Vous avez été invité par "+e.createur+" à noter vos disponibilités pour participer à \""+e.titre+"\".\n";
+					"Vous avez été invité par "+e.createur+" à noter vos disponibilités pour participer à l'événement intitulé : \""+e.titre+"\".\n";
 
 		if (textPerso != "" && textPerso != null) {
 			text = text + "\nMessage d'invitation : \n"+textPerso+"\n\n";
 		}
-		text = text+"Pour répondre, connectez-vous au lien d'invitation suivant depuis un des ordinateurs du CHU:\n"+
+		text = text+"Pour répondre et noter vos disponibilités, connectez-vous au lien d'invitation suivant depuis un des ordinateurs du CHU de Rouen :\n"+
 				    "http://intranet2:9000/KIND/eventEdit/"+new String(Base64.encodeBase64(Long.toString(idevt).getBytes()))+"/consult\n\n"+
 				    "Cordialement, \n"+
 				    "L'équipe KIND";
@@ -163,8 +163,9 @@ public class Application extends Controller {
 					"Vous venez de créer un évenènement sur le gestionnaire d'évènements du CHU de Rouen : \""+filledForm.get().titre+"\".\n\n"+
 					"Pour y répondre, connectez-vous au lien d'invitation suivant depuis un des ordinateurs du CHU:\n"+
 				    "http://intranet2:9000/KIND/eventEdit/"+new String(Base64.encodeBase64(Long.toString(filledForm.get().id).getBytes()))+"/consult\n\n"+
-				    "Pour l'administrer, connectez-vous au lien d'invitation suivant depuis un des ordinateurs du CHU avec le mot de passe "+tempevt.passAdmin+"\n"+
+				    "Pour l'administrer, connectez-vous au lien d'invitation suivant depuis un des ordinateurs du CHU :\n"+
 				    "http://intranet2:9000/KIND/eventEdit/"+new String(Base64.encodeBase64(Long.toString(filledForm.get().id).getBytes()))+"/adm\n\n"+
+				    "Mot de passe organisateur:    "+tempevt.passAdmin+"\n\n"+
 				    "Cordialement, \n"+
 				    "L'équipe KIND";
 			
