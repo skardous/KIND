@@ -92,11 +92,10 @@ public class Application extends Controller {
 		
 		Evenement e = Evenement.findEvt.ref(idevt);
 		
-		for (String s:mailsList){
-			//e.mailSentList.add(s);
-			e.mailSentList = e.mailSentList+s+",";
-		}
-		e.save();
+		for (String s:mailsList){			
+			Long retId = Evenement.addMailAdress(e, s);
+		}		
+		
 		System.out.println(e.mailSentList);
 
 		
@@ -216,8 +215,12 @@ public class Application extends Controller {
 		} catch (Exception e) {
 			return ok(error.render());
 		}
-		Form<Evenement> evenementForm = form(Evenement.class).fill(
-				Evenement.findEvt.byId(id));
+		
+		Evenement evt = Evenement.findEvt.byId(id);
+		if (evt == null){
+			return ok(error.render());
+		}
+		Form<Evenement> evenementForm = form(Evenement.class).fill(evt);
 		Evenement created = evenementForm.get();
 		return ok(editForm.render(created, 1));
 	}
@@ -415,5 +418,17 @@ public class Application extends Controller {
 		result.put("pass",""+p.password+"");
 		return ok(result);
 
+	}
+	
+	@BodyParser.Of(BodyParser.Json.class)
+	public static Result addMail(Long id) {
+		
+		JsonNode json = request().body().asJson();
+		String adress = json.findPath("adress").getTextValue();
+
+		Evenement evt = Evenement.findEvt.byId(id);
+		Long retId = Evenement.addMailAdress(evt, adress);
+		
+		return ok();
 	}
 }

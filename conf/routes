@@ -28,15 +28,15 @@ POST   /KIND/newevent/:id/newHoraire              	controllers.Application.newHo
 POST   /KIND/newevent/:id/deleteHoraire           	controllers.Application.deleteHoraire(id:Long)
 
 # Edit existing event
-GET     /KIND/eventEdit/:idhash/consult          		     	controllers.Application.edit(idhash:String)
+GET     /KIND/eventEdit/:idhash/consult             controllers.Application.edit(idhash:String)
 POST    /KIND/eventEdit/:id        			     	controllers.Application.update(id:Long)
-GET     /KIND/eventEdit/:idhash/adm          		    controllers.Application.editAdm(idhash:String)
+GET     /KIND/eventEdit/:idhash/adm          		controllers.Application.editAdm(idhash:String)
 
 POST     /KIND/eventEdit/:id/adm/newpass            controllers.Application.newAdmPass(id:Long)
 
 POST     /KIND/eventEdit/:id/updatePersonne         controllers.Application.updatePersonne(id:Long)
 
-POST     /KIND/eventEdit/:idhash/addParticip            controllers.Application.addParticipant(idhash:String)
+POST     /KIND/eventEdit/:idhash/addParticip        controllers.Application.addParticipant(idhash:String)
 POST     /KIND/eventEdit/:id/delParticip            controllers.Application.deleteParticipant(id:Long)
 
 POST     /KIND/eventEdit/:id/checkBoxHoraire        controllers.Application.checkBoxHoraire(id:Long)
@@ -45,5 +45,6 @@ POST     /KIND/eventEdit/:id/checkBoxJour           controllers.Application.chec
 POST     /KIND/eventEdit/:id/changeObligatoire      controllers.Application.changeObligatoire(id:Long)
 
 POST     /KIND/eventEdit/:id/sendmail               controllers.Application.sendMail(id:Long)
+POST     /KIND/eventEdit/:id/addMail                controllers.Application.addMail(id:Long)
 
 POST     /KIND/eventEdit/        		      	    controllers.Application.getPass()

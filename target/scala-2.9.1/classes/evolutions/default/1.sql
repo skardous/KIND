@@ -10,8 +10,8 @@ create table evenement (
   descriptif                varchar(255),
   createur                  varchar(255),
   email                     varchar(255),
-  mail_sent_list            varchar(255),
   pass_admin                varchar(255),
+  date_creation             datetime,
   constraint pk_evenement primary key (id))
 ;
 
@@ -26,6 +26,12 @@ create table jour (
   id                        bigint auto_increment not null,
   date                      varchar(255),
   constraint pk_jour primary key (id))
+;
+
+create table mail (
+  id                        bigint auto_increment not null,
+  adresse                   varchar(255),
+  constraint pk_mail primary key (id))
 ;
 
 create table personne (
@@ -48,6 +54,12 @@ create table evenement_jour (
   evenement_id                   bigint not null,
   jour_id                        bigint not null,
   constraint pk_evenement_jour primary key (evenement_id, jour_id))
+;
+
+create table evenement_mail (
+  evenement_id                   bigint not null,
+  mail_id                        bigint not null,
+  constraint pk_evenement_mail primary key (evenement_id, mail_id))
 ;
 
 create table jour_horaire (
@@ -78,6 +90,10 @@ alter table evenement_jour add constraint fk_evenement_jour_evenement_01 foreign
 
 alter table evenement_jour add constraint fk_evenement_jour_jour_02 foreign key (jour_id) references jour (id) on delete restrict on update restrict;
 
+alter table evenement_mail add constraint fk_evenement_mail_evenement_01 foreign key (evenement_id) references evenement (id) on delete restrict on update restrict;
+
+alter table evenement_mail add constraint fk_evenement_mail_mail_02 foreign key (mail_id) references mail (id) on delete restrict on update restrict;
+
 alter table jour_horaire add constraint fk_jour_horaire_jour_01 foreign key (jour_id) references jour (id) on delete restrict on update restrict;
 
 alter table jour_horaire add constraint fk_jour_horaire_horaire_02 foreign key (horaire_id) references horaire (id) on delete restrict on update restrict;
@@ -100,11 +116,15 @@ drop table evenement_personne;
 
 drop table evenement_jour;
 
+drop table evenement_mail;
+
 drop table horaire;
 
 drop table jour;
 
 drop table jour_horaire;
+
+drop table mail;
 
 drop table personne;
 

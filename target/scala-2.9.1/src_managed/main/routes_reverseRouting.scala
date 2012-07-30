@@ -1,6 +1,6 @@
 // @SOURCE:C:/tutoPlay/KIND/conf/routes
-// @HASH:132dbc9556d2916d6e070ef2e74cff4c2b01f511
-// @DATE:Fri Jul 27 11:13:46 CEST 2012
+// @HASH:162ebfddd15cd20715924a58bfa28b556fb2f75c
+// @DATE:Mon Jul 30 09:44:15 CEST 2012
 
 import play.core._
 import play.core.Router._
@@ -12,7 +12,8 @@ import play.libs.F
 import Router.queryString
 
 
-// @LINE:49
+// @LINE:50
+// @LINE:48
 // @LINE:47
 // @LINE:45
 // @LINE:43
@@ -57,7 +58,8 @@ def at(file:String) = {
 }
                             
 
-// @LINE:49
+// @LINE:50
+// @LINE:48
 // @LINE:47
 // @LINE:45
 // @LINE:43
@@ -105,7 +107,7 @@ def deleteHoraire(id:Long) = {
 }
                                                         
  
-// @LINE:49
+// @LINE:50
 def getPass() = {
    Call("POST", "/KIND/eventEdit/")
 }
@@ -227,6 +229,12 @@ def changeObligatoire(id:Long) = {
 }
                                                         
  
+// @LINE:48
+def addMail(id:Long) = {
+   Call("POST", "/KIND/eventEdit/" + implicitly[PathBindable[Long]].unbind("id", id) + "/addMail")
+}
+                                                        
+ 
 // @LINE:16
 def eventlist() = {
    Call("GET", "/KIND/eventlist")
@@ -247,7 +255,8 @@ def deleteParticipant(id:Long) = {
                     
 
 
-// @LINE:49
+// @LINE:50
+// @LINE:48
 // @LINE:47
 // @LINE:45
 // @LINE:43
@@ -297,7 +306,8 @@ def at = JavascriptReverseRoute(
 }
                             
 
-// @LINE:49
+// @LINE:50
+// @LINE:48
 // @LINE:47
 // @LINE:45
 // @LINE:43
@@ -360,7 +370,7 @@ def deleteHoraire = JavascriptReverseRoute(
 )
                                                         
  
-// @LINE:49
+// @LINE:50
 def getPass = JavascriptReverseRoute(
    "controllers.Application.getPass",
    """
@@ -575,6 +585,17 @@ def changeObligatoire = JavascriptReverseRoute(
 )
                                                         
  
+// @LINE:48
+def addMail = JavascriptReverseRoute(
+   "controllers.Application.addMail",
+   """
+      function(id) {
+      return _wA({method:"POST", url:"/KIND/eventEdit/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id) + "/addMail"})
+      }
+   """
+)
+                                                        
+ 
 // @LINE:16
 def eventlist = JavascriptReverseRoute(
    "controllers.Application.eventlist",
@@ -605,7 +626,8 @@ def deleteParticipant = JavascriptReverseRoute(
                     
 
 
-// @LINE:49
+// @LINE:50
+// @LINE:48
 // @LINE:47
 // @LINE:45
 // @LINE:43
@@ -650,7 +672,8 @@ def at(path:String, file:String) = new play.api.mvc.HandlerRef(
 }
                             
 
-// @LINE:49
+// @LINE:50
+// @LINE:48
 // @LINE:47
 // @LINE:45
 // @LINE:43
@@ -698,7 +721,7 @@ def deleteHoraire(id:Long) = new play.api.mvc.HandlerRef(
 )
                               
  
-// @LINE:49
+// @LINE:50
 def getPass() = new play.api.mvc.HandlerRef(
    controllers.Application.getPass(), HandlerDef(this, "controllers.Application", "getPass", Seq())
 )
@@ -809,6 +832,12 @@ def dateSelection(id:Long) = new play.api.mvc.HandlerRef(
 // @LINE:45
 def changeObligatoire(id:Long) = new play.api.mvc.HandlerRef(
    controllers.Application.changeObligatoire(id), HandlerDef(this, "controllers.Application", "changeObligatoire", Seq(classOf[Long]))
+)
+                              
+ 
+// @LINE:48
+def addMail(id:Long) = new play.api.mvc.HandlerRef(
+   controllers.Application.addMail(id), HandlerDef(this, "controllers.Application", "addMail", Seq(classOf[Long]))
 )
                               
  

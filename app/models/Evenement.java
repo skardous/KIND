@@ -15,6 +15,7 @@ import javax.validation.*;
 import com.avaje.ebean.Ebean;
 
 import play.data.validation.Constraints.*;
+import play.data.format.*;
 
 @SuppressWarnings("serial")
 @Entity
@@ -37,12 +38,10 @@ public class Evenement extends Model {
 	@Email
 	public String email;	
 
-	/*@Valid	
-	public List<String> mailSentList = new ArrayList<String>();*/
-	
-	public String mailSentList ="";
-
 	public String passAdmin;
+	
+	@Formats.DateTime(pattern="dd/MM/yyyy")
+	public Date dateCreation = new Date();
 
 	@Valid
 	@ManyToMany(cascade=CascadeType.REMOVE)
@@ -51,6 +50,10 @@ public class Evenement extends Model {
 	@Valid
 	@ManyToMany(cascade=CascadeType.REMOVE)
 	public List<Jour> jours = new ArrayList<Jour>();
+	
+	@Valid
+	@ManyToMany(cascade=CascadeType.REMOVE)
+	public List<Mail> mailSentList = new ArrayList<Mail>();
 
 	public static Finder<Long, Evenement> findEvt = new Finder(Long.class,
 			Evenement.class);
@@ -109,7 +112,7 @@ public class Evenement extends Model {
 		j.delete();
 	}
 
-	//Manupilation de Personnes
+	//Manipulation de Personnes
 
 	public static Long addPersonne(Evenement evt, Long id, String name, String locked, String pwd) {
 		Personne p = new Personne(name, locked, pwd);
@@ -141,7 +144,21 @@ public class Evenement extends Model {
 		e.update(eventId);
 		
 		e.saveManyToManyAssociations("participants");
+		
 	}
+	
+	//Manipulation d'adresses Mail
+	
+	public static Long addMailAdress(Evenement evt, String adress) {
+		Mail m = new Mail(adress);
+		evt.mailSentList.add(m);
+		m.save();
+		
+		evt.update();
+		Ebean.saveManyToManyAssociations(evt, "mailSentList");
+		return m.id;
+	}
+	
 
 	public static void delete(Long id) {
 		Evenement e = findEvt.ref(id);

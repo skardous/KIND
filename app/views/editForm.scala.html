@@ -12,10 +12,12 @@
 	
 	Titre de l'&eacute;venement : <b>@event.titre</b> <br/>
 	Cr&eacute;ateur : <b>@event.createur</b> @if(event.email != "" && event.email != null) {   <br>Contact : @event.email }<br/>
+	Cree le: @event.dateCreation.toLocaleString<br>
 
 	@if(event.descriptif != "") {
 	Description : <i>@event.descriptif</i> <br/>	
 	}			
+	<br>
 	
 	@if(adm == 1) {
 		<a class="btn btn-danger" href="@routes.Application.deleteEvent(event.id)">Supprimer l'evenement</a>
@@ -27,25 +29,30 @@
 	<br><br>
 	<h3>Inviter des personnes à l'évenement</h3>
 	
-		<div class="selectDate" style="position:relative; width:500px">
-			<textarea id="mailsArea" title="Adresses email s&eacute;par&eacute;es par une virgule" rows="4" style="color:grey" placeholder="Entrez ici les adresses mail séparées par une virgule ..."></textarea>
-			<i class="checkmail mesicones icon-remove"></i>
-			<a id="envoiLien" disabled="true" class="btn">Envoyer Lien</a> <a class="btnMailPerso" title="Ajouter un texte personnalisé au mail"><i class="mesicones icon-plus"></i></a>
-			<div class="champPerso" style="display:none">
-				<textarea id="mailPersoArea" rows="6" style="color:grey" placeholder="Entre un message avec votre mail d'invitation"></textarea>
-			</div>
+	<div class="selectDate" style="position:relative; display:inline-block; width:500px">
+		<textarea id="mailsArea" title="Adresses email s&eacute;par&eacute;es par une virgule" rows="4" style="color:grey" placeholder="Entrez ici les adresses mail séparées par une virgule ..."></textarea>
+		<i class="checkmail mesicones icon-remove"></i>
+		<a id="envoiLien" disabled="true" class="btn">Envoyer Lien</a> <a class="btnMailPerso" title="Ajouter un texte personnalisé au mail"><i class="mesicones icon-plus"></i></a>
+		<div class="champPerso" style="display:none">
+			<textarea id="mailPersoArea" rows="6" style="color:grey" placeholder="Entrez un message avec votre mail d'invitation"></textarea>
 		</div>
+	</div>
+	<div style="display:inline-block; width:380px">
+		Entrez ici la liste des adresses mail des personnes que vous désirez inviter à cet évènement.
+	</div>
 
-		@if(adm == 1) {
-			<div class="selectDate" style="position:right; width:500px">
-				<h5>Liste des mails invités</h5>
-				<p>				
-					@for(l <- event.mailSentList.split(",")){
-						@l <br>
-					} 
-				</p>
-			</div>
-		}
+	@if(adm == 1) {
+		<br><br>
+		<div  id="mailList" class="selectDate" style="position:right;  width:500px">
+			<h5>Liste des mails invités</h5>
+			<br>
+			<p id="mailAdressContent">				
+				@for(l <- event.mailSentList){
+					@l.adresse <br>
+				} 
+			</p>
+		</div>
+	}
 	
 	
 	<br><br>
@@ -222,8 +229,7 @@
 		
 	</div>
 
-	<!--<script type="text/javascript" src="@routes.Assets.at("javascripts/sendMail.js")"></script>  -->
-	<!--<script type="text/javascript" src="@routes.Assets.at("javascripts/editPersonne.js")"></script> -->
+	
 
 	<script type="text/javascript" charset="utf-8">
 	
@@ -255,81 +261,8 @@
 
 	/*Code concernant l'interface administrateur*/
 
-	$(function(){		
 
-		if ("@adm" == "1") {
-			$( "#dialog-check-pwd-adm" ).dialog( "open" );	
-		}
-	});
-
-	$(function() {
-		//$( "#datepicker" ).datepicker();
-		
-		$( "#datepicker" ).datepicker({
-			 minDate: 0,
-			onSelect: function(date) {				
-				var selectionType = $.inArray(date, $( "#date" ).multiDatesPicker('getDates'));				
-				var d = new Date(date);		
-				var dateText = d.toLocaleDateString();
-				$( "#datepicker" ).attr("value", dateText);
-			}
-		});
-	});
-
-	$( "#dialog-check-pwd-adm" ).dialog({  // boite de dialogue personnalisée
-		autoOpen: false,
-		height: 200,
-		width: 275,
-		modal: true,
-		open: function(event, ui) { $(".ui-dialog-titlebar-close", $(this).parent()).hide(); },
-		closeOnEscape: false,
-		buttons: {
-			"OK": function() {				
-								
-				pass = $("#password-check-adm").val();	
-				if (pass == "@event.passAdmin") {
-				  	$( this ).dialog( "close" );
-				} else {
-				  	alert("mot de passe incorrect");
-				}				
-				
-			}					
-		}
-		
-		
-	});
-
-	$("#newPassAdmin").live("click", function(){
-		$( "#dialog-new-adm" ).dialog("open");
-	});
-
-	$( "#dialog-new-adm" ).dialog({  // boite de dialogue personnalisée
-		autoOpen: false,
-		height: 200,
-		width: 275,
-		modal: true,	
-		
-		buttons: {
-			"OK": function() {				
-								
-				pass = $("#password-new-adm").val();	
-				$.ajax({
-					type: "POST",
-					url: "@routes.Application.newAdmPass(event.id)",
-					data: '{"newPass" : "' + pass + '"}',
-					contentType: "application/json",
-					success : function(data) {
-						alert("Nouveau mot de passe etabli");
-
-					}
-				});
-				$( this ).dialog( "close" );			
-				
-			}					
-		}
-		
-		
-	});
+	adminTools("@adm", "@event.passAdmin", "@routes.Application.newAdmPass(event.id)");
 
 
 
@@ -372,23 +305,27 @@
 		if (bonmail($("#mailsArea").val())) {
 			$(".checkmail").attr("class", "checkmail mesicones icon-ok");
 			$("#envoiLien").removeAttr("disabled");
-			$("#envoiLien").removeAttr("disabled");
+			$("#envoiLien").addClass("btn-primary");
 		} else {
 			$(".checkmail").attr("class", "checkmail mesicones icon-remove");
 			$("#envoiLien").attr("disabled", "true");
+			$("#envoiLien").removeClass("btn-primary");
 		}
 	});
 
 	$('#envoiLien').live('click', function(e) {
 		var canSend = true;
 		var tableau = $("#mailsArea").val().split(",");
+		
 		for (var i=0; i<tableau.length; i++) {
 			
-			if ("@event.mailSentList".indexOf($.trim(tableau[i])) != -1 && tableau[i] != '') {				
+			if (($("#mailAdressContent").html()).indexOf($.trim(tableau[i])) != -1 && tableau[i] != '') {
+				alert("Mail déja envoyé à " + tableau[i] + " : ENVOI ANNULÉ (à toutes les adresses)");				
 				canSend = false;
 				break;
 			}
 		}
+
 		if ($(this).attr("disabled") != "disabled" && canSend == true) {
 			var mailsList = $("#mailsArea").val();
 
@@ -398,10 +335,13 @@
 				data: '{"mailslist" : "' + mailsList + '", "textPerso" : "' + $("#mailPersoArea").val() + '"}',
 				contentType: "application/json",
 				success : function(data) {
-					alert("Mail(s) envoye(s) a "+mailsList);
+					for (var i=0; i<tableau.length; i++) {
+						$("#mailAdressContent").append(tableau[i]+"<br>");
+					}
+					alert("Mail(s) envoye(s) a " + mailsList);
 				}
-			});
-		}
+			});	
+		}	
 	});
 
 
@@ -1059,7 +999,7 @@
 
 
 
-	/*Code sur l'édition dee participants*/
+	/*Code sur l'édition des participants*/
 
 	$('.editPersonne').live('click', function(e) {
 		
