@@ -30,24 +30,29 @@ object index extends BaseScalaTemplate[play.api.templates.Html,Format[play.api.t
 
 Seq[Any](format.raw/*4.1*/("""
 """),_display_(Seq[Any](/*5.2*/main("Accueil")/*5.17*/ {_display_(Seq[Any](format.raw/*5.19*/("""
-    
-    <br /><br />
-        <h4>Bienvenue sur le gestionnaire de Réunions du CHU de Rouen</h4>
-        <br />
-        <p>KIND : Kind Is Not Doodle</p>
 
-        <img id="image" width="250" src=""""),_display_(Seq[Any](/*12.43*/routes/*12.49*/.Assets.at("images/chu_logo.jpg"))),format.raw/*12.82*/(""""/>
-        
-        <p>
-        Cet outil a pour but de permettre à tout le personnel du CHU de Rouen d'avoir accès a un moyen simple de planification d'évènements.
-        
-        </p>
-        
-        
-        <p>
-        Ici, vous pourrez organiser des réunions/évènements, sélectionner plusieurs choix possibles de jours et d'horaires à votre convenance 
-        et convier les personnes que vous désirez y inviter en spécifiant leur adresse email.<br>              
-        </p>
+    <div class="container">
+        <div class="content accueil">    
+            <h2 style="text-align:center">Bienvenue sur le gestionnaire de réunions du CHU de Rouen</h2>
+            <br />
+            <!--<p>KIND : Kind Is Not Doodle</p>-->
+
+            <img id="image" width="250" src=""""),_display_(Seq[Any](/*13.47*/routes/*13.53*/.Assets.at("images/chu_logo.jpg"))),format.raw/*13.86*/(""""/>
+            
+            <p>
+            Cet outil a pour but de permettre à tout le personnel du CHU de Rouen d'avoir accès a un moyen simple de planification d'évènements.
+            
+            </p>
+            
+            
+            <p>
+            Ici, vous pourrez organiser des réunions/évènements, sélectionner plusieurs choix possibles de jours et d'horaires à votre convenance 
+            et convier les personnes que vous désirez y inviter en spécifiant leur adresse email.<br>              
+            </p>
+
+            <a class="btn btn-large btn-primary" href=""""),_display_(Seq[Any](/*26.57*/routes/*26.63*/.Application.eventCreateEmpty())),format.raw/*26.94*/(""""> Créer un événement </a>
+        </div>
+    </div>
   
     
 """)))})))}
@@ -62,11 +67,11 @@ Seq[Any](format.raw/*4.1*/("""
 }
                 /*
                     -- GENERATED --
-                    DATE: Fri Jul 27 15:32:41 CEST 2012
+                    DATE: Fri Aug 03 10:56:41 CEST 2012
                     SOURCE: C:/tutoPlay/KIND/app/views/index.scala.html
-                    HASH: 4cd5d3d32d658bcadfe9efefafdbfaeaf9cb3702
-                    MATRIX: 835->19|871->21|894->36|933->38|1166->235|1181->241|1236->274
-                    LINES: 31->4|32->5|32->5|32->5|39->12|39->12|39->12
+                    HASH: be034a56197af66329cc6f763fd62cebc387073b
+                    MATRIX: 835->19|871->21|894->36|933->38|1264->333|1279->339|1334->372|1957->959|1972->965|2025->996
+                    LINES: 31->4|32->5|32->5|32->5|40->13|40->13|40->13|53->26|53->26|53->26
                     -- GENERATED --
                 */
             

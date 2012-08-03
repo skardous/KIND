@@ -43,8 +43,8 @@ Seq[Any](format.raw/*1.32*/("""
         <link rel="stylesheet" media="screen" href=""""),_display_(Seq[Any](/*14.54*/routes/*14.60*/.Assets.at("stylesheets/main.css"))),format.raw/*14.94*/("""">
         <link rel='stylesheet' type='text/css' href=""""),_display_(Seq[Any](/*15.55*/routes/*15.61*/.Assets.at("stylesheets/fullcalendar.css"))),format.raw/*15.103*/("""" >
         <link rel='stylesheet' type='text/css' href=""""),_display_(Seq[Any](/*16.55*/routes/*16.61*/.Assets.at("stylesheets/fullcalendar.print.css"))),format.raw/*16.109*/("""" media='print' >
-    		<script type="text/javascript" src=""""),_display_(Seq[Any](/*17.44*/routes/*17.50*/.Assets.at("javascripts/jquery-1.3.2.min.js"))),format.raw/*17.95*/(""""></script>
-    		<script type="text/javascript" src=""""),_display_(Seq[Any](/*18.44*/routes/*18.50*/.Assets.at("javascripts/jquery-ui-1.7.3.custom.min.js"))),format.raw/*18.105*/(""""></script>
+    		<script type="text/javascript" src=""""),_display_(Seq[Any](/*17.44*/routes/*17.50*/.Assets.at("javascripts/jquery-1.7.2.min.js"))),format.raw/*17.95*/(""""></script>
+    		<script type="text/javascript" src=""""),_display_(Seq[Any](/*18.44*/routes/*18.50*/.Assets.at("javascripts/jquery-ui-1.8.21.custom.min.js"))),format.raw/*18.106*/(""""></script>
         <script type="text/javascript" src=""""),_display_(Seq[Any](/*19.46*/routes/*19.52*/.Assets.at("javascripts/jquery.ui.datepicker-fr.js"))),format.raw/*19.104*/(""""></script>
     		<script type="text/javascript" src=""""),_display_(Seq[Any](/*20.44*/routes/*20.50*/.Assets.at("javascripts/jquery-ui.multidatespicker.js"))),format.raw/*20.105*/(""""></script>
     		<script type="text/javascript" src=""""),_display_(Seq[Any](/*21.44*/routes/*21.50*/.Assets.at("javascripts/eventForm.js"))),format.raw/*21.88*/(""""></script>    
@@ -52,32 +52,35 @@ Seq[Any](format.raw/*1.32*/("""
         <script type="text/javascript" src=""""),_display_(Seq[Any](/*23.46*/routes/*23.52*/.Assets.at("javascripts/jquery.html5-placeholder-shim.js"))),format.raw/*23.110*/(""""></script>
         <script type="text/javascript" src=""""),_display_(Seq[Any](/*24.46*/routes/*24.52*/.Assets.at("javascripts/webtoolkit.md5.js"))),format.raw/*24.95*/(""""></script>
         <script type="text/javascript" src=""""),_display_(Seq[Any](/*25.46*/routes/*25.52*/.Assets.at("javascripts/base64encoding-decoding.js"))),format.raw/*25.104*/(""""></script>
-        <script type="text/javascript" src=""""),_display_(Seq[Any](/*26.46*/routes/*26.52*/.Assets.at("javascripts/adminTools.js"))),format.raw/*26.91*/(""""></script>
-        <!--<script type="text/javascript" src=""""),_display_(Seq[Any](/*27.50*/routes/*27.56*/.Assets.at("javascripts/editPersonne.js"))),format.raw/*27.97*/(""""></script> -->
+        <script type="text/javascript" src=""""),_display_(Seq[Any](/*26.46*/routes/*26.52*/.Assets.at("javascripts/styles.js"))),format.raw/*26.87*/(""""></script>
+        <script type="text/javascript" src=""""),_display_(Seq[Any](/*27.46*/routes/*27.52*/.Assets.at("javascripts/edition.js"))),format.raw/*27.88*/(""""></script>
+        <script type="text/javascript" src=""""),_display_(Seq[Any](/*28.46*/routes/*28.52*/.Assets.at("javascripts/suppression.js"))),format.raw/*28.92*/(""""></script>
+        <script type="text/javascript" src=""""),_display_(Seq[Any](/*29.46*/routes/*29.52*/.Assets.at("javascripts/sendMail.js"))),format.raw/*29.89*/(""""></script>
+        <script type="text/javascript" src=""""),_display_(Seq[Any](/*30.46*/routes/*30.52*/.Assets.at("javascripts/adminTools.js"))),format.raw/*30.91*/(""""></script>
+        <script type="text/javascript" src=""""),_display_(Seq[Any](/*31.46*/routes/*31.52*/.Assets.at("javascripts/ajoutPersonne.js"))),format.raw/*31.94*/(""""></script>
+        <script type="text/javascript" src=""""),_display_(Seq[Any](/*32.46*/routes/*32.52*/.Assets.at("javascripts/ajoutDateHoraire.js"))),format.raw/*32.97*/(""""></script>
+        <script type="text/javascript" src=""""),_display_(Seq[Any](/*33.46*/routes/*33.52*/.Assets.at("javascripts/supprDateHoraire.js"))),format.raw/*33.97*/(""""></script>
+        <script type="text/javascript" src=""""),_display_(Seq[Any](/*34.46*/routes/*34.52*/.Assets.at("javascripts/partobligatoire.js"))),format.raw/*34.96*/(""""></script>
 
   </head>
+  <body>
+
+    <div class="container">
+        <div class="banner">
+            <a href=""""),_display_(Seq[Any](/*41.23*/routes/*41.29*/.Application.index())),format.raw/*41.49*/("""">                
+                <h1 style="text-align: center">KIND</h1>
+                <div style="text-align: center"><b>K</b>ind <b>I</b>s <b>N</b>ot <b>D</b>oodle</span>                
+            </a>
+        </div>
+    </div>
     
-    
-    <body>
-
-
-
-     <div class="navbar">
-      <div class="navbar-inner">
-        <div class="container">
-         <ul class="nav">
-          <li><a href=""""),_display_(Seq[Any](/*40.25*/routes/*40.31*/.Application.index())),format.raw/*40.51*/("""">Accueil</a></li>
-          <li><a href=""""),_display_(Seq[Any](/*41.25*/routes/*41.31*/.Application.events())),format.raw/*41.52*/("""">Créer un événement</a></li>
-          <!--<li><a href=""""),_display_(Seq[Any](/*42.29*/routes/*42.35*/.Application.eventlist())),format.raw/*42.59*/("""">Liste des evenements</a></li>-->
-         </ul>			  
-       </div>
-     </div>	
-   </div>
+    """),_display_(Seq[Any](/*48.6*/content)),format.raw/*48.13*/("""
+      
    
-      """),_display_(Seq[Any](/*48.8*/content)),format.raw/*48.15*/("""
-
  </body>
 </html>
+
+
 """))}
     }
     
@@ -90,11 +93,11 @@ Seq[Any](format.raw/*1.32*/("""
 }
                 /*
                     -- GENERATED --
-                    DATE: Mon Jul 30 11:04:58 CEST 2012
+                    DATE: Fri Aug 03 13:50:08 CEST 2012
                     SOURCE: C:/tutoPlay/KIND/app/views/main.scala.html
-                    HASH: 904f1d9f6fc19fa320502438f604369311d82346
-                    MATRIX: 759->1|899->31|927->67|1014->118|1041->123|1144->190|1159->196|1213->228|1290->269|1305->275|1393->340|1504->415|1519->421|1623->502|1716->559|1731->565|1787->599|1880->656|1895->662|1960->704|2054->762|2069->768|2140->816|2237->877|2252->883|2319->928|2410->983|2425->989|2503->1044|2596->1101|2611->1107|2686->1159|2777->1214|2792->1220|2870->1275|2961->1330|2976->1336|3036->1374|3133->1435|3148->1441|3225->1495|3320->1554|3335->1560|3416->1618|3509->1675|3524->1681|3589->1724|3682->1781|3697->1787|3772->1839|3865->1896|3880->1902|3941->1941|4038->2002|4053->2008|4116->2049|4344->2241|4359->2247|4401->2267|4480->2310|4495->2316|4538->2337|4632->2395|4647->2401|4693->2425|4831->2528|4860->2535
-                    LINES: 27->1|31->1|33->4|39->10|39->10|40->11|40->11|40->11|41->12|41->12|41->12|42->13|42->13|42->13|43->14|43->14|43->14|44->15|44->15|44->15|45->16|45->16|45->16|46->17|46->17|46->17|47->18|47->18|47->18|48->19|48->19|48->19|49->20|49->20|49->20|50->21|50->21|50->21|51->22|51->22|51->22|52->23|52->23|52->23|53->24|53->24|53->24|54->25|54->25|54->25|55->26|55->26|55->26|56->27|56->27|56->27|69->40|69->40|69->40|70->41|70->41|70->41|71->42|71->42|71->42|77->48|77->48
+                    HASH: 4262486e65c5337aa7218257fc6f2d7be143d832
+                    MATRIX: 759->1|899->31|927->67|1014->118|1041->123|1144->190|1159->196|1213->228|1290->269|1305->275|1393->340|1504->415|1519->421|1623->502|1716->559|1731->565|1787->599|1880->656|1895->662|1960->704|2054->762|2069->768|2140->816|2237->877|2252->883|2319->928|2410->983|2425->989|2504->1045|2597->1102|2612->1108|2687->1160|2778->1215|2793->1221|2871->1276|2962->1331|2977->1337|3037->1375|3134->1436|3149->1442|3226->1496|3321->1555|3336->1561|3417->1619|3510->1676|3525->1682|3590->1725|3683->1782|3698->1788|3773->1840|3866->1897|3881->1903|3938->1938|4031->1995|4046->2001|4104->2037|4197->2094|4212->2100|4274->2140|4367->2197|4382->2203|4441->2240|4534->2297|4549->2303|4610->2342|4703->2399|4718->2405|4782->2447|4875->2504|4890->2510|4957->2555|5050->2612|5065->2618|5132->2663|5225->2720|5240->2726|5306->2770|5454->2882|5469->2888|5511->2908|5793->3155|5822->3162
+                    LINES: 27->1|31->1|33->4|39->10|39->10|40->11|40->11|40->11|41->12|41->12|41->12|42->13|42->13|42->13|43->14|43->14|43->14|44->15|44->15|44->15|45->16|45->16|45->16|46->17|46->17|46->17|47->18|47->18|47->18|48->19|48->19|48->19|49->20|49->20|49->20|50->21|50->21|50->21|51->22|51->22|51->22|52->23|52->23|52->23|53->24|53->24|53->24|54->25|54->25|54->25|55->26|55->26|55->26|56->27|56->27|56->27|57->28|57->28|57->28|58->29|58->29|58->29|59->30|59->30|59->30|60->31|60->31|60->31|61->32|61->32|61->32|62->33|62->33|62->33|63->34|63->34|63->34|70->41|70->41|70->41|77->48|77->48
                     -- GENERATED --
                 */
             

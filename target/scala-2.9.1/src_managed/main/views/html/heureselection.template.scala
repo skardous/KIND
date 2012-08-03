@@ -36,111 +36,168 @@ Seq[Any](format.raw/*1.58*/("""
 
 
 """),_display_(Seq[Any](/*9.2*/main("Selectionner les horaires")/*9.35*/ {_display_(Seq[Any](format.raw/*9.37*/("""
-    
-    <h2>Selectionner les horaires:</h2>
-    
-    """),_display_(Seq[Any](/*13.6*/for(jour <- event.jours) yield /*13.30*/ {_display_(Seq[Any](format.raw/*13.32*/("""
-		<div class="control-group selectDate" id=""""),_display_(Seq[Any](/*14.46*/jour/*14.50*/.id)),format.raw/*14.53*/("""">
-		  	"""),_display_(Seq[Any](/*15.7*/form(routes.Application.updatePersonne(id), 'id->"formJour")/*15.67*/ {_display_(Seq[Any](format.raw/*15.69*/("""
-				"""),_display_(Seq[Any](/*16.6*/jour/*16.10*/.date)),format.raw/*16.15*/("""			 
-				<a class="linkPlus btn btn-success" ><i class="mesicones icon-plus"></i></a>		
-			  
-		  	""")))})),format.raw/*19.7*/("""
+
+	<div class="container">
+		<div class="content">
+
+			<div class="btn-group">
+		        <a class="btn" href=""""),_display_(Seq[Any](/*15.33*/routes/*15.39*/.Application.eventCreateFilled(event.id))),format.raw/*15.79*/("""">1.Création de l'événement</a>
+                <a class="btn" href=""""),_display_(Seq[Any](/*16.39*/routes/*16.45*/.Application.dateSelection(event.id))),format.raw/*16.81*/("""">2.Sélection des dates</a>
+                <a class="btn btn-info" href=""""),_display_(Seq[Any](/*17.48*/routes/*17.54*/.Application.heureSelection(event.id))),format.raw/*17.91*/("""">3.Sélection des plages horaires</a>
+                <a class="btn" href=""""),_display_(Seq[Any](/*18.39*/routes/*18.45*/.Application.invitation(event.id))),format.raw/*18.78*/("""">4.Invitation des participants</a>
+                <a class="btn" href=""""),_display_(Seq[Any](/*19.39*/routes/*19.45*/.Application.resume(event.id))),format.raw/*19.74*/("""">5.Résumé</a>
+		    </div>
+		    
+		    <h2>Selectionner les horaires:</h2>
+		    
+		    """),_display_(Seq[Any](/*24.8*/for(jour <- event.jours) yield /*24.32*/ {_display_(Seq[Any](format.raw/*24.34*/("""
+				<div class="control-group selectDate" id=""""),_display_(Seq[Any](/*25.48*/jour/*25.52*/.id)),format.raw/*25.55*/("""">
+				  	"""),_display_(Seq[Any](/*26.9*/form(routes.Application.updatePersonne(id), 'id->"formJour")/*26.69*/ {_display_(Seq[Any](format.raw/*26.71*/("""
+						<h3>"""),_display_(Seq[Any](/*27.12*/jour/*27.16*/.date)),format.raw/*27.21*/(""" <span>(<a class="linkPlus"> Ajouter une horaire </a>)</span></h3>			 
+						
+						"""),_display_(Seq[Any](/*29.8*/for(horaire <- jour.horaires) yield /*29.37*/ {_display_(Seq[Any](format.raw/*29.39*/("""
+							<div id=""""),_display_(Seq[Any](/*30.18*/horaire/*30.25*/.id)),format.raw/*30.28*/("""">
+							<a class="linkMinus" ><i class="mesicones icon-trash"></i></a>
+							<input type="text" id="amount"""),_display_(Seq[Any](/*32.38*/horaire/*32.45*/.id)),format.raw/*32.48*/("""" value=""""),_display_(Seq[Any](/*32.58*/horaire/*32.65*/.debut)),format.raw/*32.71*/(""" - """),_display_(Seq[Any](/*32.75*/horaire/*32.82*/.fin)),format.raw/*32.86*/("""" style="border:0; color:#f6931f; font-weight:bold;" />
+							
+							
+							<div id="slider-range-"""),_display_(Seq[Any](/*35.31*/horaire/*35.38*/.id)),format.raw/*35.41*/("""" class="initslider" debut=""""),_display_(Seq[Any](/*35.70*/horaire/*35.77*/.debut)),format.raw/*35.83*/("""" fin=""""),_display_(Seq[Any](/*35.91*/horaire/*35.98*/.fin)),format.raw/*35.102*/(""""></div></div>
+						""")))})),format.raw/*36.8*/("""						  
+				  	""")))})),format.raw/*37.9*/("""
+				</div>
+			""")))})),format.raw/*39.5*/("""
+		    
+		    <a href=""""),_display_(Seq[Any](/*41.17*/routes/*41.23*/.Application.dateSelection(event.id))),format.raw/*41.59*/("""" class="precedent btn btn-primary">Précédent</a>
+		    <a class="continuer btn btn-primary" href=""""),_display_(Seq[Any](/*42.51*/routes/*42.57*/.Application.invitation(event.id))),format.raw/*42.90*/("""">Continuer</a>
 		</div>
-	""")))})),format.raw/*21.3*/("""
-    
-    <a class="btn btn-primary" href=""""),_display_(Seq[Any](/*23.39*/routes/*23.45*/.Application.editAdm(new sun.misc.BASE64Encoder().encode((event.id.toString).getBytes)))),format.raw/*23.132*/("""">Terminé</a>
+	</div>
 	
     
 	<script type="text/javascript" charset="utf-8">
+
+
 
 	var optionsHeuresDebut = "";
     var optionsHeuresFin = "";
 	var optionsMinutes = "";
 	var heuresList = new Array();
 
-		
+	$(".initslider").each(function()"""),format.raw("""{"""),format.raw/*56.35*/("""
+		var idHoraire = $(this).parent("div").attr("id");
+		$("#slider-range-"+idHoraire).slider("""),format.raw("""{"""),format.raw/*58.41*/("""
+			range: true,
+	    	min: 0,
+	    	max: 1440,
+	    	step: 15,
+	    	values: [ parseFloat($(this).attr("debut"))*60, parseFloat($(this).attr("fin"))*60 ],	    	
+	    	slide: function( event, ui ) """),format.raw("""{"""),format.raw/*64.37*/("""
+	    		$( "#amount"+idHoraire ).val(parseInt(ui.values[ 0 ]/60) + "h"+pad2(ui.values[ 0 ]%60)+" - " + parseInt(ui.values[ 1 ]/60) +"h"+pad2(ui.values[ 1 ]%60));
+	    	"""),format.raw("""}"""),format.raw/*66.8*/(""",
+	    	change: function(event, ui) """),format.raw("""{"""),format.raw/*67.36*/("""
+	    		
+	    		var debut;
+	    		var fin;
+				debut = parseInt(ui.values[ 0 ]/60) + "h"+pad2(ui.values[ 0 ]%60);
+				fin = parseInt(ui.values[ 1 ]/60) + "h"+pad2(ui.values[ 1 ]%60);
+				$.ajax("""),format.raw("""{"""),format.raw/*73.13*/("""
+					type: "POST",
+					url: """"),_display_(Seq[Any](/*75.13*/routes/*75.19*/.Application.dateChanged(id))),format.raw/*75.47*/("""",
+					data: '"""),format.raw("""{"""),format.raw/*76.14*/(""""idhoraire" : "' + idHoraire + '",'+ 
+					'"debut" : "' + debut + '",'+
+					'"fin" : "' + fin + '""""),format.raw("""}"""),format.raw/*78.29*/("""',
+					contentType: "application/json",
+					success : function(data) """),format.raw("""{"""),format.raw/*80.32*/("""
 
-    $('.linkPlus').live('click', function(e) """),format.raw("""{"""),format.raw/*35.47*/("""		
-		var idJour = $(this).parent().parent().attr('id');
+					"""),format.raw("""}"""),format.raw/*82.7*/("""               
+				"""),format.raw("""}"""),format.raw/*83.6*/(""");
+			"""),format.raw("""}"""),format.raw/*84.5*/("""
+		"""),format.raw("""}"""),format.raw/*85.4*/(""")
+	"""),format.raw("""}"""),format.raw/*86.3*/(""")	
+
+    $('.linkPlus').live('click', function(e) """),format.raw("""{"""),format.raw/*88.47*/("""		    	
+		var idJour = $(this).parent().parent().parent().parent().attr('id');
 		var button= $(this);
-		$.ajax("""),format.raw("""{"""),format.raw/*38.11*/("""
+		$.ajax("""),format.raw("""{"""),format.raw/*91.11*/("""
 			type: "POST",
-			url: """"),_display_(Seq[Any](/*40.11*/routes/*40.17*/.Application.newHoraire(id))),format.raw/*40.44*/("""",
-			data: '"""),format.raw("""{"""),format.raw/*41.12*/(""""jour" : "' + idJour + '""""),format.raw("""}"""),format.raw/*41.38*/("""',
+			url: """"),_display_(Seq[Any](/*93.11*/routes/*93.17*/.Application.newHoraire(id))),format.raw/*93.44*/("""",
+			data: '"""),format.raw("""{"""),format.raw/*94.12*/(""""jour" : "' + idJour + '""""),format.raw("""}"""),format.raw/*94.38*/("""',
 			contentType: "application/json",
-			success : function(data) """),format.raw("""{"""),format.raw/*43.30*/("""
+			success : function(data) """),format.raw("""{"""),format.raw/*96.30*/("""
 			    button.parent().append("<div id=\""+data.idHoraire+"\">"+
 					"<input type=\"text\" id=\"amount"+data.idHoraire+"\" value=\"8h - 17h\" style=\"border:0; color:#f6931f; font-weight:bold;\" />"+
-					"&nbsp;<a class=\"linkMinus btn btn-danger\" >"+
-					"<i class=\"mesicones icon-minus\"></i></a>"+
+					"<a class=\"linkMinus\" ><i class=\"mesicones icon-trash\"></i></a>"+
 					
-					"<div class=\"slider-range\"></div></div>"
+					"<div id=\"slider-range-"+data.idHoraire+"\" class=\"initslider\"></div></div>"
 				);
-			    $( ".slider-range" ).slider("""),format.raw("""{"""),format.raw/*51.37*/("""
+			    $( "#slider-range-"+data.idHoraire ).slider("""),format.raw("""{"""),format.raw/*103.53*/("""
 			    	range: true,
 			    	min: 0,
 			    	max: 1440,
 			    	step: 15,
 			    	values: [ 8*60, 17*60 ],
-			    	slide: function( event, ui ) """),format.raw("""{"""),format.raw/*57.39*/("""
+			    	create: function( event, ui ) """),format.raw("""{"""),format.raw/*109.40*/("""
+			    		
+			    		$( "#amount"+data.idHoraire ).val("8h - 17h");
+			    	"""),format.raw("""}"""),format.raw/*112.10*/(""",
+			    	slide: function( event, ui ) """),format.raw("""{"""),format.raw/*113.39*/("""
 			    		$( "#amount"+data.idHoraire ).val(parseInt(ui.values[ 0 ]/60) + "h"+pad2(ui.values[ 0 ]%60)+" - " + parseInt(ui.values[ 1 ]/60) +"h"+pad2(ui.values[ 1 ]%60));
-			    	"""),format.raw("""}"""),format.raw/*59.10*/(""",
-			    	change: function(event, ui) """),format.raw("""{"""),format.raw/*60.38*/("""
+			    	"""),format.raw("""}"""),format.raw/*115.10*/(""",
+			    	change: function(event, ui) """),format.raw("""{"""),format.raw/*116.38*/("""
+			    		
 			    		var debut;
 			    		var fin;
 						debut = parseInt(ui.values[ 0 ]/60) + "h"+pad2(ui.values[ 0 ]%60);
 						fin = parseInt(ui.values[ 1 ]/60) + "h"+pad2(ui.values[ 1 ]%60);
-						$.ajax("""),format.raw("""{"""),format.raw/*65.15*/("""
+						$.ajax("""),format.raw("""{"""),format.raw/*122.15*/("""
 							type: "POST",
-							url: """"),_display_(Seq[Any](/*67.15*/routes/*67.21*/.Application.dateChanged(id))),format.raw/*67.49*/("""",
-							data: '"""),format.raw("""{"""),format.raw/*68.16*/(""""idhoraire" : "' + data.idHoraire + '",'+ 
+							url: """"),_display_(Seq[Any](/*124.15*/routes/*124.21*/.Application.dateChanged(id))),format.raw/*124.49*/("""",
+							data: '"""),format.raw("""{"""),format.raw/*125.16*/(""""idhoraire" : "' + data.idHoraire + '",'+ 
 							'"debut" : "' + debut + '",'+
-							'"fin" : "' + fin + '""""),format.raw("""}"""),format.raw/*70.31*/("""',
+							'"fin" : "' + fin + '""""),format.raw("""}"""),format.raw/*127.31*/("""',
 							contentType: "application/json",
-							success : function(data) """),format.raw("""{"""),format.raw/*72.34*/("""
+							success : function(data) """),format.raw("""{"""),format.raw/*129.34*/("""
 
-							"""),format.raw("""}"""),format.raw/*74.9*/("""               
-						"""),format.raw("""}"""),format.raw/*75.8*/(""");
+							"""),format.raw("""}"""),format.raw/*131.9*/("""               
+						"""),format.raw("""}"""),format.raw/*132.8*/(""");
 
-					"""),format.raw("""}"""),format.raw/*77.7*/("""
-			    """),format.raw("""}"""),format.raw/*78.9*/(""");
-			    $( "#amount"+data.idHoraire ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
-			    	" - $" + $( "#slider-range" ).slider( "values", 1 ) );
-			"""),format.raw("""}"""),format.raw/*81.5*/("""               
-		"""),format.raw("""}"""),format.raw/*82.4*/(""");
-    """),format.raw("""}"""),format.raw/*83.6*/(""");
+					"""),format.raw("""}"""),format.raw/*134.7*/("""
+			    """),format.raw("""}"""),format.raw/*135.9*/(""");
+			   // $( "#amount"+data.idHoraire ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+			    //	" - $" + $( "#slider-range" ).slider( "values", 1 ) );
+			"""),format.raw("""}"""),format.raw/*138.5*/("""               
+		"""),format.raw("""}"""),format.raw/*139.4*/(""");
+    """),format.raw("""}"""),format.raw/*140.6*/(""");
 
 
-    $('.linkMinus').live('click', function(e) """),format.raw("""{"""),format.raw/*86.48*/("""
+    $('.linkMinus').live('click', function(e) """),format.raw("""{"""),format.raw/*143.48*/("""
          
          var idHeure = $(this).parent().attr('id');
          var idJour = $(this).parent().parent().parent().attr('id');
          var button= $(this);
-        $.ajax("""),format.raw("""{"""),format.raw/*91.17*/("""
+        $.ajax("""),format.raw("""{"""),format.raw/*148.17*/("""
 			type: "POST",
-			url: """"),_display_(Seq[Any](/*93.11*/routes/*93.17*/.Application.deleteHoraire(id))),format.raw/*93.47*/("""",
-			data: '"""),format.raw("""{"""),format.raw/*94.12*/(""""jour" : "' + idJour + '", "horaire" : "' + idHeure + '""""),format.raw("""}"""),format.raw/*94.69*/("""',
+			url: """"),_display_(Seq[Any](/*150.11*/routes/*150.17*/.Application.deleteHoraire(id))),format.raw/*150.47*/("""",
+			data: '"""),format.raw("""{"""),format.raw/*151.12*/(""""jour" : "' + idJour + '", "horaire" : "' + idHeure + '""""),format.raw("""}"""),format.raw/*151.69*/("""',
 			contentType: "application/json",
-			success : function(data) """),format.raw("""{"""),format.raw/*96.30*/("""
+			success : function(data) """),format.raw("""{"""),format.raw/*153.30*/("""
 			    button.parent().remove();			    
-			"""),format.raw("""}"""),format.raw/*98.5*/("""               
-		"""),format.raw("""}"""),format.raw/*99.4*/(""");	
-	"""),format.raw("""}"""),format.raw/*100.3*/(""");	
+			"""),format.raw("""}"""),format.raw/*155.5*/("""               
+		"""),format.raw("""}"""),format.raw/*156.4*/(""");	
+	"""),format.raw("""}"""),format.raw/*157.3*/(""");	
 
 
-	$(function()"""),format.raw("""{"""),format.raw/*103.15*/("""	   
+	$(function()"""),format.raw("""{"""),format.raw/*160.15*/("""	   
 	 
-	"""),format.raw("""}"""),format.raw/*105.3*/(""");
+	"""),format.raw("""}"""),format.raw/*162.3*/(""");
 	
 
 	
 	
-	function pad2(number) """),format.raw("""{"""),format.raw/*110.25*/("""
+	function pad2(number) """),format.raw("""{"""),format.raw/*167.25*/("""
    
     	return (number < 10 ? '0' : '') + number
    
-	"""),format.raw("""}"""),format.raw/*114.3*/("""
+	"""),format.raw("""}"""),format.raw/*171.3*/("""
 
 	</script>
     
@@ -157,11 +214,11 @@ Seq[Any](format.raw/*1.58*/("""
 }
                 /*
                     -- GENERATED --
-                    DATE: Fri Jul 27 09:40:05 CEST 2012
+                    DATE: Fri Aug 03 11:13:04 CEST 2012
                     SOURCE: C:/tutoPlay/KIND/app/views/heureselection.scala.html
-                    HASH: 8a9a9630effcfbf3e014c1d2db7ee768620af0aa
-                    MATRIX: 788->1|929->78|961->102|1045->57|1073->76|1101->156|1141->162|1182->195|1221->197|1312->253|1352->277|1392->279|1474->325|1487->329|1512->332|1556->341|1625->401|1665->403|1706->409|1719->413|1746->418|1877->518|1920->530|2000->574|2015->580|2125->667|2412->907|2548->996|2612->1024|2627->1030|2676->1057|2737->1071|2810->1097|2925->1165|3376->1569|3569->1715|3794->1893|3880->1932|4124->2129|4196->2165|4211->2171|4261->2199|4326->2217|4483->2327|4606->2403|4662->2413|4731->2436|4787->2446|4842->2455|5051->2618|5116->2637|5170->2645|5269->2697|5494->2875|5558->2903|5573->2909|5625->2939|5686->2953|5790->3010|5905->3078|5996->3123|6061->3142|6114->3148|6182->3168|6239->3178|6321->3212|6425->3269
-                    LINES: 27->1|30->5|30->5|31->1|33->4|34->5|38->9|38->9|38->9|42->13|42->13|42->13|43->14|43->14|43->14|44->15|44->15|44->15|45->16|45->16|45->16|48->19|50->21|52->23|52->23|52->23|64->35|67->38|69->40|69->40|69->40|70->41|70->41|72->43|80->51|86->57|88->59|89->60|94->65|96->67|96->67|96->67|97->68|99->70|101->72|103->74|104->75|106->77|107->78|110->81|111->82|112->83|115->86|120->91|122->93|122->93|122->93|123->94|123->94|125->96|127->98|128->99|129->100|132->103|134->105|139->110|143->114
+                    HASH: fa3c48b72e4fc8f97fca9c7930725bb24487e7ab
+                    MATRIX: 788->1|929->78|961->102|1045->57|1073->76|1101->156|1141->162|1182->195|1221->197|1368->308|1383->314|1445->354|1551->424|1566->430|1624->466|1735->541|1750->547|1809->584|1921->660|1936->666|1991->699|2101->773|2116->779|2167->808|2293->899|2333->923|2373->925|2457->973|2470->977|2495->980|2541->991|2610->1051|2650->1053|2698->1065|2711->1069|2738->1074|2858->1159|2903->1188|2943->1190|2997->1208|3013->1215|3038->1218|3184->1328|3200->1335|3225->1338|3271->1348|3287->1355|3315->1361|3355->1365|3371->1372|3397->1376|3535->1478|3551->1485|3576->1488|3641->1517|3657->1524|3685->1530|3729->1538|3745->1545|3772->1549|3825->1571|3873->1588|3920->1604|3980->1628|3995->1634|4053->1670|4189->1770|4204->1776|4259->1809|4551->2054|4691->2147|4936->2345|5151->2514|5235->2551|5477->2746|5545->2778|5560->2784|5610->2812|5673->2828|5821->2929|5940->3001|5994->3009|6061->3030|6114->3037|6164->3041|6214->3045|6311->3095|6470->3207|6534->3235|6549->3241|6598->3268|6659->3282|6732->3308|6847->3376|7322->3803|7517->3950|7641->4026|7729->4066|7955->4244|8042->4283|8297->4490|8370->4526|8386->4532|8437->4560|8503->4578|8661->4688|8785->4764|8842->4774|8912->4797|8969->4807|9025->4816|9239->4983|9305->5002|9360->5010|9460->5062|9686->5240|9751->5268|9767->5274|9820->5304|9882->5318|9987->5375|10103->5443|10195->5488|10261->5507|10314->5513|10382->5533|10439->5543|10521->5577|10625->5634
+                    LINES: 27->1|30->5|30->5|31->1|33->4|34->5|38->9|38->9|38->9|44->15|44->15|44->15|45->16|45->16|45->16|46->17|46->17|46->17|47->18|47->18|47->18|48->19|48->19|48->19|53->24|53->24|53->24|54->25|54->25|54->25|55->26|55->26|55->26|56->27|56->27|56->27|58->29|58->29|58->29|59->30|59->30|59->30|61->32|61->32|61->32|61->32|61->32|61->32|61->32|61->32|61->32|64->35|64->35|64->35|64->35|64->35|64->35|64->35|64->35|64->35|65->36|66->37|68->39|70->41|70->41|70->41|71->42|71->42|71->42|85->56|87->58|93->64|95->66|96->67|102->73|104->75|104->75|104->75|105->76|107->78|109->80|111->82|112->83|113->84|114->85|115->86|117->88|120->91|122->93|122->93|122->93|123->94|123->94|125->96|132->103|138->109|141->112|142->113|144->115|145->116|151->122|153->124|153->124|153->124|154->125|156->127|158->129|160->131|161->132|163->134|164->135|167->138|168->139|169->140|172->143|177->148|179->150|179->150|179->150|180->151|180->151|182->153|184->155|185->156|186->157|189->160|191->162|196->167|200->171
                     -- GENERATED --
                 */
             

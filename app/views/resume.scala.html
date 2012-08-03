@@ -1,0 +1,74 @@
+@(id: Long, eventForm: Form[Evenement], event: Evenement)
+
+@import helper.twitterBootstrap._
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) }
+
+
+
+@main("Résumé de l'événement") {
+    
+    <div class="container">
+        <div class="content">
+
+            <div class="btn-group">
+                <a class="btn" href="@routes.Application.eventCreateFilled(event.id)">1.Création de l'événement</a>
+                <a class="btn" href="@routes.Application.dateSelection(event.id)">2.Sélection des dates</a>
+                <a class="btn" href="@routes.Application.heureSelection(event.id)">3.Sélection des plages horaires</a>
+                <a class="btn" href="@routes.Application.invitation(event.id)">4.Invitation des participants</a>
+                <a class="btn btn-info" href="@routes.Application.resume(event.id)">5.Résumé</a>
+            </div>
+
+            <h2>Récapitulatif de l'événement</h2>
+            
+            <b>Titre : </b> @event.titre &nbsp;&nbsp; <br/>      
+            <b>Crée par : </b> @event.createur &nbsp;&nbsp;<br/><br/>
+             
+                
+               <div class="styleDates resume" >
+                <img id="image" style="display:inline" src="@routes.Assets.at("images/calendar.png")"/>
+                <h3 style="display:inline">Dates propos&eacute;es:</h3>                 
+                
+                <input type="hidden" id="identifiants" value="@event.id">               
+                    <ul class="firstClass">
+                    @for(jour <- event.jours) {
+                        <li><i class="mesicones icon-calendar"></i><b style="font-size:18px">@jour.date</b> &nbsp;
+                            <ul>
+                            @for(horaire <- jour.horaires) {
+                              <li><i class="mesicones icon-time"></i>  @horaire.debut - @horaire.fin</li>
+                            }
+                            </ul>
+                        </li>
+                     
+                    }
+                    </ul>
+                </div>         
+                <div class="mailList resume">
+                    <img id="image" style="display:inline" src="@routes.Assets.at("images/mail.gif")"/>
+                    <h3 style="display:inline">Liste des mails invités:</h3> 
+                    <div  id="mailList" class="selectDate" style="position:right">
+                        
+                        <br>
+                        <p  id="mailAdressContent">             
+                            @for(l <- event.mailSentList){
+                                <a href="mailto:@l.adresse?subject=KIND:Invitation&body=http://intranet2:9000/KIND/eventEdit/@(new sun.misc.BASE64Encoder().encode((event.id.toString).getBytes))/consult">@l.adresse </a><br>
+                            } 
+                        </p>
+                    </div>
+                </div>
+                <br/>
+                <div>
+                    <a href="@routes.Application.invitation(event.id)" class="precedent btn btn-primary">Précédent</a>
+                    <a href="@routes.Application.editAdm(new sun.misc.BASE64Encoder().encode((event.id.toString).getBytes), new sun.misc.BASE64Encoder().encode((event.email).getBytes))" class="continuer btn btn-primary">Continuer</a>
+                </div>
+            
+               
+
+        </div>
+    </div>
+    
+    
+    
+    
+}

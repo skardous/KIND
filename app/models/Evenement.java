@@ -36,9 +36,7 @@ public class Evenement extends Model {
 	
 	@Required
 	@Email
-	public String email;	
-
-	public String passAdmin;
+	public String email;		
 	
 	@Formats.DateTime(pattern="dd/MM/yyyy")
 	public Date dateCreation = new Date();
@@ -109,7 +107,7 @@ public class Evenement extends Model {
 		evt.jours.remove(j);
 		evt.saveManyToManyAssociations("jours");		
 
-		j.delete();
+		Jour.delete(j.id);
 	}
 
 	//Manipulation de Personnes

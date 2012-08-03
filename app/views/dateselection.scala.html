@@ -7,28 +7,37 @@
 
 @main("Selectionner les jours") {
 
-	<h2>Selectionner les jours:</h2>
+	<div class="container">
+		<div class="content">
 
-	<div class="control-group"><label class="control-label"><b>Titre:&nbsp;</b></label> @event.titre </div> <br>
+			<div class="btn-group">
+		        <a class="btn" href="@routes.Application.eventCreateFilled(event.id)">1.Création de l'événement</a>
+                <a class="btn btn-info" href="@routes.Application.dateSelection(event.id)">2.Sélection des dates</a>
+                <a class="btn" href="@routes.Application.heureSelection(event.id)">3.Sélection des plages horaires</a>
+                <a class="btn" href="@routes.Application.invitation(event.id)">4.Invitation des participants</a>
+                <a class="btn" href="@routes.Application.resume(event.id)">5.Résumé</a>
+		    </div>
 
-	<label class="control-label"><b>Date</b></label> <div class="controls" id="date"></div>
+		    <div class="selectionJours">
+			    <h2>Selectionner les jours:</h2>			
 
-	OU<br>
+				<label class="control-label"></label> <div class="controls" id="date"></div>
 
-	Ajouter une date particulière: (ex: tous les jeudis)<br>
-	<input class="particuliere" type="text"> <a id="okParticuliere" class="btn btn-success"> OK </a>
+				OU<br>
 
-	<ul class="controls" id="altField"> </ul>
+				Ajouter une date particulière: (ex: tous les jeudis)<br>
+				<input class="particuliere" type="text"> <a id="okParticuliere" class="btn btn-success"> OK </a>
+
+				<ul class="controls" id="altField"> </ul>
+			</div>
+
+			
+			<a href="@routes.Application.eventCreateFilled(event.id)" class="precedent btn btn-primary">Précédent</a>
+			<a href="@routes.Application.heureSelection(event.id)" class="continuer btn btn-primary">Continuer</a>
+		</div>
+	</div>
 
 	
-
-	<a href="@routes.Application.heureSelection(event.id)" class="btn btn-primary">Continuer</a>
-
-	<div id="dialog-check-pwd-adm" title="Entrez le mot de passe organisateur">				
-			<label for="password">Mot de passe organisateur (envoyé par mail a la création de l'évènement) :</label>
-			<input type="password" name="password" id="password-check-adm" value="" class="text ui-widget-content ui-corner-all" />
-		
-	</div>
 
 
 
@@ -124,40 +133,7 @@
 				}
 			});	
 
-		});
-
-
-
-
-	$(function(){		
-
-		$( "#dialog-check-pwd-adm" ).dialog( "open" );		
-
-	});
-	
-
-	$( "#dialog-check-pwd-adm" ).dialog({  // boite de dialogue personnalisée
-		autoOpen: false,
-		height: 200,
-		width: 275,
-		modal: true,
-		open: function(event, ui) { $(".ui-dialog-titlebar-close", $(this).parent()).hide(); },
-		closeOnEscape: false,
-		buttons: {
-			"OK": function() {				
-								
-				pass = $("#password-check-adm").val();	
-				if (pass == "@event.passAdmin") {
-				  	$( this ).dialog( "close" );
-				} else {
-				  	alert("mot de passe incorrect");
-				}				
-				
-			}					
-		}
-		
-		
-	});
+		});	
 
 	</script>
     

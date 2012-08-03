@@ -1,0 +1,66 @@
+@(id: Long, eventForm: Form[Evenement], event: Evenement)
+
+@import helper.twitterBootstrap._
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) }
+
+
+
+@main("Inviter à l'événement") {
+    
+    <div class="container">
+        <div class="content">
+
+            <div class="btn-group">
+                <a class="btn" href="@routes.Application.eventCreateFilled(event.id)">1.Création de l'événement</a>
+                <a class="btn" href="@routes.Application.dateSelection(event.id)">2.Sélection des dates</a>
+                <a class="btn" href="@routes.Application.heureSelection(event.id)">3.Sélection des plages horaires</a>
+                <a class="btn btn-info" href="@routes.Application.invitation(event.id)">4.Invitation des participants</a>
+                <a class="btn" href="@routes.Application.resume(event.id)">5.Résumé</a>
+            </div>
+            
+            <h2>Inviter des personnes à l'évenement</h2>
+            
+            <div class="selectDate" style="position:relative; display:inline-block; width:500px">
+                <textarea id="mailsArea" title="Adresses email s&eacute;par&eacute;es par une virgule" rows="4" style="color:grey" placeholder="Entrez ici les adresses mail séparées par une virgule ..."></textarea>
+                <i class="checkmail mesicones icon-remove"></i>
+                <a id="envoiLien" disabled="true" class="btn">Envoyer Lien</a> <a class="btnMailPerso" title="Ajouter un texte personnalisé au mail"><i class="mesicones icon-plus"></i></a>
+                <div class="champPerso" style="display:none">
+                    <textarea id="mailPersoArea" rows="6" style="color:grey" placeholder="Entrez un message avec votre mail d'invitation"></textarea>
+                </div>
+            </div>
+           
+
+            <div  id="mailList" class="selectDate" style="position:right;  width:500px">
+                    <h5 >Liste des mails invités</h5>
+                    <br>
+                    <p  id="mailAdressContent">             
+                        @for(l <- event.mailSentList){
+                            @l.adresse <br>
+                        } 
+                    </p>
+                </div>
+            
+            <a href="@routes.Application.heureSelection(event.id)" class="precedent btn btn-primary">Précédent</a>
+            <a href="@routes.Application.resume(event.id)" class="continuer btn btn-primary">Continuer</a>
+               
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" charset="utf-8">
+        
+
+        function refreshtable(){
+            $('#divtest').load('/KIND/eventEdit/@(new sun.misc.BASE64Encoder().encode((event.id.toString).getBytes))/consult/@(new sun.misc.BASE64Encoder().encode((event.email).getBytes))/adm #divtest');
+        }
+
+        Mails("@routes.Application.sendMail(event.id)");
+
+    </script>
+    
+
+
+    
+}

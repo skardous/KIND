@@ -8,43 +8,51 @@
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
 # Home page
-GET     /KIND/                        				controllers.Application.index()
-GET     /KIND                        				controllers.Application.index()
+GET     /KIND/                        				   controllers.Application.index()
+GET     /KIND                        				   controllers.Application.index()
+
+#Redirection
+POST    /KIND/newevent                  		        controllers.Application.newEvent()
+POST    /KIND/eventCreate/:id/update                    controllers.Application.updateEvent(id: Long)
+GET    /KIND/newevent/:id/dateSelection              	controllers.Application.dateSelection(id: Long)
+GET    /KIND/newevent/:id/heureSelection             	controllers.Application.heureSelection(id: Long)
+GET    /KIND/newevent/:id/invitation                	controllers.Application.invitation(id: Long)
+GET    /KIND/newevent/:id/resume                    	controllers.Application.resume(id: Long)
                                 
 # Events          
-GET     /KIND/newevent                  		    controllers.Application.events()
-GET     /KIND/eventlist               		     	controllers.Application.eventlist()
+GET     /KIND/eventCreate                  		       controllers.Application.eventCreateEmpty()
+GET     /KIND/eventCreate/:id/filled                  controllers.Application.eventCreateFilled(id: Long)
+GET     /KIND/eventlist               		     	   controllers.Application.eventlist()
 
-POST    /KIND/newevent                  		    controllers.Application.newEvent()
-GET     /KIND/newevent/:id/delete       		    controllers.Application.deleteEvent(id: Long)
+GET     /KIND/newevent/:id/delete       		       controllers.Application.deleteEvent(id: Long)
 
-GET    /KIND/newevent/:id/dateSelection           	controllers.Application.dateSelection(id: Long)
-POST   /KIND/newevent/:id/addDate                 	controllers.Application.addDate(id:Long)
-POST   /KIND/newevent/:id/removeDate              	controllers.Application.removeDate(id:Long)
-POST   /KIND/newevent/:id/datechanged             	controllers.Application.dateChanged(id:Long)
 
-GET    /KIND/newevent/:id/heureSelection          	controllers.Application.heureSelection(id: Long)
-POST   /KIND/newevent/:id/newHoraire              	controllers.Application.newHoraire(id:Long)
-POST   /KIND/newevent/:id/deleteHoraire           	controllers.Application.deleteHoraire(id:Long)
+POST   /KIND/newevent/:id/addDate                    	controllers.Application.addDate(id:Long)
+POST   /KIND/newevent/:id/removeDate                 	controllers.Application.removeDate(id:Long)
+POST   /KIND/newevent/:id/datechanged                	controllers.Application.dateChanged(id:Long)
+
+
+POST   /KIND/newevent/:id/newHoraire                 	controllers.Application.newHoraire(id:Long)
+POST   /KIND/newevent/:id/deleteHoraire              	controllers.Application.deleteHoraire(id:Long)
 
 # Edit existing event
-GET     /KIND/eventEdit/:idhash/consult             controllers.Application.edit(idhash:String)
-POST    /KIND/eventEdit/:id        			     	controllers.Application.update(id:Long)
-GET     /KIND/eventEdit/:idhash/adm          		controllers.Application.editAdm(idhash:String)
+GET     /KIND/eventEdit/:idhash/consult                 controllers.Application.edit(idhash:String)
+POST    /KIND/eventEdit/:id        			        	controllers.Application.update(id:Long)
+GET     /KIND/eventEdit/:idhash/consult/:mailhash/adm   controllers.Application.editAdm(idhash:String, mailhash:String)
 
-POST     /KIND/eventEdit/:id/adm/newpass            controllers.Application.newAdmPass(id:Long)
 
-POST     /KIND/eventEdit/:id/updatePersonne         controllers.Application.updatePersonne(id:Long)
 
-POST     /KIND/eventEdit/:idhash/addParticip        controllers.Application.addParticipant(idhash:String)
-POST     /KIND/eventEdit/:id/delParticip            controllers.Application.deleteParticipant(id:Long)
+POST     /KIND/eventEdit/:id/updatePersonne            controllers.Application.updatePersonne(id:Long)
 
-POST     /KIND/eventEdit/:id/checkBoxHoraire        controllers.Application.checkBoxHoraire(id:Long)
-POST     /KIND/eventEdit/:id/checkBoxJour           controllers.Application.checkBoxJour(id:Long)
+POST     /KIND/eventEdit/:idhash/addParticip           controllers.Application.addParticipant(idhash:String)
+POST     /KIND/eventEdit/:id/delParticip               controllers.Application.deleteParticipant(id:Long)
 
-POST     /KIND/eventEdit/:id/changeObligatoire      controllers.Application.changeObligatoire(id:Long)
+POST     /KIND/eventEdit/:id/checkBoxHoraire           controllers.Application.checkBoxHoraire(id:Long)
+POST     /KIND/eventEdit/:id/checkBoxJour              controllers.Application.checkBoxJour(id:Long)
+   
+POST     /KIND/eventEdit/:id/changeObligatoire         controllers.Application.changeObligatoire(id:Long)
 
-POST     /KIND/eventEdit/:id/sendmail               controllers.Application.sendMail(id:Long)
-POST     /KIND/eventEdit/:id/addMail                controllers.Application.addMail(id:Long)
+POST     /KIND/eventEdit/:id/sendmail                  controllers.Application.sendMail(id:Long)
+POST     /KIND/eventEdit/:id/addMail                   controllers.Application.addMail(id:Long)
 
-POST     /KIND/eventEdit/        		      	    controllers.Application.getPass()
+POST     /KIND/eventEdit/        		      	       controllers.Application.getPass()

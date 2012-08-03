@@ -7,1311 +7,317 @@
 
 @main("Editer un evenement") {
 
-	<h1>Participants pour: @event.titre</h1><br/>
+	<div class="container">
+		<div class="content">	
 
-	
-	Titre de l'&eacute;venement : <b>@event.titre</b> <br/>
-	Cr&eacute;ateur : <b>@event.createur</b> @if(event.email != "" && event.email != null) {   <br>Contact : @event.email }<br/>
-	Cree le: @event.dateCreation.toLocaleString<br>
+			<h1>Participants pour: @event.titre</h1>
 
-	@if(event.descriptif != "") {
-	Description : <i>@event.descriptif</i> <br/>	
-	}			
-	<br>
-	
-	@if(adm == 1) {
-		<a class="btn btn-danger" href="@routes.Application.deleteEvent(event.id)">Supprimer l'evenement</a>
-		<a id="newPassAdmin" class="btn btn-info" >Modifier le mot de passe organisateur</a>
-	}
+			
+			Titre de l'&eacute;venement : <b>@event.titre</b> <br/>
+			Cr&eacute;ateur : <b>@event.createur</b> @if(event.email != "" && event.email != null) {   <br>Contact : @event.email }<br/>
+			Cree le: @event.dateCreation.toLocaleString<br>
 
-
-	
-	<br><br>
-	<h3>Inviter des personnes à l'évenement</h3>
-	
-	<div class="selectDate" style="position:relative; display:inline-block; width:500px">
-		<textarea id="mailsArea" title="Adresses email s&eacute;par&eacute;es par une virgule" rows="4" style="color:grey" placeholder="Entrez ici les adresses mail séparées par une virgule ..."></textarea>
-		<i class="checkmail mesicones icon-remove"></i>
-		<a id="envoiLien" disabled="true" class="btn">Envoyer Lien</a> <a class="btnMailPerso" title="Ajouter un texte personnalisé au mail"><i class="mesicones icon-plus"></i></a>
-		<div class="champPerso" style="display:none">
-			<textarea id="mailPersoArea" rows="6" style="color:grey" placeholder="Entrez un message avec votre mail d'invitation"></textarea>
-		</div>
-	</div>
-	<div style="display:inline-block; width:380px">
-		Entrez ici la liste des adresses mail des personnes que vous désirez inviter à cet évènement.
-	</div>
-
-	@if(adm == 1) {
-		<br><br>
-		<div  id="mailList" class="selectDate" style="position:right;  width:500px">
-			<h5>Liste des mails invités</h5>
+			@if(event.descriptif != "") {
+			Description : <i>@event.descriptif</i> <br/>	
+			}			
 			<br>
-			<p id="mailAdressContent">				
-				@for(l <- event.mailSentList){
-					@l.adresse <br>
-				} 
-			</p>
-		</div>
-	}
-	
-	
-	<br><br>
-	<h3>Liste des participants et de leurs disponibilités</h3>
-
-	@if(adm != 1){
-		S'ajouter à la liste des participants :		  
-		<input id="champ" type="text" maxlength="25" value="">&nbsp;<a id="ajouter" class="btn">Ajouter</a><br>
-	}	
-
-	<div id="divtest" >
-	<table class="datesTable" cellspacing="5" cellpadding="5">
-		<tbody>
-			<tr class="titres dates" style="display:none"><td style="visibility:hidden"></td>
-				@for(jour <- event.jours) {  					  
-					<td id="@jour.id" class="jour" colspan="@jour.horaires.size()">
-						<b class="jourintitule">@jour.date </b>
-						@if(adm == 1){<a id="@jour.id" class="horaireAdd" title="Ajouter une plage horaire à cette date" ><i class="mesicones icon-plus"></i></a>}
-						@if(adm == 1){<a id="@jour.id" class="jourDel" title="Supprimer cette date"><i class="mesicones icon-remove"></i></a>}
-					</td>	                        	                
-				}
-			</tr>
-			<tr class="titres horaires" style="display:none"><td style="visibility:hidden"></td>
-				@for(jour <- event.jours) {  
-					@if(jour.horaires.size() == 0){
-					    <td class="jour"></td>
-					}
-				    @for(horaire <- jour.horaires) {
-				    	<td id="@horaire.id" dayid="@jour.id" class="horaire">
-				    		@horaire.debut - @horaire.fin 
-				    		@if(adm == 1){<a id="@horaire.id" idjour="@jour.id" class="horaireDel" title="Supprimer cette plage horaire" ><i class="mesicones icon-remove"></i></a>}
-				    	</td>
-				    }  
-
-				}
-			</tr>
-			              
 			
-			@for(participant <- event.participants) {
-				<tr title="@participant.nom" id="@participant.id" class="participant"><td class="infoPersonne">
-					@form(routes.Application.updatePersonne(event.id), 'id->"formPersonne") {
-						@if(participant.locked){
-							<i class="mesicones icon-lock"></i>
-						}
-						@if(participant.obligatoire){							
-							<a id="obligatoire" class="obligatoirecb btn btn-inverse">Obligatoire</a>
-						} else {							
-							<a id="obligatoire" class="obligatoirecb btn ">Facultatif</a>
-						}
+			@if(adm == 1) {
+				<a class="btn btn-danger" href="@routes.Application.deleteEvent(event.id)">Supprimer l'evenement</a>
+				
+			}
 
-						<input id="nom" maxlength="25" type="text" value="@participant.nom" name="nom" readonly="readonly">							
-						<a id="@participant.id" title="Editer le participant" class="editPersonne"><i class="mesicones icon-pencil"></i></a>
-						<a id="@participant.id" title="Supprimer le participant" class="deletePersonne"> <i class="mesicones icon-trash"></i></a>
-					}</td>
+			
+			<br><br>
+			<h3>Liste des participants et de leurs disponibilités</h3>
+
+			@if(adm != 1){
+				S'ajouter à la liste des participants :		  
+				<input id="champ" type="text" maxlength="25" value="">&nbsp;<a id="ajouter" class="btn">Ajouter</a><br>
+			}	
+
+			@if(adm == 1){			
+			
+			<div class="champAdd" >		
+				Ajouter un participant :		  
+				<input id="champ" type="text" size="25" value="">&nbsp;<a id="ajouter" class="btn">Ajouter</a><br><br>
+
+				Ajouter une date:
+				<input id="datepicker" type="text">&nbsp;<a id="ajouterDate" class="btn">Ajouter</a>
+			</div>
+			}
+
+			<div id="divtest" >
+			<table class="datesTable" cellspacing="5" cellpadding="5">
+				<tbody>
+					<tr class="titres dates" style="display:none"><td style="visibility:hidden"></td>
+						@for(jour <- event.jours) {  					  
+							<td id="@jour.id" class="jour" colspan="@jour.horaires.size()">
+								<b class="jourintitule">@jour.date </b>
+								@if(adm == 1){<a id="@jour.id" class="horaireAdd" title="Ajouter une plage horaire à cette date" ><i class="mesicones icon-plus"></i></a>}
+								@if(adm == 1){<a id="@jour.id" class="jourDel" title="Supprimer cette date"><i class="mesicones icon-remove"></i></a>}
+							</td>	                        	                
+						}
+					</tr>
+					<tr class="titres horaires" style="display:none"><td style="visibility:hidden"></td>
+						@for(jour <- event.jours) {  
+							@if(jour.horaires.size() == 0){
+							    <td class="jour"></td>
+							}
+						    @for(horaire <- jour.horaires) {
+						    	<td id="@horaire.id" style="font-size: 0.85em" dayid="@jour.id" class="horaire">
+						    		@horaire.debut - @horaire.fin 
+						    		@if(adm == 1){<a id="@horaire.id" idjour="@jour.id" class="horaireDel" title="Supprimer cette plage horaire" ><i class="mesicones icon-remove"></i></a>}
+						    	</td>
+						    }  
+
+						}
+					</tr>
+					              
 					
+					@for(participant <- event.participants) {
+						<tr title="@participant.nom" id="@participant.id" class="participant"><td class="infoPersonne">
+							@form(routes.Application.updatePersonne(event.id), 'id->"formPersonne") {
+								@if(participant.locked){
+									<i class="mesicones icon-lock"></i>
+								} else {
+									&nbsp;&nbsp;&nbsp;&nbsp;
+								}
+								
+
+								<input id="nom" maxlength="25" type="text" value="@participant.nom" name="nom" readonly="readonly">							
+								<a id="@participant.id" title="Editer le participant" class="editPersonne"><i class="mesicones icon-pencil"></i></a>
+								<a id="@participant.id" title="Supprimer le participant" class="deletePersonne"> <i class="mesicones icon-trash"></i></a>
+								
+								@if(participant.obligatoire){
+									<a id="@participant.id" title="Participation à l'évènement obligatoire" class="obligatoirecb obligatoire"><i class="mesicones icon-star"></i></a>
+								} else {
+									<a id="@participant.id" title="Participation à l'évènement facultative" class="obligatoirecb"><i class="mesicones icon-star-empty"></i></a>
+								}
+							}</td>
+							
+							@for(jour <- event.jours) {
+							    @if(jour.horaires.size() == 0){
+							      @if(participant.inscriptionsJours.contains(jour)) {
+					                <td class="checktd"><input id="@jour.id" type="checkbox"  disabled checked class="jour checkbox" value="@jour.date" /></td>
+					              } else {
+					                 <td class="checktd"><input id="@jour.id" type="checkbox"  disabled class="jour checkbox" value="@jour.date" /></td>
+					              }
+							       
+							    }
+					            @for(horaire <- jour.horaires) {
+					              @if(participant.inscriptionsHoraires.contains(horaire)) {
+					                <td class="checktd"><input id="@horaire.id" type="checkbox" disabled class="horaire checkbox"  checked value="@horaire.debut - @horaire.fin" /></td>
+					              } else {
+					                 <td class="checktd"><input id="@horaire.id" type="checkbox" disabled class="horaire checkbox" value="@horaire.debut - @horaire.fin" /></td>
+					              }
+					            }            	                
+					        }				
+						</tr>
+					}
+				</tbody>
+				<tfoot>
+				<tr id="compte" class="titres"
+				 @if(event.participants.size() == 0){ style="display:none"}>
+					<td id=""><b>Compte: </b></td>
 					@for(jour <- event.jours) {
-					    @if(jour.horaires.size() == 0){
-					      @if(participant.inscriptionsJours.contains(jour)) {
-			                <td class="checktd"><input id="@jour.id" type="checkbox"  disabled checked class="jour checkbox" value="@jour.date" /></td>
-			              } else {
-			                 <td class="checktd"><input id="@jour.id" type="checkbox"  disabled class="jour checkbox" value="@jour.date" /></td>
-			              }
-					       
+					    @if(jour.horaires.size() == 0){		     
+			                <td id="@jour.id" class="jour">0</td>	       
 					    }
-			            @for(horaire <- jour.horaires) {
-			              @if(participant.inscriptionsHoraires.contains(horaire)) {
-			                <td class="checktd"><input id="@horaire.id" type="checkbox" disabled class="horaire checkbox"  checked value="@horaire.debut - @horaire.fin" /></td>
-			              } else {
-			                 <td class="checktd"><input id="@horaire.id" type="checkbox" disabled class="horaire checkbox" value="@horaire.debut - @horaire.fin" /></td>
-			              }
-			            }            	                
-			        }				
+			            @for(horaire <- jour.horaires) {              
+			                <td id="@horaire.id" class="horaire">0</td>              
+			            }
+					}
 				</tr>
-			}
-		</tbody>
-		<tfoot>
-		<tr id="compte" class="titres"
-		 @if(event.participants.size() == 0){ style="display:none"}>
-			<td id=""><b>Compte: </b></td>
-			@for(jour <- event.jours) {
-			    @if(jour.horaires.size() == 0){		     
-	                <td id="@jour.id" class="jour">0</td>	       
-			    }
-	            @for(horaire <- jour.horaires) {              
-	                <td id="@horaire.id" class="horaire">0</td>              
-	            }
-			}
-		</tr>
-		
+				
+					
+				</tfoot>
+				
+			</table>
+			</div>
+
 			
-		</tfoot>
-		
-	</table>
-	</div>
+			
+			<div class="legende" style="display:none">
+				<i class="mesicones icon-pencil"></i> : Déverrouiller l'édition (modifier le nom et les disponibilités).<br>
+				<i class="mesicones icon-ok"></i> : Verrouiller l'édition.<br>
+				<i class="mesicones icon-trash"></i> : Supprimer le participant.<br>
+				<i class="mesicones icon-star"></i> : Présence obligatoire. Cliquez pour rendre facultatif.<br>
+				<i class="mesicones icon-star-empty"></i> : Présence facultative. Cliquez pour rendre obligatoire.<br>
+			</div>
 
-	<div id="refresh"></div>
+			
 
 
+			
+
+			<br><br>
+			<h3>Inviter des personnes à l'évenement</h3>
+			
+			<div class="selectDate" style="position:relative; display:inline-block; width:500px">
+				<textarea id="mailsArea" title="Adresses email s&eacute;par&eacute;es par une virgule" rows="4" style="color:grey" placeholder="Entrez ici les adresses mail séparées par une virgule ..."></textarea>
+				<i class="checkmail mesicones icon-remove"></i>
+				<a id="envoiLien" disabled="true" class="btn">Envoyer Lien</a> <a class="btnMailPerso" title="Ajouter un texte personnalisé au mail"><i class="mesicones icon-plus"></i></a>
+				<div class="champPerso" style="display:none">
+					<textarea id="mailPersoArea" rows="6" style="color:grey" placeholder="Entrez un message avec votre mail d'invitation"></textarea>
+				</div>
+			</div>
+			<div style="display:inline-block; width:380px">
+				Entrez ici la liste des adresses mail des personnes que vous désirez inviter à cet évènement.
+			</div>
+
+			
+			<br><br>
+			<div  id="mailList" class="selectDate" style="@if(adm != 1) {display:none;} position:right;  width:500px">
+				<h5 @if(adm != 1) {style="display:none"}>Liste des mails invités</h5>
+				<br>
+				<p @if(adm != 1) {style="display:none"} id="mailAdressContent">				
+					@for(l <- event.mailSentList){
+						@l.adresse <br>
+					} 
+				</p>
+			</div>
+			
+			
+
+			
+			<div id="dialog-add-horaire" title="Sélectionnez l'horaire">	
+				<div id="slider">
+					<input type="text" id="data" value="8h - 17h" style="border:0; color:#f6931f; font-weight:bold;" />		
+
+					<div class="slider-range"></div>
+				</div>
+			</div>
 
 
-	@if(adm == 1){
-	<a class="visibleAdd" ><i class="mesicones icon-plus"></i></a>
-	
-	<div class="champAdd" style="display:none">		
-		Ajouter un participant :		  
-		<input id="champ" type="text" size="25" value="">&nbsp;<a id="ajouter" class="btn">Ajouter</a><br><br>
+			<div id="dialog-new-pwd" title="Créez le mot de passe">		
 
-		Ajouter une date:
-		<input id="datepicker" type="text">&nbsp;<a id="ajouterDate" class="btn">Ajouter</a>
-	</div>
-	}
-	
-	
+				<form>
+				<fieldset>			
+					<label for="password">Mot de passe créé :</label>
+					<input type="password" name="password" id="password-new" value="" class="text ui-widget-content ui-corner-all" />
+				</fieldset>
+				</form>
+			</div>
 
-	
-	<div id="dialog-add-horaire" title="Sélectionnez l'horaire">	
-		<div id="slider">
-			<input type="text\" id="data" value="8h - 17h" style="border:0; color:#f6931f; font-weight:bold;" />		
+			<div id="dialog-question-securise" title="Créez le mot de passe">		
 
-			<div class="slider-range"></div>
+				<form>
+				<fieldset>			
+					<label>Sécuriser les informations de ce participant avec un mot de passe ?</label>
+					
+				</fieldset>
+				</form>
+			</div>
+
+			<div id="dialog-check-pwd" title="Entrez le mot de passe pour ce participant">		
+
+						
+					<label for="password">Mot de passe du participant :</label>
+					<input type="password" name="password" id="password-check" value="" class="text ui-widget-content ui-corner-all" />
+				
+			</div>
+
+			<div id="dialog-check-pwd-delete" title="Entrez le mot de passe pour ce participant">		
+
+						
+					<label for="password">Mot de passe du participant :</label>
+					<input type="password" name="password" id="password-check-delete" value="" class="text ui-widget-content ui-corner-all" />
+				
+			</div>
 		</div>
 	</div>
 
+	
 
-	<div id="dialog-new-pwd" title="Créez le mot de passe">		
-
-		<form>
-		<fieldset>			
-			<label for="password">Mot de passe créé :</label>
-			<input type="password" name="password" id="password-new" value="" class="text ui-widget-content ui-corner-all" />
-		</fieldset>
-		</form>
-	</div>
-
-	<div id="dialog-question-securise" title="Créez le mot de passe">		
-
-		<form>
-		<fieldset>			
-			<label>Sécuriser les informations de ce participant avec un mot de passe ?</label>
-			
-		</fieldset>
-		</form>
-	</div>
-
-	<div id="dialog-check-pwd" title="Entrez le mot de passe pour ce participant">		
-
-				
-			<label for="password">Mot de passe du participant :</label>
-			<input type="password" name="password" id="password-check" value="" class="text ui-widget-content ui-corner-all" />
-		
-	</div>
-
-	<div id="dialog-check-pwd-delete" title="Entrez le mot de passe pour ce participant">		
-
-				
-			<label for="password">Mot de passe du participant :</label>
-			<input type="password" name="password" id="password-check-delete" value="" class="text ui-widget-content ui-corner-all" />
-		
-	</div>
-
-	<div id="dialog-new-adm" title="Entrez le nouveau mot de passe administrateur">		
-
-				
-			<label for="password">Nouveau mot de passe :</label>
-			<input type="password" name="password" id="password-new-adm" value="" class="text ui-widget-content ui-corner-all" />
-		
-	</div>
-
-	<div id="dialog-check-pwd-adm" title="Entrez le mot de passe organisateur">		
-
-				
-			<label for="password">Mot de passe organisateur (premier mot de passe reçu par email):</label>
-			<input type="password" name="password" id="password-check-adm" value="" class="text ui-widget-content ui-corner-all" />
-		
-	</div>
+	
 
 	
 
 	<script type="text/javascript" charset="utf-8">
 	
-	var color1 = "#FFFF99";
-	var color2 = "gold";
-	var color3 = "steelblue";
-	var mdp = "";
+		var color1 = "#FFFF99";
+		var color2 = "gold";
+		var color3 = "steelblue";
+		var mdp = "";	
 
-	/*$(function() {
-       hash = encode64("1");
-       hash2 = encode64(hash);
-       alert("code:"+hash2);
-       alert("decode"+decode64(decode64(hash2)));
-   })*/
-	
-
-
-
-
-
-
-	/*Code concernant l'interface administrateur*/
-
-
-	adminTools("@adm", "@event.passAdmin", "@routes.Application.newAdmPass(event.id)");
-
-
-
-
-
-
-
-
-
-	/*Code concernant les mails et l'envoi*/
-
-	$(function(){
-
-		if (bonmail($("#mailsArea").val())) {
-			$(".checkmail").attr("class", "checkmail mesicones icon-ok");
-			$("#envoiLien").removeAttr("disabled");
-			$("#envoiLien").addClass("btn-primary");
-		} else {
-			$(".checkmail").attr("class", "checkmail mesicones icon-remove");
-			$("#envoiLien").attr("disabled", "true");
-			$("#envoiLien").removeClass("btn-primary");
-		}
-	});
-
-	$('#envoiLien').live('click', function(e) {
-		var canSend = true;
-		var tableau = $("#mailsArea").val().split(",");
-		
-		for (var i=0; i<tableau.length; i++) {
-			
-			if (($("#mailAdressContent").html()).indexOf($.trim(tableau[i])) != -1 && tableau[i] != '') {
-				alert("Mail déja envoyé à " + tableau[i] + " : ENVOI ANNULÉ (à toutes les adresses)");				
-				canSend = false;
-				break;
-			}
-		}
-
-		if ($(this).attr("disabled") != "disabled" && canSend == true) {
-			var mailsList = $("#mailsArea").val();
-
-			$.ajax({
-				type: "POST",
-				url: "@routes.Application.sendMail(event.id)",
-				data: '{"mailslist" : "' + mailsList + '", "textPerso" : "' + $("#mailPersoArea").val() + '"}',
-				contentType: "application/json",
-				success : function(data) {
-					for (var i=0; i<tableau.length; i++) {
-						$("#mailAdressContent").append(tableau[i]+"<br>");
-					}
-					alert("Mail(s) envoye(s) a " + mailsList);
-				}
-			});	
-		}	
-	});
-
-
-	$("#mailsArea").live("keyup", function() {
-
-		if (bonmail($(this).val())) {
-			
-			$(".checkmail").attr("class", "checkmail mesicones icon-ok");
-			$("#envoiLien").removeAttr("disabled");
-			$("#envoiLien").addClass("btn-primary");
-		} else {
-			
-			$(".checkmail").attr("class", "checkmail mesicones icon-remove");
-			$("#envoiLien").attr("disabled", "true");
-			$("#envoiLien").removeClass("btn-primary");
-		}
-	})
-	
-	function bonmail(mailtest)
-	{
-		var reg = new RegExp('^([a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*@@[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6}){1}(\,( )*[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*@@[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6})*$', 'i');
-
-		if(reg.test(mailtest))
-		{
-			return(true);
-		}
-		else
-		{
-			return(false);
-		}
+		function refreshtable(){
+		$('#divtest').load('/KIND/eventEdit/@(new sun.misc.BASE64Encoder().encode((event.id.toString).getBytes))/consult/@(new sun.misc.BASE64Encoder().encode((event.email).getBytes))/adm #divtest');
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	/*Code de style*/
-
-	$(function(){
-		$("table.datesTable td").css("background-color", color3);
-		$(".checkbox").attr("disabled", "true"); 
-
-		$('.checkbox').each(function (i) { // coloration des box checkées
-		  	if ($(this).is(':checked')){
-		  		$(this).parent().css("background-color", "#66CC99");
-		  	}
-		});
-
-		$('.infoPersonne').each(function (i) {
-			$('.titres').attr('style','');
-		});
-
-		refreshCount(); // maj de la ligne de compteurs
-
-		affichagePopulaire(); // maj des surbrillances
-	})
-
-	$(".btnMailPerso").live('click', function() {
-		if ($(this).siblings(".champPerso").css("display") == "none") {                
-            $(this).siblings(".champPerso").removeAttr("style");
-            $(this).html("<i class=\"mesicones icon-minus\"></i>")
-        } else {                
-            $(this).siblings(".champPerso").attr("style", "display:none");
-            $(this).html("<i class=\"mesicones icon-plus\"></i>")
-        }
-	})
-
-	$("textarea").live('click', function(e) {
-		$(this).html("");
-		$(this).removeAttr("style");
-	})
-
-	$(".visibleAdd").live("click", function() {
-        if ($(this).siblings(".champAdd").css("display") == "none") {                
-            $(this).siblings(".champAdd").removeAttr("style");
-            $(this).html("<i class=\"mesicones icon-minus\"></i>")
-        } else {                
-            $(this).siblings(".champAdd").attr("style", "display:none");
-            $(this).html("<i class=\"mesicones icon-plus\"></i>")
-        }
-    })
-
-	function refreshHoverable() { //coloration des cases quand on passe la souris dessus
-		
-		$(".hoverable").on({
-
-			mouseenter: function () {
-				$(this).css("background-color", "lightgreen");
-			}, 
-
-			mouseleave: function () {
-				if ($(this).children().is(':checked')){	 
-			    	$(this).css("background-color", "#66CC99");
-			    } else {
-			    	$(this).css("background-color", color3);
-			    }
-			}
-		});
-
-	}
-
-	
-
-	function refreshCount() { // met à jour l'affichage du compte des participants par horaire
-		$('input[type="checkbox"].horaire.checkbox').each(function(i) {
-			var iden = $(this).attr('id');
-			
-			if ($(this).is(':checked')){
-		    	var increment = $('#compte').children('.horaire[id="'+iden+'"]');
-				increment.html(parseInt(increment.html())+1);
-			}
-			
-		});
-			
-		$('input[type="checkbox"].jour.checkbox').each(function(i) {
-			var iden = $(this).attr('id');			
-				
-			if ($(this).is(':checked')){
-		    	var increment = $('#compte').children('.jour[id="'+iden+'"]');
-				increment.html(parseInt(increment.html())+1);
-			}			
-			
-		});
-	}
-
-
-
-
-
-
-
-
-
-
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	/*Code sur les mots de passe*/
-
-	$( "#dialog:ui-dialog" ).dialog( "destroy" ); 
-		
-	
-	var pass = "";
-	var goodPass = "";
-	var currentEditButton;
-	var currentDelButton;
-
-	$( "#dialog-question-securise" ).dialog({  // boite de dialogue personnalisée
-		autoOpen: false,
-		height: 200,
-		width: 275,
-		modal: true,
-		buttons: {
-			"Oui": function() {				    	
-			    $( "#dialog-new-pwd" ).dialog( "open" );  
-			    $( this ).dialog( "close" );
-			},
-			"Non": function() {
-				addPersonne($.trim($("#champ").attr("value")), "false", "");
-				$( this ).dialog( "close" );
-			}				
-		}
-		
-	});
-			
-	
-	$( "#dialog-new-pwd" ).dialog({  // boite de dialogue personnalisée
-		autoOpen: false,
-		height: 200,
-		width: 275,
-		modal: true,
-		buttons: {
-			"OK": function() {
-				var bValid = true;									
-
-				if ( bValid ) {
-					mdp = $("#password-new").val();
-					addPersonne($.trim($("#champ").attr("value")), "true", mdp);
-					$( "#password-new" ).attr("value", "");
-					$( this ).dialog( "close" );
-				}
-			}				
-		}
-		
-	});
-
-	$( "#dialog-check-pwd" ).dialog({  // boite de dialogue personnalisée
-		autoOpen: false,
-		height: 200,
-		width: 275,
-		modal: true,
-		buttons: {
-			"OK": function() {				
-								
-				pass = $("#password-check").val();	
-				if (pass == goodPass) {
-				  	edition(currentEditButton);
-				} else {
-				  	alert("mot de passe incorrect");
-				}				
-				$( "#password-check" ).attr("value", "");
-				$( this ).dialog( "close" );
-				
-			},
-
-			"Annuler": function() {							
-				$( this ).dialog( "close" );				
-			}				
-		}
-		
-	});
-
-	$( "#dialog-check-pwd-delete" ).dialog({  // boite de dialogue personnalisée
-		autoOpen: false,
-		height: 200,
-		width: 275,
-		modal: true,
-		buttons: {
-			"OK": function() {				
-								
-				pass = $("#password-check-delete").val();	
-				if (pass == goodPass) {
-				  	deletePersonne(currentDelButton);
-				} else {
-				  	alert("mot de passe incorrect");
-				}				
-				$( "#password-check-delete" ).attr("value", "");
-				$( this ).dialog( "close" );
-				
-			},
-
-			"Annuler": function() {							
-				$( this ).dialog( "close" );				
-			}				
-		}
-		
-	});
-
-
-
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	/*Code sur l'ajout*/
-
-	function addPersonne(nomParticipant, locked, pwd)
-	{	
-		$.ajax({
-			type: "POST",
-			url: "@routes.Application.addParticipant(new sun.misc.BASE64Encoder().encode((event.id.toString).getBytes))",
-			data: '{"nom" : "' + nomParticipant + '", "locked" : "' + locked + '", "pwd" : "' + pwd + '"}',
-			contentType: "application/json",
-			success : function(data) {
-				var lock ="";		
-				if(locked == "true"){
-					lock = "<i class=\"mesicones icon-lock\"></i>&nbsp;";
-				}  
-				$("tbody").append("<tr title=\""+nomParticipant+"\" class=\"editable\" id=\""+data.idPersonne+"\"><td class=\"infoPersonne\">"+
-					"<form id=\"formPersonne\">"+
-					lock+
-					"<a id=\"obligatoire\" class=\"obligatoirecb btn\">Facultatif</a>&nbsp;"+
-					"<input id=\"nom\" type=\"text\" maxlength=\"25\" value=\""+nomParticipant+"\" name=\"nom\">&nbsp;"+	
-					"<a id=\""+data.idPersonne+"\" title=\"editer le participant\" class=\"editPersonne\"><i class=\"mesicones icon-ok\"></i></a>"+
-					"<a id=\""+data.idPersonne+"\" title=\"supprimer le participant\" class=\"deletePersonne\"> <i class=\"mesicones icon-trash\"></i</a>"+		  
-					"</form></td>"+
-					"@for(jour <- event.jours) {"+  
-					"@if(jour.horaires.size() == 0){<td class=\"checktd hoverable\" style=\"border: solid black 2px\"><input id=\"@jour.id\" type=\"checkbox\" class=\"jour checkbox\" value=\"@jour.date\" /></td>}"+
-					"@for(horaire <- jour.horaires) {"+	                		
-					"<td class=\"checktd hoverable\" style=\"border: solid black 2px\"><input id=\"@horaire.id\" type=\"checkbox\" class=\"horaire checkbox\" value=\"@horaire.debut - @horaire.fin\" /></td>"+			                
-					"}"+                	                
-					"}" +
-					"</tr>")
-				$('#champ').attr('value', '')
+		$(function(){
+			$("table.datesTable td").css("background-color", color3);
+			$(".checkbox").attr("disabled", "true"); 
+
+			$('.checkbox').each(function (i) { // coloration des box checkées
+			  	if ($(this).is(':checked')){
+			  		$(this).parent().css("background-color", "#66CC99");
+			  	}
+			});
+
+			$('.infoPersonne').each(function (i) {
 				$('.titres').attr('style','');
-				refreshHoverable();
-				if ("@adm" == "1") {
-					setTimeout(refreshtable, 500);				
-					setTimeout(styles, 1500); 	
-				}					
-			}
-			             
-		});
-	}
-
-	$("#ajouter").live('click', function(e){
-		
-
-	    var vide = "";	    
-	    var nom = $("#champ").attr("value");
-	    if (nom != vide) {  
-	    	$( "#dialog-question-securise" ).dialog( "open" );	
-	    	
-						
-		}
-
-	    	    
-	});
-
-	$("#champ").keypress(function(e) {
-		var code = (e.keyCode ? e.keyCode : e.which);
-		if(code == 13) { //Enter keycode
-			var vide = "";	    
-		    var nom = $.trim($("#champ").attr("value"));
-		    if (nom != vide) {  
-		    	$( "#dialog-question-securise" ).dialog( "open" );	
-							
-			}
-			$("#champ").focus();
- 		}
-
-	});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	/* Code sur le rajout d'horaires et de dates*/
-
-	var currentDay;
-	var debut = "08h";
-	var fin = "17h";
-
-	$(".horaireAdd").live("click", function(){
-		$( "#dialog-add-horaire" ).dialog("open");
-		currentDay = $(this).attr("id");
-		
-	})
-
-	$("#ajouterDate").live("click", function(){
-		//var listeJours = "@for(jour <- event.jours) { @jour.date } "; EST CENSÉ MARCHER????
-		var listeJours = "";
-		$(".jourintitule").each(function(){
-			listeJours=listeJours+$(this).html()+" "
-		});
-
-		
-		if (listeJours.indexOf($("#datepicker").val()) != -1 ) {			
-			alert("date déjà existante");
-		} else {
-			$.ajax({
-				type: "POST",
-				url: "@routes.Application.addDate(event.id)",
-				data: '{"date" : "' + $("#datepicker").val() + '"}',
-				contentType: "application/json",
-				success : function(data) {
-
-					$('.titres.dates').append(
-						"<td id=\""+data.idJour+"\" class=\"jour\" style=\"background-color: rgb(255, 255, 153);\">"+
-							"<b class=\"jourintitule\">"+$("#datepicker").val()+" </b>"+
-							"<a id=\""+data.idJour+"\" class=\"horaireAdd\">"+
-								"<i class=\"mesicones icon-plus\"></i>"+
-							"</a>"+
-						"</td>"
-					);	
-					$('.titres.horaires').append(						
-						"<td id=\""+data.idJour+"\" class=\"jour\" style=\"background-color: rgb(255, 255, 153);\"></td>"
-					);
-
-					$(".participant").append(
-						"<td class=\"checktd\"><input id=\""+data.idJour+"\" type=\"checkbox\"  disabled class=\"jour checkbox\" value=\""+$("#datepicker").val()+"\" /></td>"
-					);				
-
-					$("#compte").append(
-						"<td id=\""+data.idJour+"\" class=\"jour\" style=\"background-color: rgb(255, 255, 153);\">0</td>"
-					);
-				}
-			});	
-		}
-	});
-
-	$( ".slider-range" ).slider({
-    	range: true,
-    	min: 0,
-    	max: 1440,
-    	step: 15,
-    	values: [ 8*60, 17*60 ],
-    	slide: function( event, ui ) {
-    		$( "#data" ).val(parseInt(ui.values[ 0 ]/60) + "h"+pad2(ui.values[ 0 ]%60)+" - " + parseInt(ui.values[ 1 ]/60) +"h"+pad2(ui.values[ 1 ]%60));
-
-		}, 
-		change: function(event, ui) {
-			debut = parseInt(ui.values[ 0 ]/60) + "h"+pad2(ui.values[ 0 ]%60);
-			fin = parseInt(ui.values[ 1 ]/60) + "h"+pad2(ui.values[ 1 ]%60);
-					
-		}
-	});
-			    	
-	$( "#dialog-add-horaire" ).dialog({  // boite de dialogue personnalisée
-		autoOpen: false,
-		height: 200,
-		width: 275,
-		modal: true,
-		closeText: 'hide',
-		buttons: {
-			"OK": function() {	
-					
-				$.ajax({
-					type: "POST",
-					url: "@routes.Application.newHoraire(event.id)",
-					data: '{"jour" : "' + currentDay + '"}',
-					contentType: "application/json",
-					success : function(data) {
-						
-						$.ajax({
-							type: "POST",
-							url: "@routes.Application.dateChanged(event.id)",
-							data: '{"idhoraire" : "' + data.idHoraire + '",'+ 
-							'"debut" : "' + debut + '",'+
-							'"fin" : "' + fin + '"}',
-							contentType: "application/json",
-							success : function(data) {
-								
-							}               
-						});
-					}
-				});			
-
-				setTimeout(refreshtable, 100);	
-				
-				$( this ).dialog( "close" );
-				
-				setTimeout(refreshtable, 500);
-				
-				
-				setTimeout(styles, 1500);
-
-
-
-								
-			},
-
-			"Annuler": function() {							
-				$( this ).dialog( "close" );				
-			}				
-		}
-		
-	});
-
-	function styles(){
-		
-
-		$("tr").attr("style", "");
-		$("table.datesTable td").css("background-color", color3);
-		$(".checkbox").attr("disabled", "true"); 
-
-		$('.checkbox').each(function (i) { // coloration des box checkées
-		  	if ($(this).is(':checked')){
-		  		$(this).parent().css("background-color", "#66CC99");
-		  	}
-		});
-
-		$('.infoPersonne').each(function (i) {
-			$('.titres').attr('style','');
-		});
-
-		refreshCount(); // maj de la ligne de compteurs
-
-		affichagePopulaire();
-	}
-
-	function refreshtable(){
-		$('#divtest').load('/KIND/eventEdit/@(new sun.misc.BASE64Encoder().encode((event.id.toString).getBytes))/adm #divtest');
-	}
-
-	function pad2(number) {
-   
-    	return (number < 10 ? '0' : '') + number
-   
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	/* Code concernant la suppression d'horaires et de jours*/
-	 
-	$(".horaireDel").live("click", function(){
-		var thisse = $(this);
-		
-			
-		$.ajax({
-			type: "POST",
-			url: "@routes.Application.deleteHoraire(event.id)",
-			data: '{"jour" : "' + $(this).attr("idjour") + '", "horaire" : "' + $(this).attr("id") + '"}',
-			contentType: "application/json",
-			success : function(data) {
-				setTimeout(refreshtable, 500);				
-				setTimeout(styles, 2000);				
-			}, 
-			error : function(data) {
-				alert("impossible de supprimer l'horaire, vérifiez que personne n'est disponible à cet horaire-ci")
-			}
-		});	
-
-	})
-
-	$(".jourDel").live("click", function(){
-		var thisse = $(this);
-		
-		
-		$.ajax({
-				type: "POST",
-				url: "@routes.Application.removeDate(event.id)",
-				data: '{"idDate" : "' + $(this).attr("id") + '"}',
-				contentType: "application/json",
-				success : function(data) {
-					setTimeout(refreshtable, 500);
-					setTimeout(styles, 2000);		
-				},
-				error : function(data) {
-					alert("impossible de supprimer le jour, vérifiez que personne n'est disponible ce jour-ci")
-				}
-			});				
-
-	})
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	/*Code sur l'édition des participants*/
-
-	$('.editPersonne').live('click', function(e) {
-		
-	    if(!$(this).parents("tr").hasClass("editable"))  {	    	
-	    	if ($(this).siblings("i").hasClass("icon-lock")){
-	    		currentEditButton = $(this);
-	    		$.ajax({
-					type: "POST",
-					url: "@routes.Application.getPass()",
-					data: '{ "idpers" : "'+$(this).parents("tr").attr("id")+'" }',
-					contentType: "application/json",
-					success : function(data) {
-						goodPass = data.pass;
-
-						$( "#dialog-check-pwd" ).dialog( "open" );	
-											  
-					}
-			   });			
-				
-			} else {
-				edition($(this));
-			}
-		  
-	    } else {
-	    	if ($.trim($(this).siblings("input").attr("value")) != "") {
-			      $(this).html("<i class=\"mesicones icon-pencil\"></i>");
-			      $(this).parents("tr").removeClass("editable");
-			      $(this).siblings('input[type="text"]').attr("readonly", "readonly");
-			      $(this).parent().parent().parent().children("td").children('input[type="checkbox"]').attr("disabled","true"); 
-			      $(this).parent().parent().parent().children("td").css("border", "none");
-			      $(".hoverable").off();	      
-			      $(this).parent().parent().parent().children(".checktd").attr("class", "checktd");
-			      refreshHoverable();
-			      editPersonne($(this).attr('id'), $(this).siblings("input").attr("value"));
-			} else {
-				alert("Impossible de mettre un nom vide!!");
-			}
-	    }
-	
-	  
-	})
-
-	function edition(elem) {
-		elem.html("<i class=\"mesicones icon-ok\"></i>");
-		elem.parents("tr").addClass("editable");
-		elem.siblings('input[type="text"]').removeAttr("readonly");
-		elem.parent().parent().parent().children("td").children().removeAttr("disabled");
-		elem.parent().parent().parent().children("td").css("border", "solid black 2px");
-		$(".hoverable").off();		  
-		elem.parent().parent().parent().children(".checktd").attr("class", "checktd hoverable");
-		refreshHoverable();
-	}
-
-	function editPersonne(personneId, personneNom)
-	{
-	  $.ajax({
-			type: "POST",
-			url: "@routes.Application.updatePersonne(event.id)",
-			data: '{"id" : "' + personneId + '", "nom" : "' + personneNom + '"}',
-			contentType: "application/json",
-			success : function(data) {
-			  //alert("Participant edit\351");
-			}
-	  });
-	}
-
-	$('.checktd').live('click', function(e) {
-		if ($(this).children().prop("disabled") == false) {
-			if ($(this).children().prop("checked") == false) {
-				if (e.target.nodeName == "TD"){
-					$(this).children().prop("checked", true);
-				}
-				changeCheck($(this).children());
-			} else {
-				if (e.target.nodeName == "TD"){
-					$(this).children().prop("checked", false);
-				}        
-				changeCheck($(this).children());
-			}
-
-			affichagePopulaire();
-
-			//$('.populaires').html("");
-			$('.titres td').each( function() {
-				if ($(this).css('background-color') == color2) {
-					$('.populaires').append($(this).html());
-				}				
-			})			
-		}
-	});
-
-	function changeCheck(box) {   // gestion des clics sur les checkboxes
-	   var idtime = box.attr('id');
-	   var idParticipant = box.parent().parent().attr('id');   
-	   
-	   if (box.is(':checked')){	 //Action de valider une horaire  		
-	       		box.parent().css("background-color", "#66CC99")//vert
-		   		if (box.attr('class').indexOf('horaire') != -1) {
-		            var increment = $('#compte').children('.horaire[id="'+idtime+'"]');
-			   	    increment.html(parseInt(increment.html())+1);
-		       	    requeteAjaxHeure(idtime, idParticipant);
-			    }
-	       		if (box.attr('class').indexOf('jour') != -1) {	
-	    	   	    var increment = $('#compte').children('.jour[id="'+idtime+'"]');
-			   	    increment.html(parseInt(increment.html())+1);
-				    requeteAjaxJour(idtime, idParticipant);
-			   }
-	   } else { //Action de dévalider une horaires
-	     
-		    box.parent().css("background-color", color3) //
-		    if (box.attr('class').indexOf('horaire') != -1) {
-			    var increment = $('#compte').children('.horaire[id="'+idtime+'"]');
-			    increment.html(parseInt(increment.html())-1);
-			    requeteAjaxHeure(idtime, idParticipant);
-		    }
-		    if (box.attr('class').indexOf('jour') != -1) {
-		        var increment = $('#compte').children('.jour[id="'+idtime+'"]');
-			    increment.html(parseInt(increment.html())-1);
-			    requeteAjaxJour(idtime, idParticipant);
-		    }
-	   }
-	}
-
-	function requeteAjaxJour(idtime, idParticipant) // ajoute la date au participant
-	{
-	  $.ajax({
-			type: "POST",
-			url: "@routes.Application.checkBoxJour(event.id)",
-			data: '{"idjour" : "' + idtime + '", "idpersonne" : "' + idParticipant + '"}',
-			contentType: "application/json",
-			success : function(data) {
-			  //alert("Jour edit\351");
-			}
-	   });
-	}
-
-	function requeteAjaxHeure(idtime, idParticipant) // ajoute l'heure au participant
-	{
-	  $.ajax({
-			type: "POST",
-			url: "@routes.Application.checkBoxHoraire(event.id)",
-			data: '{"idhoraire" : "' + idtime + '", "idpersonne" : "' + idParticipant + '"}',
-			contentType: "application/json",
-			success : function(data) {
-			  //alert("Horaire edit\351");
-			}
-	   });
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	/*Code sur la suppression de participants*/
-
-	$('.deletePersonne').live('click', function(e) {
-		currentDelButton = $(this);
-		if ($(this).siblings("i").hasClass("icon-lock")){
-    		
-    		$.ajax({
-				type: "POST",
-				url: "@routes.Application.getPass()",
-				data: '{ "idpers" : "'+$(this).parents("tr").attr("id")+'" }',
-				contentType: "application/json",
-				success : function(data) {
-					goodPass = data.pass;
-
-					$( "#dialog-check-pwd-delete" ).dialog( "open" );	
-										  
-				}
-		   });			
-			
-		} else {   
-		    deletePersonne(currentDelButton);
-		}
-	    
-	})
-
-	function deletePersonne(delButton)
-	{
-		delButton.parent().parent().parent().remove();		    
-	    
-	    if($('td[class="infoPersonne"]').html() == null) {
-	    	$('.titres').attr('style','display:none');
-	    }
-
-	    $('#compte').children('td[id!=""]').each(function(i) {
-	    	$(this).html("0")
-	    });
-
-	    refreshCount();
-
-	    $.ajax({
-			type: "POST",
-			url: "@routes.Application.deleteParticipant(event.id)",
-			data: '{"id" : "' + delButton.attr('id') + '"}',
-			contentType: "application/json",
-			success : function(data) {
-			  //alert("Participant supprim\351");
-			}
-	    });
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	/*Code sur les participants obligatoires*/
-	$(function(){
-		refreshObligatoire(); 
-		affichagePopulaire();
-		
-	})	
-
-	$(".obligatoirecb").live("click", function() { //click sur la checkbox "obligatoire" : mise à jour des classes sur la ligne, ajout de la propriété obligatoire dans la bdd
-			
-			var idParticipant = $(this).parent().parent().parent().attr("id");
-			if ($(this).html() == "Obligatoire") {
-				$(this).html("Facultatif");
-				$(this).attr("class", "obligatoirecb btn");
-			} else {
-				$(this).html("Obligatoire");
-				$(this).attr("class", "obligatoirecb btn btn-inverse");
-			}
-			$.ajax({
-				type: "POST",
-				url: "@routes.Application.changeObligatoire(event.id)",
-				data: '{"idpersonne" : "' + idParticipant + '"}',
-				contentType: "application/json",
-				success : function(data) {
-				  affichagePopulaire();
-				}
-	   		});
-	   		refreshObligatoire();
-
+				$('.legende').attr('style','');
+			});
+
+			refreshCount(); // maj de la ligne de compteurs
+			refreshObligatoire();
+			affichagePopulaire(); // maj des surbrillances
 		})
 
-	function checkobligatoire(idtime, type) {//fonction qui renvoie true si tous les participants obligatoires sont présents.
+
+		/*Code concernant l'interface administrateur visible sur adminTools.js*/
+
+		adminTools("@adm");
+
+
+
+
+		/*Code concernant les mails et l'envoi
+		* A trouver dans le fichier sendMail.js*/
+
+		Mails("@routes.Application.sendMail(event.id)");
+
+
+
+
+		/*Code sur l'ajout
+		* complet sur ajoutPersonne.js*/
+
+		AjoutParticipant("@routes.Application.addParticipant(new sun.misc.BASE64Encoder().encode((event.id.toString).getBytes))", "@adm");
+
+
+
+
+		/* Code sur le rajout d'horaires et de dates
+		* a trouver sur ajoutDateHeure.js*/
+
+		ajoutDateHoraire("@routes.Application.addDate(event.id)", "@routes.Application.newHoraire(event.id)", "@routes.Application.dateChanged(event.id)");
+
+
+		/* Code concernant la suppression d'horaires et de jours*/
+		 
+		supprDateHoraire("@routes.Application.deleteHoraire(event.id)", "@routes.Application.removeDate(event.id)");
 		
-		var ret = true;
-		
-		$('.obligatoire.'+type+'[id="'+idtime+'"]').each(function() {			
-			if(!($(this).is(":checked"))) {
-				
-				ret = false;
-			}
-		})
-		return ret;
-	}
 
-	function refreshObligatoire() { // met à jour les classes "obligatoire" sur les bonnes lignes de participants
-		$(".checktd").removeClass("obligatoire");
-		$(".checkbox").removeClass("obligatoire");
-		$(".obligatoirecb").each(function () {
-			
-			if($(this).html() == "Obligatoire") {					
-				$(this).parent().parent().siblings(".checktd").addClass("obligatoire");
-				$(this).parent().parent().siblings(".checktd").children().addClass("obligatoire");
-			}
+		/*Code sur l'édition des participants
+		* A trouver dans le fichier edition.js*/
 
-		})
-	}
+		editFunctions("@routes.Application.getPass()", "@routes.Application.updatePersonne(event.id)", "@routes.Application.checkBoxJour(event.id)", "@routes.Application.checkBoxHoraire(event.id)");
 
 
 
+		/*Code sur la suppression de participants
+		* A trouver dans le fichier suppression.js*/
+
+		Delete("@routes.Application.getPass()", "@routes.Application.deleteParticipant(event.id)")
 
 
 
-
-
+		/*Code sur les participants obligatoires*/
+		partobligatoire("@routes.Application.changeObligatoire(event.id)");
 	
 	
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-	
-	/*Code d'affichage des dates populaires*/
-	function affichagePopulaire() {
-		var max = 0;
-		$("#compte").children(".horaire, .jour").each( function() { // récupération de la valeur maximale dans les comptes
-			$(this).css("background-color", color1) 
-			$('.titres').children().css("background-color",color1);
-			//$('.footer').html("");
-			if (checkobligatoire($(this).attr("id"), $(this).attr("class"))) {			
-				if ($(this).html() > max) {			
-					max = $(this).html();
-				}
-			}		
-		})
-		$("#compte").children().each( function() {
-			
-			if ($(this).html() == max && $(this).html() != 0 && checkobligatoire($(this).attr("id"), $(this).attr("class"))) {			
-				$(this).css("background-color", color2);				
-				$('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').css("background-color", color2);
-				if($(this).attr("class") == "horaire") {
-					var day = $('td[id="'+$(this).attr("id")+'"][class="'+$(this).attr("class")+'"]').attr("day");				
-					$("td:contains('"+day+"')").css("background-color", color2);
-					
-				}
-			}
-		})
-	}
 	</script>
 
 }

@@ -1,0 +1,60 @@
+@(eventForm: Form[Evenement], event: Evenement)
+
+@import helper.twitterBootstrap._
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) }
+
+
+
+@main("Créer un événement") {
+    
+    <div class="container">
+        <div class="content">
+
+            <div class="btn-group">
+                <a class="btn btn-info">1.Création de l'événement</a>
+                <a class="btn" @if(event != null){href="@routes.Application.dateSelection(event.id)"} @if(event == null){disabled}>2.Sélection des dates</a>
+                <a class="btn" @if(event != null){href="@routes.Application.heureSelection(event.id)"} @if(event == null){disabled}>3.Sélection des plages horaires</a>
+                <a class="btn" @if(event != null){href="@routes.Application.invitation(event.id)"} @if(event == null){disabled}>4.Invitation des participants</a>
+                <a class="btn" @if(event != null){href="@routes.Application.resume(event.id)"} @if(event == null){disabled}>5.Résumé</a>
+            </div>
+            
+            
+            
+            <h2>Cr&eacute;er un &eacute;v&eacute;nement</h2>
+            @if(event == null){                
+
+                @form(action = routes.Application.newEvent(), args = 'class -> "form-horizontal") {
+                    
+                    @inputText(eventForm("titre"), '_label -> "Titre")         
+                    @inputText(eventForm("lieu"), '_label -> "Lieu") 
+                    @textarea(eventForm("descriptif"), '_label -> "Description", 'rows->6)
+                    @inputText(eventForm("createur"), '_label -> "Créateur")
+                    @inputText(eventForm("email"), '_label -> "Email") ATTENTION: Un lien d'accès à l'administration de l'évènement sera envoyé à cet email: vérifiez bien sa validité.
+                    <br><br><br>
+                    <input type="submit" value="Continuer" class="continuer btn btn-primary">
+                    
+                }
+            } else {
+                
+                @form(action = routes.Application.updateEvent(event.id), args = 'class -> "form-horizontal") {
+                    
+                    @inputText(eventForm("titre"), '_label -> "Titre")         
+                    @inputText(eventForm("lieu"), '_label -> "Lieu") 
+                    @textarea(eventForm("descriptif"), '_label -> "Description", 'rows->6)
+                    @inputText(eventForm("createur"), '_label -> "Créateur")
+                    @inputText(eventForm("email"), '_label -> "Email") ATTENTION: Un lien d'accès à l'administration de l'évènement sera envoyé à cet email: vérifiez bien sa validité.
+                    <br><br><br>
+                    <input type="submit" value="Continuer" class="continuer btn btn-primary">
+                    
+                }
+            }     
+
+        </div>
+    </div>
+    
+    
+    
+    
+}

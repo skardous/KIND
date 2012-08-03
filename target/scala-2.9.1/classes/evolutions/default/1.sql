@@ -10,7 +10,6 @@ create table evenement (
   descriptif                varchar(255),
   createur                  varchar(255),
   email                     varchar(255),
-  pass_admin                varchar(255),
   date_creation             datetime,
   constraint pk_evenement primary key (id))
 ;

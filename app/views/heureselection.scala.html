@@ -7,33 +7,86 @@
 
 
 @main("Selectionner les horaires") {
-    
-    <h2>Selectionner les horaires:</h2>
-    
-    @for(jour <- event.jours) {
-		<div class="control-group selectDate" id="@jour.id">
-		  	@form(routes.Application.updatePersonne(id), 'id->"formJour") {
-				@jour.date			 
-				<a class="linkPlus btn btn-success" ><i class="mesicones icon-plus"></i></a>		
-			  
-		  	}
+
+	<div class="container">
+		<div class="content">
+
+			<div class="btn-group">
+		        <a class="btn" href="@routes.Application.eventCreateFilled(event.id)">1.Création de l'événement</a>
+                <a class="btn" href="@routes.Application.dateSelection(event.id)">2.Sélection des dates</a>
+                <a class="btn btn-info" href="@routes.Application.heureSelection(event.id)">3.Sélection des plages horaires</a>
+                <a class="btn" href="@routes.Application.invitation(event.id)">4.Invitation des participants</a>
+                <a class="btn" href="@routes.Application.resume(event.id)">5.Résumé</a>
+		    </div>
+		    
+		    <h2>Selectionner les horaires:</h2>
+		    
+		    @for(jour <- event.jours) {
+				<div class="control-group selectDate" id="@jour.id">
+				  	@form(routes.Application.updatePersonne(id), 'id->"formJour") {
+						<h3>@jour.date <span>(<a class="linkPlus"> Ajouter une horaire </a>)</span></h3>			 
+						
+						@for(horaire <- jour.horaires) {
+							<div id="@horaire.id">
+							<a class="linkMinus" ><i class="mesicones icon-trash"></i></a>
+							<input type="text" id="amount@horaire.id" value="@horaire.debut - @horaire.fin" style="border:0; color:#f6931f; font-weight:bold;" />
+							
+							
+							<div id="slider-range-@horaire.id" class="initslider" debut="@horaire.debut" fin="@horaire.fin"></div></div>
+						}						  
+				  	}
+				</div>
+			}
+		    
+		    <a href="@routes.Application.dateSelection(event.id)" class="precedent btn btn-primary">Précédent</a>
+		    <a class="continuer btn btn-primary" href="@routes.Application.invitation(event.id)">Continuer</a>
 		</div>
-	}
-    
-    <a class="btn btn-primary" href="@routes.Application.editAdm(new sun.misc.BASE64Encoder().encode((event.id.toString).getBytes))">Terminé</a>
+	</div>
 	
     
 	<script type="text/javascript" charset="utf-8">
+
+
 
 	var optionsHeuresDebut = "";
     var optionsHeuresFin = "";
 	var optionsMinutes = "";
 	var heuresList = new Array();
 
-		
+	$(".initslider").each(function(){
+		var idHoraire = $(this).parent("div").attr("id");
+		$("#slider-range-"+idHoraire).slider({
+			range: true,
+	    	min: 0,
+	    	max: 1440,
+	    	step: 15,
+	    	values: [ parseFloat($(this).attr("debut"))*60, parseFloat($(this).attr("fin"))*60 ],	    	
+	    	slide: function( event, ui ) {
+	    		$( "#amount"+idHoraire ).val(parseInt(ui.values[ 0 ]/60) + "h"+pad2(ui.values[ 0 ]%60)+" - " + parseInt(ui.values[ 1 ]/60) +"h"+pad2(ui.values[ 1 ]%60));
+	    	},
+	    	change: function(event, ui) {
+	    		
+	    		var debut;
+	    		var fin;
+				debut = parseInt(ui.values[ 0 ]/60) + "h"+pad2(ui.values[ 0 ]%60);
+				fin = parseInt(ui.values[ 1 ]/60) + "h"+pad2(ui.values[ 1 ]%60);
+				$.ajax({
+					type: "POST",
+					url: "@routes.Application.dateChanged(id)",
+					data: '{"idhoraire" : "' + idHoraire + '",'+ 
+					'"debut" : "' + debut + '",'+
+					'"fin" : "' + fin + '"}',
+					contentType: "application/json",
+					success : function(data) {
 
-    $('.linkPlus').live('click', function(e) {		
-		var idJour = $(this).parent().parent().attr('id');
+					}               
+				});
+			}
+		})
+	})	
+
+    $('.linkPlus').live('click', function(e) {		    	
+		var idJour = $(this).parent().parent().parent().parent().attr('id');
 		var button= $(this);
 		$.ajax({
 			type: "POST",
@@ -43,21 +96,25 @@
 			success : function(data) {
 			    button.parent().append("<div id=\""+data.idHoraire+"\">"+
 					"<input type=\"text\" id=\"amount"+data.idHoraire+"\" value=\"8h - 17h\" style=\"border:0; color:#f6931f; font-weight:bold;\" />"+
-					"&nbsp;<a class=\"linkMinus btn btn-danger\" >"+
-					"<i class=\"mesicones icon-minus\"></i></a>"+
+					"<a class=\"linkMinus\" ><i class=\"mesicones icon-trash\"></i></a>"+
 					
-					"<div class=\"slider-range\"></div></div>"
+					"<div id=\"slider-range-"+data.idHoraire+"\" class=\"initslider\"></div></div>"
 				);
-			    $( ".slider-range" ).slider({
+			    $( "#slider-range-"+data.idHoraire ).slider({
 			    	range: true,
 			    	min: 0,
 			    	max: 1440,
 			    	step: 15,
 			    	values: [ 8*60, 17*60 ],
+			    	create: function( event, ui ) {
+			    		
+			    		$( "#amount"+data.idHoraire ).val("8h - 17h");
+			    	},
 			    	slide: function( event, ui ) {
 			    		$( "#amount"+data.idHoraire ).val(parseInt(ui.values[ 0 ]/60) + "h"+pad2(ui.values[ 0 ]%60)+" - " + parseInt(ui.values[ 1 ]/60) +"h"+pad2(ui.values[ 1 ]%60));
 			    	},
 			    	change: function(event, ui) {
+			    		
 			    		var debut;
 			    		var fin;
 						debut = parseInt(ui.values[ 0 ]/60) + "h"+pad2(ui.values[ 0 ]%60);
@@ -76,8 +133,8 @@
 
 					}
 			    });
-			    $( "#amount"+data.idHoraire ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
-			    	" - $" + $( "#slider-range" ).slider( "values", 1 ) );
+			   // $( "#amount"+data.idHoraire ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+			    //	" - $" + $( "#slider-range" ).slider( "values", 1 ) );
 			}               
 		});
     });

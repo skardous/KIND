@@ -123,8 +123,15 @@ public class Application extends Controller {
 		return ok(views.html.index.render());
 	}
 
-	public static Result events() {
-		return ok(views.html.event.render(Evenement.all(), eventForm));
+	public static Result eventCreateEmpty() {
+		return ok(views.html.eventCreate.render(eventForm,null));
+	}
+
+	public static Result eventCreateFilled(Long id) {
+		Evenement evt = Evenement.findEvt.ref(id);
+		System.out.println("TITRE :"+evt.titre);		
+			
+		return ok(views.html.eventCreate.render(eventForm.fill(evt),evt));
 	}
 
 	public static Result eventlist() {
@@ -134,21 +141,14 @@ public class Application extends Controller {
 	public static Result newEvent() {
 		Form<Evenement> filledForm = eventForm.bindFromRequest();
 		if (filledForm.hasErrors()) {
-			return badRequest(views.html.event.render(Evenement.all(),
-					filledForm));
+			return badRequest(views.html.eventCreate.render(filledForm, null));
 		} else {
 			Evenement.create(filledForm.get());
 			Evenement tempevt = Evenement.findEvt.ref(filledForm.get().id);
 
 			String alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_-@#&'(!?)$%?:;/.?,";
 	        Random rand = new Random();
-	        tempevt.passAdmin = "";
-
-
-	        for (int i=0; i<6; i++)
-	        {
-	            tempevt.passAdmin = tempevt.passAdmin + alphabet.charAt(rand.nextInt(alphabet.length()));
-	        }
+	        
 
 			
 			tempevt.update();
@@ -164,8 +164,8 @@ public class Application extends Controller {
 					"Pour y répondre, connectez-vous au lien d'invitation suivant depuis un des ordinateurs du CHU:\n"+
 				    "http://intranet2:9000/KIND/eventEdit/"+new String(Base64.encodeBase64(Long.toString(filledForm.get().id).getBytes()))+"/consult\n\n"+
 				    "Pour l'administrer, connectez-vous au lien d'invitation suivant depuis un des ordinateurs du CHU :\n"+
-				    "http://intranet2:9000/KIND/eventEdit/"+new String(Base64.encodeBase64(Long.toString(filledForm.get().id).getBytes()))+"/adm\n\n"+
-				    "Mot de passe organisateur:    "+tempevt.passAdmin+"\n\n"+
+				    "http://intranet2:9000/KIND/eventEdit/"+new String(Base64.encodeBase64(Long.toString(filledForm.get().id).getBytes()))+"/consult/"+new String(Base64.encodeBase64((filledForm.get().email).getBytes()))+"/adm\n\n"+
+				    
 				    "Cordialement, \n"+
 				    "L'équipe KIND";
 			
@@ -174,6 +174,18 @@ public class Application extends Controller {
 			
 			return redirect(routes.Application.dateSelection(filledForm.get().id));
 		}
+	}
+
+	public static Result updateEvent(Long id) {
+		Form<Evenement> filledForm = eventForm.bindFromRequest();
+		if (filledForm.hasErrors()) {
+			return badRequest(views.html.eventCreate.render(filledForm, null));
+		} else {
+			Evenement evt = Evenement.findEvt.ref(id);
+			filledForm.get().update(id);
+		}
+			
+		return redirect(routes.Application.dateSelection(id));
 	}
 
 
@@ -189,6 +201,20 @@ public class Application extends Controller {
 				Evenement.findEvt.byId(id));
 		Evenement created = evenementForm.get();
 		return ok(heureselection.render(id, evenementForm, created));
+	}
+	
+	public static Result resume(Long id) {
+		Form<Evenement> evenementForm = form(Evenement.class).fill(
+				Evenement.findEvt.byId(id));
+		Evenement created = evenementForm.get();
+		return ok(resume.render(id, evenementForm, created));
+	}
+	
+	public static Result invitation(Long id) {
+		Form<Evenement> evenementForm = form(Evenement.class).fill(
+				Evenement.findEvt.byId(id));
+		Evenement created = evenementForm.get();
+		return ok(invitation.render(id, evenementForm, created));
 	}
 
 
@@ -209,7 +235,7 @@ public class Application extends Controller {
 		return ok(editForm.render(created, 0));
 	}
 
-	public static Result editAdm(String idhash) {
+	public static Result editAdm(String idhash, String mailhash) {
 		Long id;
 		try {
 		    id = Long.valueOf(new String(Base64.decodeBase64(idhash.getBytes())));
@@ -226,19 +252,7 @@ public class Application extends Controller {
 		return ok(editForm.render(created, 1));
 	}
 
-	@BodyParser.Of(BodyParser.Json.class)
-	public static Result newAdmPass(Long id) {
-		
-		JsonNode json = request().body().asJson();
-		String pass = json.findPath("newPass").getTextValue();	
-		
-		Evenement evt = Evenement.findEvt.ref(id);
-		evt.passAdmin = pass;
-		evt.save();
-		System.out.println("pass admin changé " +pass);
-				
-		return ok();
-	}
+	
 
 	// action de validation du formulaire d'edition d'evt
 	public static Result update(Long id) {
@@ -408,9 +422,7 @@ public class Application extends Controller {
 	@BodyParser.Of(BodyParser.Json.class)
 	public static Result getPass() {
 		JsonNode json = request().body().asJson();		
-		String personne = json.findPath("idpers").getTextValue();
-		
-		//System.out.println("personnepwd:"+personne);
+		String personne = json.findPath("idpers").getTextValue();		
 		Long idpersonne = Long.valueOf(personne);		
 		
 		Personne p = Personne.findPers.ref(idpersonne);		
