@@ -1,0 +1,96 @@
+@(event: Evenement, adm: Integer)
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.render) } 
+
+
+
+
+	<table class="datesTable" cellspacing="5" cellpadding="5">
+				<tbody>
+					<tr class="titres dates" style="display:none"><td style="visibility:hidden"></td>
+						@for(jour <- event.jours) {  					  
+							<td id="@jour.id" class="jour" colspan="@jour.horaires.size()">
+								<b class="jourintitule">@jour.date </b>
+								@if(adm == 1){<a id="@jour.id" class="horaireAdd" title="Ajouter une plage horaire à cette date" ><i class="mesicones icon-plus"></i></a>}
+								@if(adm == 1){<a id="@jour.id" class="jourDel" title="Supprimer cette date"><i class="mesicones icon-remove"></i></a>}
+							</td>	                        	                
+						}
+					</tr>
+					<tr class="titres horaires" style="display:none"><td style="visibility:hidden"></td>
+						@for(jour <- event.jours) {  
+							@if(jour.horaires.size() == 0){
+							    <td class="jour"></td>
+							}
+						    @for(horaire <- jour.horaires) {
+						    	<td id="@horaire.id" style="font-size: 0.85em" dayid="@jour.id" class="horaire">
+						    		@horaire.debut - @horaire.fin 
+						    		@if(adm == 1){<a id="@horaire.id" idjour="@jour.id" class="horaireDel" title="Supprimer cette plage horaire" ><i class="mesicones icon-remove"></i></a>}
+						    	</td>
+						    }  
+
+						}
+					</tr>
+					              
+					
+					@for(participant <- event.participants) {
+						<tr title="@participant.nom" id="@participant.id" class="participant"><td class="infoPersonne">
+							@form(routes.Application.updatePersonne(event.id), 'id->"formPersonne") {
+								@if(participant.locked){
+									<i class="mesicones icon-lock"></i>
+								} else {
+									&nbsp;&nbsp;&nbsp;&nbsp;
+								}
+								
+
+								<input id="nom" maxlength="25" type="text" value="@participant.nom" name="nom" readonly="readonly">							
+								<a id="@participant.id" title="Editer le participant" class="editPersonne"><i class="mesicones icon-pencil"></i></a>
+								<a id="@participant.id" title="Supprimer le participant" class="deletePersonne"> <i class="mesicones icon-trash"></i></a>
+								
+								@if(participant.obligatoire){
+									<a id="@participant.id" title="Participation à l'évènement obligatoire" class="obligatoirecb obligatoire"><i class="mesicones icon-star"></i></a>
+								} else {
+									<a id="@participant.id" title="Participation à l'évènement facultative" class="obligatoirecb"><i class="mesicones icon-star-empty"></i></a>
+								}
+							}</td>
+							
+							@for(jour <- event.jours) {
+							    @if(jour.horaires.size() == 0){
+							      @if(participant.inscriptionsJours.contains(jour)) {
+					                <td class="checktd"><input id="@jour.id" type="checkbox"  disabled checked class="jour checkbox" value="@jour.date" /></td>
+					              } else {
+					                 <td class="checktd"><input id="@jour.id" type="checkbox"  disabled class="jour checkbox" value="@jour.date" /></td>
+					              }
+							       
+							    }
+					            @for(horaire <- jour.horaires) {
+					              @if(participant.inscriptionsHoraires.contains(horaire)) {
+					                <td class="checktd"><input id="@horaire.id" type="checkbox" disabled class="horaire checkbox"  checked value="@horaire.debut - @horaire.fin" /></td>
+					              } else {
+					                 <td class="checktd"><input id="@horaire.id" type="checkbox" disabled class="horaire checkbox" value="@horaire.debut - @horaire.fin" /></td>
+					              }
+					            }            	                
+					        }				
+						</tr>
+					}
+				</tbody>
+				<tfoot>
+				<tr id="compte" class="titres"
+				 @if(event.participants.size() == 0){ style="display:none"}>
+					<td id=""><b>Compte: </b></td>
+					@for(jour <- event.jours) {
+					    @if(jour.horaires.size() == 0){		     
+			                <td id="@jour.id" class="jour">0</td>	       
+					    }
+			            @for(horaire <- jour.horaires) {              
+			                <td id="@horaire.id" class="horaire">0</td>              
+			            }
+					}
+				</tr>
+				
+					
+				</tfoot>
+				
+	</table>
+

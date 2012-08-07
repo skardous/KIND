@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.validation.Valid;
 
+import com.avaje.ebean.FetchConfig;
+
 import play.data.format.Formats;
 import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
@@ -90,6 +92,28 @@ public class Personne extends Model {
 		}
 		p.update();
 		
+	}
+
+	public static void deleteFromHoraire(Long id) {
+		List<Personne> listPersonne = findPers.findList();
+		//List<Personne> listPersonne = findPers.fetch("inscriptionsHoraires", new FetchConfig().query()).where().idEq(id).findList();
+		for(Personne p:listPersonne) {
+			if(p.inscriptionsHoraires.contains(Horaire.findHoraire.ref(id))) {
+				p.inscriptionsHoraires.remove(Horaire.findHoraire.ref(id));
+				p.saveManyToManyAssociations("inscriptionsHoraires");
+			}
+		}
+	}
+	
+	public static void deleteFromJour(Long id) {
+		List<Personne> listPersonne = findPers.findList();
+		//List<Personne> listPersonne = findPers.fetch("inscriptionsHoraires", new FetchConfig().query()).where().idEq(id).findList();
+		for(Personne p:listPersonne) {
+			if (p.inscriptionsJours.contains(Jour.findJour.ref(id))) {
+				p.inscriptionsJours.remove(Jour.findJour.ref(id));
+				p.saveManyToManyAssociations("inscriptionsJours");
+			}
+		}
 	}
 
 }

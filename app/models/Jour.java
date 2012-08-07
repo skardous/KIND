@@ -55,6 +55,10 @@ public class Jour extends Model {
 		
 	}
 	
+	public static void deleteLinkedPersonne(Long id) {
+		Personne.deleteFromJour(id);
+	}
+	
 	public void setDate(String date) {
 		this.date = date;
 	}

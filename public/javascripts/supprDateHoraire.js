@@ -9,8 +9,8 @@ function supprDateHoraire(routeDelHoraire, routeDelDate) {
 			data: '{"jour" : "' + $(this).attr("idjour") + '", "horaire" : "' + $(this).attr("id") + '"}',
 			contentType: "application/json",
 			success : function(data) {
-				setTimeout(refreshtable, 500);				
-				setTimeout(styles, 2000);				
+				$("#divtest").html(data);
+				styles();				
 			}, 
 			error : function(data) {
 				alert("impossible de supprimer l'horaire, vérifiez que personne n'est disponible à cet horaire-ci")
@@ -29,8 +29,8 @@ function supprDateHoraire(routeDelHoraire, routeDelDate) {
 				data: '{"idDate" : "' + $(this).attr("id") + '"}',
 				contentType: "application/json",
 				success : function(data) {
-					setTimeout(refreshtable, 500);
-					setTimeout(styles, 2000);		
+					$("#divtest").html(data);
+					styles();		
 				},
 				error : function(data) {
 					alert("impossible de supprimer le jour, vérifiez que personne n'est disponible ce jour-ci")

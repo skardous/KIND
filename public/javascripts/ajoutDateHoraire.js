@@ -1,9 +1,10 @@
-function ajoutDateHoraire(routeAddDate, routeNewHoraire, routeDateChanged, bigroute) {
+function ajoutDateHoraire(routeAddDate, routeNewHoraire, routeDateChanged) {
 	var currentDay;
 	var debut = "08h";
 	var fin = "17h";
 
 	$(".horaireAdd").live("click", function(){
+		
 		$( "#dialog-add-horaire" ).dialog("open");
 		currentDay = $(this).attr("id");
 		
@@ -26,26 +27,8 @@ function ajoutDateHoraire(routeAddDate, routeNewHoraire, routeDateChanged, bigro
 				data: '{"date" : "' + $("#datepicker").val() + '"}',
 				contentType: "application/json",
 				success : function(data) {
-
-					$('.titres.dates').append(
-						"<td id=\""+data.idJour+"\" class=\"jour\" style=\"background-color: rgb(255, 255, 153);\">"+
-							"<b class=\"jourintitule\">"+$("#datepicker").val()+" </b>"+
-							"<a id=\""+data.idJour+"\" class=\"horaireAdd\">"+
-								"<i class=\"mesicones icon-plus\"></i>"+
-							"</a>"+
-						"</td>"
-					);	
-					$('.titres.horaires').append(						
-						"<td id=\""+data.idJour+"\" class=\"jour\" style=\"background-color: rgb(255, 255, 153);\"></td>"
-					);
-
-					$(".participant").append(
-						"<td class=\"checktd\"><input id=\""+data.idJour+"\" type=\"checkbox\"  disabled class=\"jour checkbox\" value=\""+$("#datepicker").val()+"\" /></td>"
-					);				
-
-					$("#compte").append(
-						"<td id=\""+data.idJour+"\" class=\"jour\" style=\"background-color: rgb(255, 255, 153);\">0</td>"
-					);
+					$("#divtest").html(data);
+					styles();
 				}
 			});	
 		}
@@ -92,22 +75,17 @@ function ajoutDateHoraire(routeAddDate, routeNewHoraire, routeDateChanged, bigro
 							'"debut" : "' + debut + '",'+
 							'"fin" : "' + fin + '"}',
 							contentType: "application/json",
-							success : function(data) {
-								
+							success : function(data2) {
+								$("#divtest").html(data2);
+								styles();
+
 							}               
 						});
 					}
 				});			
 
-				setTimeout(refreshtable, 100);	
 				
 				$( this ).dialog( "close" );
-				
-				setTimeout(refreshtable, 500);
-				
-				
-				setTimeout(styles, 1500);
-
 
 
 								

@@ -29,23 +29,30 @@
 
 			
 			<br><br>
-			<h3>Liste des participants et de leurs disponibilités</h3>
+			
+				<h3>Liste des participants et de leurs disponibilités</h3>
 
 			@if(adm != 1){
-				S'ajouter à la liste des participants :		  
-				<input id="champ" type="text" maxlength="25" value="">&nbsp;<a id="ajouter" class="btn">Ajouter</a><br>
+				<p>
+					S'ajouter à la liste des participants :		  
+					<input id="champ" type="text" maxlength="25" value="">&nbsp;<a id="ajouter" class="btn">Ajouter</a><br>
+				</p>
 			}	
+			
 
 			@if(adm == 1){			
 			
-			<div class="champAdd" >		
-				Ajouter un participant :		  
-				<input id="champ" type="text" size="25" value="">&nbsp;<a id="ajouter" class="btn">Ajouter</a><br><br>
+			<div class="champAdd" >	
+				<p>	
+					Ajouter un participant :		  
+					<input id="champ" type="text" size="25" value="">&nbsp;<a id="ajouter" class="btn">Ajouter</a><br><br>
 
-				Ajouter une date:
-				<input id="datepicker" type="text">&nbsp;<a id="ajouterDate" class="btn">Ajouter</a>
+					Ajouter une date:
+					<input id="datepicker" type="text">&nbsp;<a id="ajouterDate" class="btn">Ajouter</a>
+				</p>
 			</div>
 			}
+
 
 			<div id="divtest" >
 			<table class="datesTable" cellspacing="5" cellpadding="5">
@@ -166,7 +173,7 @@
 				Entrez ici la liste des adresses mail des personnes que vous désirez inviter à cet évènement.
 			</div>
 
-			
+						
 			<br><br>
 			<div  id="mailList" class="selectDate" style="@if(adm != 1) {display:none;} position:right;  width:500px">
 				<h5 @if(adm != 1) {style="display:none"}>Liste des mails invités</h5>
@@ -242,8 +249,8 @@
 		var mdp = "";	
 
 		function refreshtable(){
-		$('#divtest').load('/KIND/eventEdit/@(new sun.misc.BASE64Encoder().encode((event.id.toString).getBytes))/consult/@(new sun.misc.BASE64Encoder().encode((event.email).getBytes))/adm #divtest');
-	}
+			$('#divtest').load('/KIND/eventEdit/@(new sun.misc.BASE64Encoder().encode((event.id.toString).getBytes))/consult/@(new sun.misc.BASE64Encoder().encode((event.email).getBytes))/adm #divtest', function(responseText, textStatus, XMLHttpRequest) {styles();$("body").append(responseText);});
+		}
 
 		$(function(){
 			$("table.datesTable td").css("background-color", color3);
@@ -261,11 +268,12 @@
 			});
 
 			refreshCount(); // maj de la ligne de compteurs
-			refreshObligatoire();
+			refreshObligatoire(); // maj  des classes "obligatoire" sur les checkboxes
 			affichagePopulaire(); // maj des surbrillances
 		})
 
 
+		
 		/*Code concernant l'interface administrateur visible sur adminTools.js*/
 
 		adminTools("@adm");

@@ -287,13 +287,16 @@ public class Application extends Controller {
 		String name = json.findPath("nom").getTextValue();
 		String locked = json.findPath("locked").getTextValue();
 		String pwd = json.findPath("pwd").getTextValue();
+		String admstr = json.findPath("adm").getTextValue();
+		Integer adm = Integer.valueOf(admstr);
 
 		Evenement evenement = Evenement.findEvt.byId(id);
 		System.out.println("titre: " + evenement.titre);
 		Long retId = Evenement.addPersonne(evenement, id, name, locked, pwd);
 		ObjectNode result = Json.newObject();
 		result.put("idPersonne",""+retId+"");
-		return ok(result);
+
+		return ok(table.render(evenement, adm));
 
 	}
 
@@ -310,6 +313,8 @@ public class Application extends Controller {
 
 	}
 
+
+
 	@BodyParser.Of(BodyParser.Json.class)
 	public static Result deleteHoraire(Long id) {
 		JsonNode json = request().body().asJson();
@@ -318,9 +323,10 @@ public class Application extends Controller {
 		String horaire = json.findPath("horaire").getTextValue();
 		Long idhoraire = Long.valueOf(horaire);
 
+		Evenement evenement = Evenement.findEvt.byId(id);
 		Evenement.deleteHoraire(idjour, idhoraire);
 
-		return redirect(routes.Application.eventlist());
+		return ok(table.render(evenement, 1));
 
 	}
 
@@ -331,9 +337,8 @@ public class Application extends Controller {
 
 		Evenement evenement = Evenement.findEvt.byId(id);
 		Long jourid = Evenement.addJour(evenement, id, date);
-		ObjectNode result = Json.newObject();
-		result.put("idJour",""+jourid+"");
-		return ok(result);
+		
+		return ok(table.render(evenement, 1));
 
 	}
 
@@ -345,7 +350,7 @@ public class Application extends Controller {
 
 		Evenement evenement = Evenement.findEvt.byId(id);		
 		Evenement.removeJour(id, idDate);
-		return redirect(routes.Application.eventlist());
+		return ok(table.render(evenement, 1));
 
 	}
 
@@ -355,10 +360,13 @@ public class Application extends Controller {
 		String horaire = json.findPath("idhoraire").getTextValue();
 		Long idhoraire = Long.valueOf(horaire);
 		String debut = json.findPath("debut").getTextValue();
-		String fin = json.findPath("fin").getTextValue();		
+		String fin = json.findPath("fin").getTextValue();
+		System.out.println("idevt : "+idevt);		
 
+		Evenement evenement = Evenement.findEvt.byId(idevt);
 		Evenement.updateDate(idhoraire, debut, fin);
-		return redirect(routes.Application.eventlist());
+
+		return ok(table.render(evenement, 1));
 	}
 
 	public static Result deleteEvent(Long id) {
@@ -444,4 +452,6 @@ public class Application extends Controller {
 		
 		return ok();
 	}
+
+	
 }

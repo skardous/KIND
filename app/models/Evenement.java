@@ -107,7 +107,9 @@ public class Evenement extends Model {
 		evt.jours.remove(j);
 		evt.saveManyToManyAssociations("jours");		
 
+		Personne.deleteFromJour(j.id);
 		Jour.delete(j.id);
+		
 	}
 
 	//Manipulation de Personnes
@@ -265,8 +267,10 @@ public class Evenement extends Model {
 
 		j.horaires.remove(Horaire.findHoraire.where().idEq(idhoraire).findUnique());
 		j.saveManyToManyAssociations("horaires");
-
-		(Horaire.findHoraire.where().idEq(idhoraire).findUnique()).delete();		
+		
+		Horaire.deleteLinkedPersonne(idhoraire);
+		(Horaire.findHoraire.where().idEq(idhoraire).findUnique()).delete();
+		
 		
 	}
 

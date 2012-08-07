@@ -56,7 +56,7 @@ td input {
 body {
 	background-color: #A7DDF4;
 	font-size: 14px;
-	font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+	font-family: Arial;
 	margin: 0px;
 }
 
@@ -90,8 +90,52 @@ body {
 	list-style-type:none; 
 }
 
+.mesicones {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  *margin-right: .3em;
+  line-height: 14px;
+  vertical-align: text-top;
+  background-image: url("./twitterBootstrap201/img/glyphicons-halflings-trans.png");  
+  background-repeat: no-repeat;
+}
+
+p {
+	font-family: Arial;
+}
+
+input {
+	font-family: Arial;
+}
+
+label {
+	font-family: Arial;
+}
+
+div {
+	font-family: Arial;
+}
+
+textarea {
+	font-family: Arial;
+}
+
+p input {
+	margin-bottom: 0;
+}
+
 .styleDates ul li ul li{
 	margin-left:10px;
+}
+
+table {
+	border-collapse: separate;
+	border-spacing: 5px;
+}
+
+table input{
+	margin-bottom: 0;
 }
 
 .firstClass {	

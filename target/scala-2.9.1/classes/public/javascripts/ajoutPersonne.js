@@ -4,11 +4,14 @@ function AjoutParticipant(routeAdd, adm) {
 		$.ajax({
 			type: "POST",
 			url: routeAdd,
-			data: '{"nom" : "' + nomParticipant + '", "locked" : "' + locked + '", "pwd" : "' + pwd + '"}',
+			data: '{"nom" : "' + nomParticipant + '", "locked" : "' + locked + '", "pwd" : "' + pwd + '", "adm" :"' + adm + '"}',
 			contentType: "application/json",
-			success : function(data) {				
-					setTimeout(refreshtable, 500);				
-					setTimeout(styles, 1500); 									
+			success : function(data) {
+				$("#divtest").html(data);
+				styles();					
+			},
+			error: function(data) {
+				alert('error');
 			}
 			             
 		});
@@ -25,6 +28,7 @@ function AjoutParticipant(routeAdd, adm) {
 
 				if ( bValid ) {
 					mdp = $("#password-new").val();
+					
 					addPersonne($.trim($("#champ").attr("value")), "true", mdp);
 					$( "#password-new" ).attr("value", "");
 					$( this ).dialog( "close" );
@@ -53,6 +57,7 @@ function AjoutParticipant(routeAdd, adm) {
 	});
 
 	$("#ajouter").live('click', function(e){
+		
 	    var vide = "";	    
 	    var nom = $("#champ").attr("value");
 	    if (nom != vide) {  

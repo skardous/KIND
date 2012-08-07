@@ -52,12 +52,17 @@ public class Horaire extends Model {
 		this.debut = debut;
 		this.fin = fin;
 	}
+	
+	public static void deleteLinkedPersonne(Long id) {
+		Personne.deleteFromHoraire(id);
+	}
 
 
 
 	public static void delete(Long id) {
 		System.out.println(findHoraire.ref(id).toString());
 		findHoraire.ref(id).delete();
+		deleteLinkedPersonne(id);
 	}
 	
 	

@@ -13,7 +13,8 @@ object ApplicationBuild extends Build {
     )
 
     val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
-      resolvers += "Play2war plugins release" at "http://repository-play-war.forge.cloudbees.com/release/"
-    )
+lessEntryPoints <<= baseDirectory(_ / "app" / "assets" / "stylesheets" ** "bootstrap.less")
+)
+    
 
 }
