@@ -1,0 +1,5 @@
+constraint.required=Obligatoire
+constraint.email=Email valide
+
+error.required=Ce champ est obligatoire
+error.email=Email valide requis!
