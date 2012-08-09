@@ -49,6 +49,7 @@
 
 					Ajouter une date:
 					<input id="datepicker" type="text">&nbsp;<a id="ajouterDate" class="btn">Ajouter</a>
+					<input id="hidden" type="hidden">
 				</p>
 			</div>
 			}
@@ -60,9 +61,9 @@
 					<tr class="titres dates" style="display:none"><td style="visibility:hidden"></td>
 						@for(jour <- event.jours) {  					  
 							<td id="@jour.id" class="jour" colspan="@jour.horaires.size()">
-								<b class="jourintitule">@jour.date </b>
+								<b class="jourintitule">@jour.getFRFormat </b>
 								@if(adm == 1){<a id="@jour.id" class="horaireAdd" title="Ajouter une plage horaire à cette date" ><i class="mesicones icon-plus"></i></a>}
-								@if(adm == 1){<a id="@jour.id" class="jourDel" title="Supprimer cette date"><i class="mesicones icon-remove"></i></a>}
+								@if(adm == 1){<a id="@jour.id" class="jourDel" title="Supprimer cette date"><i class="mesicones icon-trash"></i></a>}
 							</td>	                        	                
 						}
 					</tr>
@@ -74,7 +75,7 @@
 						    @for(horaire <- jour.horaires) {
 						    	<td id="@horaire.id" style="font-size: 0.85em" dayid="@jour.id" class="horaire">
 						    		@horaire.debut - @horaire.fin 
-						    		@if(adm == 1){<a id="@horaire.id" idjour="@jour.id" class="horaireDel" title="Supprimer cette plage horaire" ><i class="mesicones icon-remove"></i></a>}
+						    		@if(adm == 1){<a id="@horaire.id" idjour="@jour.id" class="horaireDel" title="Supprimer cette plage horaire" ><i class="mesicones icon-trash"></i></a>}
 						    	</td>
 						    }  
 
@@ -106,9 +107,9 @@
 							@for(jour <- event.jours) {
 							    @if(jour.horaires.size() == 0){
 							      @if(participant.inscriptionsJours.contains(jour)) {
-					                <td class="checktd"><input id="@jour.id" type="checkbox"  disabled checked class="jour checkbox" value="@jour.date" /></td>
+					                <td class="checktd"><input id="@jour.id" type="checkbox"  disabled checked class="jour checkbox" value="@jour.getFRFormat" /></td>
 					              } else {
-					                 <td class="checktd"><input id="@jour.id" type="checkbox"  disabled class="jour checkbox" value="@jour.date" /></td>
+					                 <td class="checktd"><input id="@jour.id" type="checkbox"  disabled class="jour checkbox" value="@jour.getFRFormat" /></td>
 					              }
 							       
 							    }
@@ -180,7 +181,7 @@
 				<br>
 				<p @if(adm != 1) {style="display:none"} id="mailAdressContent">				
 					@for(l <- event.mailSentList){
-						@l.adresse <br>
+						<a href="mailto:@l.adresse?subject=KIND:Invitation&body=http://intranet2:9000/KIND/eventEdit/@(new sun.misc.BASE64Encoder().encode((event.id.toString).getBytes))/consult">@l.adresse </a> <br>
 					} 
 				</p>
 			</div>
@@ -247,6 +248,8 @@
 		var color2 = "gold";
 		var color3 = "steelblue";
 		var mdp = "";	
+
+		$("#champ").popover({title: 'Twitter Bootstrap Popover', content: "It's so simple to create a tooltop for my website!"});
 
 		function refreshtable(){
 			$('#divtest').load('/KIND/eventEdit/@(new sun.misc.BASE64Encoder().encode((event.id.toString).getBytes))/consult/@(new sun.misc.BASE64Encoder().encode((event.email).getBytes))/adm #divtest', function(responseText, textStatus, XMLHttpRequest) {styles();$("body").append(responseText);});

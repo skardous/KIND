@@ -8,6 +8,7 @@ function adminTools(adm) {
 					var d = new Date(date);		
 					var dateText = d.toLocaleDateString();
 					$( "#datepicker" ).attr("value", dateText);
+					$( "#hidden" ).attr("value", d.getTime());
 				}
 			});
 	});

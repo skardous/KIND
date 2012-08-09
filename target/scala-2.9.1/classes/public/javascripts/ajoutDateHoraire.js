@@ -21,10 +21,11 @@ function ajoutDateHoraire(routeAddDate, routeNewHoraire, routeDateChanged) {
 		if (listeJours.indexOf($("#datepicker").val()) != -1 ) {			
 			alert("date déjà existante");
 		} else {
+			
 			$.ajax({
 				type: "POST",
 				url: routeAddDate,
-				data: '{"date" : "' + $("#datepicker").val() + '"}',
+				data: '{"date" : ' + $("#hidden").val() + '}',
 				contentType: "application/json",
 				success : function(data) {
 					$("#divtest").html(data);

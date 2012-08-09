@@ -78,7 +78,7 @@ public class Evenement extends Model {
 
 	//Manipulation de Jours
 
-	public static Long addJour(Evenement evt, Long id, String date) {
+	public static Long addJour(Evenement evt, Long id, Long date) {
 		Boolean exists = false;
 		if (evt.jours != null) {
 			for (Jour j : evt.jours) {

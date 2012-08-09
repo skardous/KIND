@@ -33,7 +33,7 @@
                 <input type="hidden" id="identifiants" value="@event.id">               
                     <ul class="firstClass">
                     @for(jour <- event.jours) {
-                        <li><i class="mesicones icon-calendar"></i><b style="font-size:18px">@jour.date</b> &nbsp;
+                        <li><i class="mesicones icon-calendar"></i><b style="font-size:18px">@jour.getFRFormat</b> &nbsp;
                             <ul>
                             @for(horaire <- jour.horaires) {
                               <li><i class="mesicones icon-time"></i>  @horaire.debut - @horaire.fin</li>

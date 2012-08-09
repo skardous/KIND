@@ -24,7 +24,7 @@
 		    @for(jour <- event.jours) {
 				<div class="control-group selectDate" id="@jour.id">
 				  	@form(routes.Application.updatePersonne(id), 'id->"formJour") {
-						<h3>@jour.date <span>(<a class="linkPlus"> Ajouter une horaire </a>)</span></h3>			 
+						<h3>@jour.getFRFormat <span>(<a class="linkPlus"> Ajouter une horaire </a>)</span></h3>			 
 						
 						@for(horaire <- jour.horaires) {
 							<div id="@horaire.id">
@@ -94,9 +94,9 @@
 			data: '{"jour" : "' + idJour + '"}',
 			contentType: "application/json",
 			success : function(data) {
-			    button.parent().append("<div id=\""+data.idHoraire+"\">"+
-					"<input type=\"text\" id=\"amount"+data.idHoraire+"\" value=\"8h - 17h\" style=\"border:0; color:#f6931f; font-weight:bold;\" />"+
-					"<a class=\"linkMinus\" ><i class=\"mesicones icon-trash\"></i></a>"+
+			    button.parent().parent().parent().append("<div id=\""+data.idHoraire+"\">"+
+			    	"<a class=\"linkMinus\" ><i class=\"mesicones icon-trash\"></i></a>"+
+					"<input type=\"text\" id=\"amount"+data.idHoraire+"\" value=\"8h - 17h\" style=\"border:0; color:#f6931f; font-weight:bold;\" />"+					
 					
 					"<div id=\"slider-range-"+data.idHoraire+"\" class=\"initslider\"></div></div>"
 				);

@@ -23,7 +23,7 @@ create table horaire (
 
 create table jour (
   id                        bigint auto_increment not null,
-  date                      varchar(255),
+  date                      datetime,
   constraint pk_jour primary key (id))
 ;
 

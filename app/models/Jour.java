@@ -1,6 +1,10 @@
 package models;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -20,7 +24,7 @@ public class Jour extends Model {
 	@Formats.NonEmpty
 	public Long id;	
 
-	public String date;
+	public Date date;
 	
 	@Valid
 	@ManyToMany(cascade=CascadeType.REMOVE)
@@ -30,9 +34,11 @@ public class Jour extends Model {
 			Jour.class);
 
 	
-	public Jour(String date) {
+	public Jour(Long date) {
 		super();
-		this.date = date;
+		Calendar dateToSet = Calendar.getInstance();
+		dateToSet.setTimeInMillis(date);
+		this.date = dateToSet.getTime();
 	}		
 	
 	public static void delete(Long id) {
@@ -45,6 +51,7 @@ public class Jour extends Model {
 		for (Horaire hr : tempHoraire) {
 			jour.horaires.remove(hr);			
 			jour.saveManyToManyAssociations("horaires");	
+			Horaire.deleteLinkedPersonne(hr.id);
 				
 		}
 		
@@ -59,8 +66,12 @@ public class Jour extends Model {
 		Personne.deleteFromJour(id);
 	}
 	
-	public void setDate(String date) {
-		this.date = date;
+	public String getDateJS(){
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+		return dateFormat.format(this.date);
 	}
-
+	
+	public String getFRFormat(){
+		return DateFormat.getDateInstance(DateFormat.FULL).format(this.date);
+	}
 }

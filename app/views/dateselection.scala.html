@@ -23,12 +23,16 @@
 
 				<label class="control-label"></label> <div class="controls" id="date"></div>
 
-				OU<br>
-
-				Ajouter une date particulière: (ex: tous les jeudis)<br>
-				<input class="particuliere" type="text"> <a id="okParticuliere" class="btn btn-success"> OK </a>
-
-				<ul class="controls" id="altField"> </ul>
+				
+				<ul class="controls" id="altField">
+					@for(jour <- event.jours){
+						<li id="@jour.id">
+							<a class="linkDate" name="@jour.date">
+							<i class="mesicones icon-trash"></i>&nbsp;
+							</a>@jour.getFRFormat
+						</li>
+					}
+				 </ul>
 			</div>
 
 			
@@ -51,19 +55,24 @@
 
 			$( "#date" ).datepicker( "option", "minDate", 0);
 
-			$("#date").multiDatesPicker({				
+			var dates = "@for(jour <- event.jours){@jour.getDateJS,}";
+			var datelist = dates.split(",");
+			datelist.splice(datelist.length - 1, 1);
+
+			$("#date").multiDatesPicker({
+				addDates: datelist,	
 				onSelect: function(date) {
 					$( "#date" ).datepicker( "option", "minDate", 0);
 					var selectionType = $.inArray(date, $( "#date" ).multiDatesPicker('getDates'));
-					//alert(date);
-					var d = new Date(date);		
-					var dateText = d.toLocaleDateString();	
+					
+					var d = new Date(date);
+					var timestamp = d.getTime();	
 					
 					if (selectionType != -1) {	
 						$.ajax({
 							type: "POST",
 							url: "@routes.Application.addDate(id)",
-							data: '{"date" : "' + dateText + '"}',
+							data: '{"date" : ' + timestamp + '}',
 							contentType: "application/json",
 							success : function(data) {											
 								ajouterDate(date, data.idJour);							
@@ -73,39 +82,22 @@
 						$.ajax({
 							type: "POST",
 							url: "@routes.Application.removeDate(id)",
-							data: '{"idDate" : "' + $("li:contains("+dateText+")").attr("id") + '"}',
+							data: '{"idDate" : "' + $("li:contains("+timestamp+")").attr("id") + '"}',
 							contentType: "application/json",
 							success : function(data) {
 								
 							}
-						});	
-						$("li:contains("+dateText+")").remove();
+						});
+						$("li:contains("+timestamp+")").remove();
 					} 
 				}
 			});
 		});
 
-		$("#okParticuliere").live("click", function() {
-			$.ajax({
-				type: "POST",
-				url: "@routes.Application.addDate(id)",
-				data: '{"date" : "' + $(".particuliere").val() + '"}',
-				contentType: "application/json",
-				success : function(data) {											
-					$("#altField").append(
-						"<li id=\""+data.idJour+"\">"+
-						"<a class=\"linkDate\" name=\""+$(".particuliere").val()+"\">"+
-						"<i class=\"mesicones icon-trash\"></i>&nbsp;"+
-						"</a>"+$(".particuliere").val()+	
-						"</li>"
-					);	
-
-				}
-			});	
-		})
+		
 
 		function ajouterDate(dateText, id) {			
-			var d = new Date(dateText);		
+			var d = new Date(dateText);					
 			var date = d.toLocaleDateString();
 			$("#altField").append(
 				"<li id=\""+id+"\">"+

@@ -96,14 +96,14 @@ public class Application extends Controller {
 			Long retId = Evenement.addMailAdress(e, s);
 		}		
 		
-		System.out.println(e.mailSentList);
+		
 
 		
 		String origineMail = "kind@chu-rouen.fr";
 		String destinataires = mails;
 		String title = "KIND: Invitation à "+e.titre;
 		String text = "Bonjour, \n\n"+
-					"Vous avez été invité par "+e.createur+" à noter vos disponibilités pour participer à l'événement intitulé : \""+e.titre+"\".\n";
+					"Vous avez été invité à noter vos disponibilités pour participer à l'événement intitulé : \""+e.titre+"\", crée par "+e.createur+".\n";
 
 		if (textPerso != "" && textPerso != null) {
 			text = text + "\nMessage d'invitation : \n"+textPerso+"\n\n";
@@ -129,7 +129,7 @@ public class Application extends Controller {
 
 	public static Result eventCreateFilled(Long id) {
 		Evenement evt = Evenement.findEvt.ref(id);
-		System.out.println("TITRE :"+evt.titre);		
+			
 			
 		return ok(views.html.eventCreate.render(eventForm.fill(evt),evt));
 	}
@@ -291,7 +291,7 @@ public class Application extends Controller {
 		Integer adm = Integer.valueOf(admstr);
 
 		Evenement evenement = Evenement.findEvt.byId(id);
-		System.out.println("titre: " + evenement.titre);
+		
 		Long retId = Evenement.addPersonne(evenement, id, name, locked, pwd);
 		ObjectNode result = Json.newObject();
 		result.put("idPersonne",""+retId+"");
@@ -333,8 +333,7 @@ public class Application extends Controller {
 	@BodyParser.Of(BodyParser.Json.class)
 	public static Result addDate(Long id) {
 		JsonNode json = request().body().asJson();
-		String date = json.findPath("date").getTextValue();
-
+		Long date = json.findPath("date").getLongValue();
 		Evenement evenement = Evenement.findEvt.byId(id);
 		Long jourid = Evenement.addJour(evenement, id, date);
 		
@@ -370,7 +369,28 @@ public class Application extends Controller {
 	}
 
 	public static Result deleteEvent(Long id) {
+		
+		Evenement e = Evenement.findEvt.ref(id);
+
+		String origineMail = "kind@chu-rouen.fr";
+		String destinataires = "";
+
+		for(Mail m : e.mailSentList) {
+			destinataires = destinataires + "," + m.adresse;
+		}
+		System.out.println("dest : "+destinataires);
+		
+		String title = "KIND: suppression de l'évenènement "+e.titre;
+		String text = "Bonjour, \n\n"+
+					"Nous vous informons que l'évènement auquel vous avez été invité, intitulé \""+e.titre+"\" a été supprimé par son créateur.\n";
+
+		text = text+ "Cordialement, \n"+
+				    "L'équipe KIND";
+
+		sendSpecificMail(origineMail, destinataires, title, text);
+
 		Evenement.delete(id);
+
 		return redirect(routes.Application.index());
 	}
 
@@ -393,7 +413,7 @@ public class Application extends Controller {
 		Long idpersonne = Long.valueOf(personne);
 
 		Evenement evenement = Evenement.findEvt.byId(id);
-		System.out.println("titre: " + evenement.titre);
+		
 		Personne.addChoixHoraire(idpersonne, idhoraire);
 
 		return ok();
