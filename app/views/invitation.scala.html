@@ -37,7 +37,7 @@
                     <br>
                     <p  id="mailAdressContent">             
                         @for(l <- event.mailSentList){
-                            @l.adresse <br>
+                            <a href="mailto:@l.adresse?subject=KIND:Invitation&body=http://intranet2:9000/KIND/eventEdit/@(new sun.misc.BASE64Encoder().encode((event.id.toString).getBytes))/consult">@l.adresse </a><br> <br>
                         } 
                     </p>
                 </div>

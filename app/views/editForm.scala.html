@@ -249,7 +249,11 @@
 		var color3 = "steelblue";
 		var mdp = "";	
 
-		$("#champ").popover({title: 'Twitter Bootstrap Popover', content: "It's so simple to create a tooltop for my website!"});
+		$("#ajouter").popover({title: 'Ajouter un participant', content: "Remplissez le champ à gauche de ce bouton avec le nom du participant."});
+
+    	$("#ajouterDate").popover({title: 'Ajouter une date', content: "Sélectionnez une date dans le champ à gauche de ce bouton."});
+
+    	$(".horaireAdd").popover({title: 'Ajouter une plage horaire', content: "Ajouter une plage horaire à la date concernée."});
 
 		function refreshtable(){
 			$('#divtest').load('/KIND/eventEdit/@(new sun.misc.BASE64Encoder().encode((event.id.toString).getBytes))/consult/@(new sun.misc.BASE64Encoder().encode((event.email).getBytes))/adm #divtest', function(responseText, textStatus, XMLHttpRequest) {styles();$("body").append(responseText);});

@@ -44,11 +44,13 @@ function Mails(routeSendMail) {
 
 		if ($(this).attr("disabled") != "disabled" && canSend == true) {
 			var mailsList = $("#mailsArea").val();
+			var textperso = $("#mailPersoArea").val().replace(/\n/gi, "\\n");
+			
 
 			$.ajax({
 				type: "POST",
 				url: routeSendMail,
-				data: '{"mailslist" : "' + mailsList + '", "textPerso" : "' + $("#mailPersoArea").val() + '"}',
+				data: '{"mailslist" : "' + mailsList + '", "textPerso" : "' + textperso + '"}',
 				contentType: "application/json",
 				success : function(data) {
 					
