@@ -7,8 +7,11 @@ function AjoutParticipant(routeAdd, adm) {
 			data: '{"nom" : "' + nomParticipant + '", "locked" : "' + locked + '", "pwd" : "' + pwd + '", "adm" :"' + adm + '"}',
 			contentType: "application/json",
 			success : function(data) {
-				$("#divtest").html(data);
-				styles();					
+				$("#divtest").html(data);				
+				styles();				
+				
+				refreshObligatoire(); // maj  des classes "obligatoire" sur les checkboxes
+				affichagePopulaire(); // maj des surbrillances
 			},
 			error: function(data) {
 				alert('error');
@@ -69,9 +72,10 @@ function AjoutParticipant(routeAdd, adm) {
 
 	$("#champ").keypress(function(e) {
 		var code = (e.keyCode ? e.keyCode : e.which);
+
 		if(code == 13) { //Enter keycode
 			var vide = "";	    
-		    var nom = $.trim($("#champ").attr("value"));
+		    var nom = $.trim($("#champ").attr("value")); // suppression des espaces dans la chaine
 		    if (nom != vide) {  
 		    	$( "#dialog-question-securise" ).dialog( "open" );	
 							

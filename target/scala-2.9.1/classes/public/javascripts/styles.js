@@ -25,9 +25,7 @@
         }
     })
 
-    $("#ajouter").popover({title: 'Ajouter un participant', content: "Remplissez le champ à gauche de ce bouton avec le nom du participant."});
-
-    $("#ajouterDate").popover({title: 'Ajouter une date', content: "Sélectionnez une date dans le champ à gauche de ce bouton."});
+    
 
 	
 
